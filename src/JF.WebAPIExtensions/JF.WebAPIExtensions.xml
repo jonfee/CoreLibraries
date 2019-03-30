@@ -1,0 +1,318 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JF.WebAPIExtensions</name>
+    </assembly>
+    <members>
+        <member name="T:JF.WebAPIExtensions.AuthorizationMiddlewareExtensions">
+            <summary>
+            登录授权、验证中间件扩展类
+            </summary>
+        </member>
+        <member name="M:JF.WebAPIExtensions.AuthorizationMiddlewareExtensions.UseAuthorizationHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,JF.WebAPIExtensions.AuthorizationOptions)">
+            <summary>
+            注册一个登录授权、验证处理器。
+            会根据HTTP请求，自动获取登录授权信息。
+            </summary>
+            <param name="app"></param>
+            <param name="options">用户登录授权/验证中间件配置。</param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.WebAPIExtensions.AuthorizationMiddleware">
+            <summary>
+            登录授权、验证中间件
+            </summary>
+        </member>
+        <member name="M:JF.WebAPIExtensions.AuthorizationMiddleware.TryUpdateToken(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String,System.Int32)">
+            <summary>
+            更新缓存
+            </summary>
+            <param name="context"></param>
+            <param name="agentCode"></param>
+            <param name="token"></param>
+            <param name="expireMinutes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.WebAPIExtensions.AuthorizationMiddleware.TryGetAuthUser(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String@,JF.Authorizer.AuthUser@,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            从HTTP请求中，获取授权登录的用户信息。
+            </summary>
+            <param name="context"></param>
+            <param name="token"></param>
+            <param name="user"></param>
+            <param name="agentCode"></param>
+            <param name="errors"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.WebAPIExtensions.AuthorizationMiddleware.TryGetToken(Microsoft.AspNetCore.Http.HttpContext,System.String@)">
+            <summary>
+            从HTTP请求中，获取授权令牌信息。
+            </summary>
+            <param name="context"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.WebAPIExtensions.AuthorizationOptions">
+            <summary>
+            用户登录授权/验证中间件配置。
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.AuthorizationOptions.HttpHeaderWith">
+            <summary>
+            登录授权令牌令牌在HTTP请求的Header中的名称。
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.AuthorizationOptions.PublicKey">
+            <summary>
+            公钥
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.AuthorizationOptions.NeedCheckIP">
+            <summary>
+            是否需要校验IP
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.AuthorizationOptions.ExpireMode">
+            <summary>
+            过期策略
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.AuthorizationOptions.ExpireMinutes">
+            <summary>
+            失效的时间（单位：分钟）
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.AuthorizationOptions.ReadTokenFunc">
+            <summary>
+            根据授权代理编号读取服务器端存储的令牌信息委托方法。
+            如未提供此委托，将按令牌自解析后的过期时间做为令牌失效的验证标准。
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.AuthorizationOptions.UpdateTokenFunc">
+            <summary>
+            更新指定授权代理的令牌信息。
+            一般为滑动过期时，更新令牌失效时间。
+            </summary>
+        </member>
+        <member name="T:JF.WebAPIExtensions.Auth.JFAuthorizationAttribute">
+            <summary>
+            自定义授权（登录校验）属性特性。
+            使用此特性前，请确认是否已在HTTP请求管理中注入<see cref="M:JF.WebAPIExtensions.AuthorizationMiddlewareExtensions.UseAuthorizationHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,JF.WebAPIExtensions.AuthorizationOptions)"/>服务。
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.Auth.JFAuthorizationAttribute.IsAnonymous">
+            <summary>
+            是否允许匿名访问。
+            如果为False(非匿名)时，会再次检测是否存在<see cref="T:Microsoft.AspNetCore.Authorization.AllowAnonymousAttribute"/>特性，
+            若存在<see cref="T:Microsoft.AspNetCore.Authorization.AllowAnonymousAttribute"/>特性时，同样视为允许匿名访问。
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.Auth.JFAuthorizationAttribute.IsLogged">
+            <summary>
+            是否已登录
+            </summary>
+        </member>
+        <member name="M:JF.WebAPIExtensions.Auth.JFAuthorizationAttribute.IsAnonymousCheck(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            是否无需登录授权检测
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.WebAPIExtensions.Controllers.ApiController">
+            <summary>
+            WebApi接口基础类。
+            </summary>
+        </member>
+        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.Ok">
+            <summary>
+            JSON输出操作成功的API结果，HttpStatusCode = 200，无消息。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.Success``1(``0)">
+            <summary>
+            JSON输出操作成功的API结果，HttpStatusCode = 200，有消息。
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="message">成功消息。</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.Failure(System.String,System.String)">
+            <summary>
+            JSON输出操作失败的API结果，HttpStatusCode = 200。
+            </summary>
+            <param name="message">错误消息。</param>
+            <param name="errorDetails">错误详细。</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.JsonOk``1(JF.WebAPIExtensions.Responses.JFApiResponse{``0})">
+            <summary>
+            JSON输出，HttpStatusCode = 200。
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="response"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.XmlOk``1(JF.WebAPIExtensions.Responses.JFApiResponse{``0})">
+            <summary>
+            XML输出，HttpStatusCode = 200。
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="response"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.WebAPIExtensions.JFHttpContext">
+            <summary>
+            自定义的HttpContext。
+            通过注入Http请求管道的方式，可以在Http管道程序中通过调用<see cref="P:JF.WebAPIExtensions.JFHttpContext.Current"/>来找到当前的<see cref="T:Microsoft.AspNetCore.Http.HttpContext"/>对象。
+            </summary>
+        </member>
+        <member name="M:JF.WebAPIExtensions.HttpContextExtensions.UseStaticHttpContext(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            注册一个<see cref="T:Microsoft.AspNetCore.Http.IHttpContextAccessor"/>对象实例到当前请求上下文。
+            如果<see cref="P:JF.WebAPIExtensions.JFHttpContext.Current"/>对象存在，则不会重复构建。
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.WebAPIExtensions.Requests.JFApiRequest">
+            <summary>
+            API请求数据模型接口
+            </summary>
+        </member>
+        <member name="M:JF.WebAPIExtensions.Requests.JFApiRequest.ResponseWriteIfValidateFailture(JF.WebAPIExtensions.Responses.ResponseContentType)">
+            <summary>
+            直接输出错误信息，如果验证失败的时候。
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.WebAPIExtensions.Responses.ApiResultCode">
+            <summary>
+            API结果编码枚举。
+            </summary>
+        </member>
+        <member name="F:JF.WebAPIExtensions.Responses.ApiResultCode.Success">
+            <summary>
+            成功。表示业务正常。
+            </summary>
+        </member>
+        <member name="F:JF.WebAPIExtensions.Responses.ApiResultCode.Failture">
+            <summary>
+            失败。表示处理中存在未知的错误。
+            </summary>
+        </member>
+        <member name="F:JF.WebAPIExtensions.Responses.ApiResultCode.ApiParamterError">
+            <summary>
+            API参数错误。表示接口接收到的参数或值存在错误。
+            </summary>
+        </member>
+        <member name="F:JF.WebAPIExtensions.Responses.ApiResultCode.NoAuthorization">
+            <summary>
+            未授权的请求。
+            </summary>
+        </member>
+        <member name="F:JF.WebAPIExtensions.Responses.ApiResultCode.NoAccess">
+            <summary>
+            操作权限不足。
+            </summary>
+        </member>
+        <member name="F:JF.WebAPIExtensions.Responses.ApiResultCode.NotFound">
+            <summary>
+            未找到指定资源。
+            </summary>
+        </member>
+        <member name="F:JF.WebAPIExtensions.Responses.ApiResultCode.BussinessException">
+            <summary>
+            业务处理异常。
+            </summary>
+        </member>
+        <member name="T:JF.WebAPIExtensions.Responses.JFApiResponse`1">
+            <summary>
+            API结果模型。
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:JF.WebAPIExtensions.Responses.JFApiResponse`1.Code">
+            <summary>
+            Code，
+            0-100为组件保护值，具体值对应的描述，请参考<see cref="T:JF.WebAPIExtensions.Responses.ApiResultCode"/>枚举。
+            自定义Code值，请不要在此范围内。
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.Responses.JFApiResponse`1.Message">
+            <summary>
+            Message
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.Responses.JFApiResponse`1.Data">
+            <summary>
+            Data
+            </summary>
+        </member>
+        <member name="M:JF.WebAPIExtensions.Responses.JFApiResponse`1.ResponseToJson(JF.Json.JsonSettingsHandler)">
+            <summary>
+            输出为Json
+            </summary>
+            <param name="handler"></param>
+        </member>
+        <member name="T:JF.WebAPIExtensions.Settings">
+            <summary>
+            配置
+            </summary>
+        </member>
+        <member name="F:JF.WebAPIExtensions.Settings.DEFAULT_TOKEN_HEADER_WITH">
+            <summary>
+            默认授权方案在HTTP请求Headers中的名称。
+            </summary>
+        </member>
+        <member name="F:JF.WebAPIExtensions.Settings.HTTPCONTEXT_ITEMNAME_WITH_AUTHUSER">
+            <summary>
+            登录成功后登录信息在HTTP请求上下文Itemss中存储的名称。
+            </summary>
+        </member>
+        <member name="F:JF.WebAPIExtensions.Settings.HTTPCONTEXT_ITEMNAME_WITH_TOKENERRORS">
+            <summary>
+            解析Token时的错误信息在HTTP请求上下文Itemss中存储的名称。
+            </summary>
+        </member>
+        <member name="F:JF.WebAPIExtensions.Settings.DEFAULT_EXPIRE_MINUTES">
+            <summary>
+            默认过期时间（单位：分钟）
+            </summary>
+        </member>
+        <member name="T:JF.WebAPIExtensions.UserContext">
+            <summary>
+            用户上下文
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.UserContext.Current">
+            <summary>
+            当前请求的用户上下文对象实例。
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.UserContext.IsLogged">
+            <summary>
+            是否已登录
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.UserContext.UserID">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.UserContext.UserName">
+            <summary>
+            用户名称
+            </summary>
+        </member>
+        <member name="M:JF.WebAPIExtensions.UserContext.TryGetAuthUser(JF.Authorizer.AuthUser@)">
+            <summary>
+            获取当前登录授权的用户信息。
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

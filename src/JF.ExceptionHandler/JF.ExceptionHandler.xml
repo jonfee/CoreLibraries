@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JF.ExceptionHandler</name>
+    </assembly>
+    <members>
+        <member name="T:JF.ExceptionHandler.ExceptionDetails">
+            <summary>
+            异常详情
+            </summary>
+        </member>
+        <member name="P:JF.ExceptionHandler.ExceptionDetails.Level">
+            <summary>
+            异常等级
+            </summary>
+        </member>
+        <member name="P:JF.ExceptionHandler.ExceptionDetails.Exception">
+            <summary>
+            异常详细信息。
+            </summary>
+        </member>
+        <member name="P:JF.ExceptionHandler.ExceptionDetails.OSVersion">
+            <summary>
+            操作系统版本。
+            </summary>
+        </member>
+        <member name="P:JF.ExceptionHandler.ExceptionDetails.OSBit">
+            <summary>
+            操作系统位数。
+            </summary>
+        </member>
+        <member name="P:JF.ExceptionHandler.ExceptionDetails.ProcessorCount">
+            <summary>
+            CPU处理数。
+            </summary>
+        </member>
+        <member name="P:JF.ExceptionHandler.ExceptionDetails.CreatedTime">
+            <summary>
+            异常产生时间。
+            </summary>
+        </member>
+        <member name="M:JF.ExceptionHandler.ExceptionDetails.op_Implicit(System.Exception)~JF.ExceptionHandler.ExceptionDetails">
+            <summary>
+            将<see cref="P:JF.ExceptionHandler.ExceptionDetails.Exception"/>对象隐式转换为<see cref="T:JF.ExceptionHandler.ExceptionDetails"/>类型。
+            </summary>
+            <param name="ex"></param>
+        </member>
+        <member name="T:JF.ExceptionHandler.ExceptionMiddlewareExtensions">
+            <summary>
+            异常处一时中间件扩展类
+            </summary>
+        </member>
+        <member name="M:JF.ExceptionHandler.ExceptionMiddlewareExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,JF.ExceptionHandler.ExceptionHandler)">
+            <summary>
+            注册一个异常处理器。
+            </summary>
+            <param name="app"></param>
+            <param name="handle"><see cref="!:ExceptionHandle"/>异常处理委托。</param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.ExceptionHandler.ExceptionHandleMiddleware">
+            <summary>
+            异常处理中间件
+            </summary>
+        </member>
+        <member name="T:JF.ExceptionHandler.ExceptionLevel">
+            <summary>
+            异常级别
+            </summary>
+        </member>
+        <member name="F:JF.ExceptionHandler.ExceptionLevel.Normal">
+            <summary>
+            默认（系统）
+            </summary>
+        </member>
+        <member name="F:JF.ExceptionHandler.ExceptionLevel.DefaultCustom">
+            <summary>
+            默认（自定义）
+            </summary>
+        </member>
+        <member name="F:JF.ExceptionHandler.ExceptionLevel.Validation">
+            <summary>
+            验证异常
+            </summary>
+        </member>
+        <member name="F:JF.ExceptionHandler.ExceptionLevel.Authority">
+            <summary>
+            授权异常
+            </summary>
+        </member>
+        <member name="F:JF.ExceptionHandler.ExceptionLevel.OperationAccess">
+            <summary>
+            操作权限异常
+            </summary>
+        </member>
+        <member name="F:JF.ExceptionHandler.ExceptionLevel.Business">
+            <summary>
+            业务异常
+            </summary>
+        </member>
+        <member name="T:JF.ExceptionHandler.ExceptionHandler">
+            <summary>
+            异常处理委托。
+            </summary>
+            
+            <param name="details"><see cref="T:JF.ExceptionHandler.ExceptionDetails"/>异常详情信息</param>
+        </member>
+    </members>
+</doc>

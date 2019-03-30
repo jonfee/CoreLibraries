@@ -1,0 +1,1248 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JF.CoreLibaray</name>
+    </assembly>
+    <members>
+        <member name="T:JF.Authorizer.AuthUser">
+            <summary>
+            授权主体用户
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.AuthUser.UserID">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.AuthUser.Name">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="T:JF.Authorizer.TokenAgent">
+            <summary>
+            令牌代理持有者
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TokenAgent.Code">
+            <summary>
+            代理编号，固定的32位长度的字符串。
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TokenAgent.IP">
+            <summary>
+            授权时代理所属的IP
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TokenAgent.Sercert">
+            <summary>
+            代理密钥。
+            非实际私钥，此为私钥的密文（通过特殊算法加密）
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TokenAgent.Ciphertext">
+            <summary>
+            密文。
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TokenAgent.ExpireMode">
+            <summary>
+            失效策略模式。
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TokenAgent.CreatedTicks">
+            <summary>
+            令牌创建时间、即登录时间。
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TokenAgent.ExpireTicks">
+            <summary>
+            令牌失效时间。
+            滑动过期策略时，忽略此值，实际过期时间以授权中心服务器管理令牌失效时间为准。
+            </summary>
+        </member>
+        <member name="T:JF.Authorizer.JFToken">
+            <summary>
+            令牌信息
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.JFToken.Token">
+            <summary>
+            令牌字符串。
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.JFToken.ExpireTicks">
+            <summary>
+            失效时间Ticks
+            </summary>
+        </member>
+        <member name="T:JF.Authorizer.JFAgentToken">
+            <summary>
+            带代理编号的令牌信息
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.JFAgentToken.AgentCode">
+            <summary>
+            代理用户编号
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.JFAgentToken.Token">
+            <summary>
+            令牌字符串。
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.JFAgentToken.ExpireTicks">
+            <summary>
+            失效时间Ticks
+            </summary>
+        </member>
+        <member name="T:JF.Authorizer.Produce.ProduceAgentHandler">
+            <summary>
+            代理者
+            </summary>
+        </member>
+        <member name="M:JF.Authorizer.Produce.ProduceAgentHandler.Processing(JF.Authorizer.Produce.TokenProduceContext)">
+            <summary>
+            加工令牌。
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:JF.Authorizer.Produce.ProduceAgentHandler.GenerateUserCiphertext(JF.Authorizer.Produce.TokenProduceContext)">
+            <summary>
+            生成用户信息密文
+            </summary>
+        </member>
+        <member name="T:JF.Authorizer.Produce.ProduceHandler">
+            <summary>
+            令牌加工处理程序抽象基类。
+            </summary>
+        </member>
+        <member name="M:JF.Authorizer.Produce.ProduceHandler.Processing(JF.Authorizer.Produce.TokenProduceContext)">
+            <summary>
+            加工令牌
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:JF.Authorizer.Produce.TokenProduceContext">
+            <summary>
+            令牌生成上下文
+            </summary>
+        </member>
+        <member name="F:JF.Authorizer.Produce.TokenProduceContext.token">
+            <summary>
+            令牌。
+            </summary>
+        </member>
+        <member name="M:JF.Authorizer.Produce.TokenProduceContext.#ctor(JF.Authorizer.AuthUser,System.String,System.Nullable{System.Int32},JF.Authorizer.TokenExpireMode)">
+            <summary>
+            初始化一个<see cref="T:JF.Authorizer.Produce.TokenProduceContext"/>上下文实例。
+            </summary>
+            <param name="user">需要授权生成令牌的用户</param>
+            <param name="publicKey">设置公钥</param>
+            <param name="expireMinutes">令牌过期时间（单位 ：分钟）</param>
+            <param name="mode">失效模式，枚举<see cref="T:JF.Authorizer.TokenExpireMode"/></param>
+        </member>
+        <member name="P:JF.Authorizer.Produce.TokenProduceContext.PublicKey">
+            <summary>
+            公钥
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.Produce.TokenProduceContext.ExpireMode">
+            <summary>
+            失效模式
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.Produce.TokenProduceContext.Agent">
+            <summary>
+            授权代理
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.Produce.TokenProduceContext.User">
+            <summary>
+            授权用户
+            </summary>
+        </member>
+        <member name="M:JF.Authorizer.Produce.TokenProduceContext.SetPrivateKey(System.String)">
+            <summary>
+            设置私钥
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:JF.Authorizer.Produce.TokenProduceContext.SetUserCiphertext(System.String)">
+            <summary>
+            设置用户令牌密文
+            </summary>
+            <param name="ciphertext"></param>
+        </member>
+        <member name="M:JF.Authorizer.Produce.TokenProduceContext.SetAgentCode(System.String)">
+            <summary>
+            设置代理用户编号
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="M:JF.Authorizer.Produce.TokenProduceContext.SetToken(System.String)">
+            <summary>
+            设置Token
+            </summary>
+            <param name="token"></param>
+        </member>
+        <member name="M:JF.Authorizer.Produce.TokenProduceContext.Output">
+            <summary>
+            产出令牌。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:JF.Authorizer.Resolve.AgentValidator">
+            <summary>
+            <see cref="T:JF.Authorizer.TokenAgent"/>解析器
+            </summary>
+        </member>
+        <member name="T:JF.Authorizer.Resolve.ExpireValidator">
+            <summary>
+            失效令牌
+            </summary>
+        </member>
+        <member name="T:JF.Authorizer.Resolve.TokenResolveContext">
+            <summary>
+            令牌解析验证上下文
+            </summary>
+        </member>
+        <member name="F:JF.Authorizer.Resolve.TokenResolveContext.errors">
+            <summary>
+            解析过程中的错误信息。
+            </summary>
+        </member>
+        <member name="F:JF.Authorizer.Resolve.TokenResolveContext.readTokenFunc">
+            <summary>
+            从持久化方案中读取<see cref="T:JF.Authorizer.JFToken"/>信息的委托方法。
+            </summary>
+        </member>
+        <member name="M:JF.Authorizer.Resolve.TokenResolveContext.#ctor(System.String,System.String,System.String,System.Func{System.String,JF.Authorizer.JFToken})">
+            <summary>
+            实例化一个<see cref="T:JF.Authorizer.Resolve.TokenResolveContext"/>对象。
+            </summary>
+            <param name="tokenStr">令牌加密串</param>
+            <param name="publicKey">公钥</param>
+            <param name="requestCheckIP">当前需要验证的IP</param>
+            <param name="readTokenFunc">从持久化方案中读取<see cref="T:JF.Authorizer.JFToken"/>信息的委托方法。</param>
+        </member>
+        <member name="P:JF.Authorizer.Resolve.TokenResolveContext.PublicKey">
+            <summary>
+            公钥
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.Resolve.TokenResolveContext.Token">
+            <summary>
+            令牌加密串
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.Resolve.TokenResolveContext.CurrentCheckIP">
+            <summary>
+            当前需要验证的IP，为NULL时表示不需要验证。
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.Resolve.TokenResolveContext.Agent">
+            <summary>
+            解析出的令牌代理。
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.Resolve.TokenResolveContext.User">
+            <summary>
+            授权用户信息
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.Resolve.TokenResolveContext.Errors">
+            <summary>
+            错误信息
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.Resolve.TokenResolveContext.IsValid">
+            <summary>
+            是否解析并验证成功。
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.Resolve.TokenResolveContext.HasError">
+            <summary>
+            是否存在错误
+            </summary>
+        </member>
+        <member name="M:JF.Authorizer.Resolve.TokenResolveContext.AddErrors(System.String)">
+            <summary>
+            添加错误信息。
+            </summary>
+            <param name="error"></param>
+        </member>
+        <member name="M:JF.Authorizer.Resolve.TokenResolveContext.TryResolve(JF.Authorizer.AuthUser@)">
+            <summary>
+            解析出授权用户
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:JF.Authorizer.Resolve.TokenValidator">
+            <summary>
+            解析器
+            </summary>
+        </member>
+        <member name="M:JF.Authorizer.Resolve.TokenValidator.TryResolve(JF.Authorizer.Resolve.TokenResolveContext)">
+            <summary>
+            开始解析
+            </summary>
+            <param name="context"></param>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.Authorizer.Resolve.UserValidator">
+            <summary>
+            用户信息解析器
+            </summary>
+        </member>
+        <member name="T:JF.Authorizer.Settings">
+            <summary>
+            配置集
+            </summary>
+        </member>
+        <member name="F:JF.Authorizer.Settings.DEFAULT_PUBLIC_KEY">
+            <summary>
+            默认公钥。
+            </summary>
+        </member>
+        <member name="F:JF.Authorizer.Settings.DEFAULT_EXPIRE_MINUTES">
+            <summary>
+            默认过期时间（单位：分钟）
+            </summary>
+        </member>
+        <member name="T:JF.Authorizer.TokenExpireMode">
+            <summary>
+            令牌失效策略枚举。
+            </summary>
+        </member>
+        <member name="F:JF.Authorizer.TokenExpireMode.AbsoluteTime">
+            <summary>
+            绝对过期策略
+            </summary>
+        </member>
+        <member name="F:JF.Authorizer.TokenExpireMode.SlidingTime">
+            <summary>
+            滑动过期策略
+            </summary>
+        </member>
+        <member name="T:JF.Authorizer.TokenProvider">
+            <summary>
+            令牌处理上下文。
+            </summary>
+        </member>
+        <member name="F:JF.Authorizer.TokenProvider.publicKey">
+            <summary>
+            公钥
+            </summary>
+        </member>
+        <member name="M:JF.Authorizer.TokenProvider.#ctor(System.String)">
+            <summary>
+            构造器
+            </summary>
+            <param name="publicKey">公钥</param>
+        </member>
+        <member name="M:JF.Authorizer.TokenProvider.TryProduce(JF.Authorizer.AuthUser,System.Int32,JF.Authorizer.TokenExpireMode,JF.Authorizer.JFAgentToken@)">
+            <summary>
+            生成令牌。
+            </summary>
+            <param name="user">需要授权的用户</param>
+            <param name="expireMinutes">失效时间（单位：分钟）</param>
+            <param name="mode">失效模式，枚举<see cref="T:JF.Authorizer.TokenExpireMode"/></param>
+            <param name="token">生成后的令牌。</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Authorizer.TokenProvider.TryResolve(System.String,System.String,System.Func{System.String,JF.Authorizer.JFToken},System.String@,JF.Authorizer.AuthUser@,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            解析令牌。
+            </summary>
+            <param name="token"></param>
+            <param name="requestCheckIP">当前请求的IP，为NULL时表示不验证IP。</param>
+            <param name="readTokenFunc">
+            从持久化方案中读取<see cref="T:JF.Authorizer.JFToken"/>信息的委托方法。
+            一般用于滑动过期时需要使用，绝对过期时，<paramref name="token"/>具有自验证功能。
+            </param>
+            <param name="user"></param>
+            <param name="agentCode"></param>
+            <param name="errors">解析过程中的错误消息。</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Authorizer.Tools.GeneratePrivateKey(System.String)">
+            <summary>
+            根据<paramref name="agentCode"/>生成伪私钥(密钥)。
+            </summary>
+            <param name="agentCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Authorizer.Tools.PrivateKeyResolver(System.String,System.String)">
+            <summary>
+            根据<paramref name="secret"/>伪私钥（密钥），从<paramref name="agentCode"/>中解析出真正的私钥字符串。
+            </summary>
+            <param name="agentCode"></param>
+            <param name="secret"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.Caching.CacheMode">
+            <summary>
+            缓存方式 枚举
+            </summary>
+        </member>
+        <member name="T:JF.Caching.MemoryCache`1">
+            <summary>
+            缓存类
+            </summary>
+            <typeparam name="TModel"></typeparam>
+        </member>
+        <member name="M:JF.Caching.MemoryCache`1.#ctor(System.Int64,System.Func{System.Collections.Generic.IEnumerable{`0}})">
+            <summary>
+            实例化
+            </summary>
+            <param name="expiredAfterMinutes">在指定的时间（分钟）后失效,小于1分钟时表示永久有效。</param>
+            <param name="initFunc">初始化缓存数据的委托事件。</param>
+        </member>
+        <member name="T:JF.Caching.CachingFactory">
+            <summary>
+            缓存工厂类
+            </summary>
+        </member>
+        <member name="M:JF.Caching.CachingFactory.GetInstance``1">
+            <summary>
+            获取缓存单例。
+            </summary>
+            <typeparam name="TModel"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Caching.CachingFactory.GetOrCreateMemoryCache``1(System.Int64,System.Func{System.Collections.Generic.IEnumerable{``0}})">
+            <summary>
+            创建一个内存缓存
+            </summary>
+            <typeparam name="TModel"></typeparam>
+            <param name="expireAfterMinutes"></param>
+            <param name="initFunc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Caching.CachingFactory.CreateCache``1(JF.Caching.CacheMode,System.Int64,System.Func{System.Collections.Generic.IEnumerable{``0}})">
+            <summary>
+            创建一个缓存实例
+            </summary>
+            <typeparam name="TModel"></typeparam>
+            <param name="mode">缓存模式</param>
+            <param name="expireAfterMinutes">过期时间（单位：分钟）</param>
+            <param name="initFunc">初始化缓存数据的委托事件</param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.Caching.ICache`1">
+            <summary>
+            缓存接口
+            </summary>
+            <typeparam name="TModel"></typeparam>
+        </member>
+        <member name="M:JF.Caching.ICache`1.Values">
+            <summary>
+            获取缓存对象集合
+            </summary>
+        </member>
+        <member name="M:JF.Caching.ICache`1.Restore(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            重置或恢复到初始状态
+            </summary>
+            <param name="items"></param>
+        </member>
+        <member name="M:JF.Caching.ICache`1.Restore">
+            <summary>
+            重置或恢复到初始状态
+            </summary>
+        </member>
+        <member name="M:JF.Caching.ICache`1.Add(`0)">
+            <summary>
+            向缓存中添加缓存项
+            </summary>
+            <param name="item"></param>
+        </member>
+        <member name="M:JF.Caching.ICache`1.Add(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            批量向缓存中添加缓存项
+            </summary>
+            <param name="items"></param>
+        </member>
+        <member name="M:JF.Caching.ICache`1.Update(`0)">
+            <summary>
+            更新缓存
+            </summary>
+            <param name="item"></param>
+        </member>
+        <member name="M:JF.Caching.ICache`1.Update(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            批量更新缓存
+            </summary>
+            <param name="items"></param>
+        </member>
+        <member name="M:JF.Caching.ICache`1.AddOrUpdate(`0)">
+            <summary>
+            添加或更新缓存
+            </summary>
+            <param name="item"></param>
+        </member>
+        <member name="M:JF.Caching.ICache`1.AddOrUpdate(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            批量添加或更新缓存
+            </summary>
+            <param name="items"></param>
+        </member>
+        <member name="M:JF.Caching.ICache`1.RemoveAt(`0)">
+            <summary>
+            移除缓存项
+            </summary>
+            <param name="item"></param>
+        </member>
+        <member name="M:JF.Caching.ICache`1.RemoveAt(System.Object)">
+            <summary>
+            移除指定缓存Key的缓存数据
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:JF.Caching.ICache`1.RemoveAt(System.String)">
+            <summary>
+            移除指定缓存Key的缓存数据
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:JF.Caching.ICache`1.RemoveAt(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            批量移除指定缓存Key的缓存数据
+            </summary>
+            <param name="keys"></param>
+        </member>
+        <member name="M:JF.Caching.ICache`1.FindAt(System.Object)">
+            <summary>
+            根据缓存Key获取缓存数据
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Caching.ICache`1.FindAt(System.String)">
+            <summary>
+            根据缓存Key获取缓存数据
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Caching.ICache`1.FindAt(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            根据缓存Keys获取缓存数据集合
+            </summary>
+            <param name="keys"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Caching.ICache`1.SelectFor(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            按条件查询
+            </summary>
+            <param name="expression"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Caching.ICache`1.Exists(`0)">
+            <summary>
+            检测缓存是否存在
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Caching.ICache`1.Exists(System.Object)">
+            <summary>
+            检测缓存是否存在
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Caching.ICache`1.Exists(System.String)">
+            <summary>
+            检测缓存是否存在
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Caching.ICache`1.ExistsKey(System.Object)">
+            <summary>
+            检测缓存Key是否存在
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Caching.ICache`1.ExistsKey(System.String)">
+            <summary>
+            检测缓存Key是否存在
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Caching.ICache`1.Clear">
+            <summary>
+            清除缓存
+            </summary>
+        </member>
+        <member name="P:JF.Caching.ICache`1.Item(System.String)">
+            <summary>
+            获取缓存数据
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="P:JF.Caching.ICache`1.Item(System.Object)">
+            <summary>
+            获取缓存数据
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.Caching.ICacheModel">
+            <summary>
+            缓存对象模型接口
+            </summary>
+        </member>
+        <member name="P:JF.Caching.ICacheModel.Key">
+            <summary>
+            Key
+            </summary>
+        </member>
+        <member name="T:JF.Common.CollectionExtensions">
+            <summary>
+            集合类扩展
+            </summary>
+        </member>
+        <member name="T:JF.Common.Converter">
+            <summary>
+            提供将一种数据类型与其他各种表示形式相互转换的转换器。
+            </summary>
+        </member>
+        <member name="M:JF.Common.Converter.ToHexString(System.Byte[])">
+            <summary>
+            将指定的字节数组转换为其用十六进制数字编码的等效字符串表示形式。
+            </summary>
+            <param name="buffer">一个 8 位无符号字节数组。</param>
+            <returns>参数中元素的字符串表示形式，以十六进制文本表示。</returns>
+        </member>
+        <member name="M:JF.Common.Converter.ToHexString(System.Byte[],System.Char)">
+            <summary>
+            将指定的字节数组转换为其用十六进制数字编码的等效字符串表示形式。参数指定是否在返回值中插入分隔符。
+            </summary>
+            <param name="buffer">一个 8 位无符号字节数组。</param>
+            <param name="separator">每字节对应的十六进制文本中间的分隔符。</param>
+            <returns>参数中元素的字符串表示形式，以十六进制文本表示。</returns>
+        </member>
+        <member name="M:JF.Common.Converter.FromHexString(System.String)">
+            <summary>
+            将指定的十六进制格式的字符串转换为等效的字节数组。
+            </summary>
+            <param name="text">要转换的十六进制格式的字符串。</param>
+            <returns>与<paramref name="text"/>等效的字节数组。</returns>
+            <exception cref="T:System.FormatException"><paramref name="text"/>参数中含有非空白字符。</exception>
+            <remarks>该方法的实现始终忽略<paramref name="text"/>参数中的空白字符。</remarks>
+        </member>
+        <member name="M:JF.Common.Converter.FromHexString(System.String,System.Char)">
+            <summary>
+            将指定的十六进制格式的字符串转换为等效的字节数组。
+            </summary>
+            <param name="text">要转换的十六进制格式的字符串。</param>
+            <param name="separator">要过滤掉的分隔符字符。</param>
+            <returns>与<paramref name="text"/>等效的字节数组。</returns>
+            <exception cref="T:System.FormatException"><paramref name="text"/>参数中含有非空白字符或非指定的分隔符。</exception>
+            <remarks>该方法的实现始终忽略<paramref name="text"/>参数中的空白字符。</remarks>
+        </member>
+        <member name="M:JF.Common.Converter.FromHexString(System.String,System.Char,System.Boolean)">
+            <summary>
+            将指定的十六进制格式的字符串转换为等效的字节数组。
+            </summary>
+            <param name="text">要转换的十六进制格式的字符串。</param>
+            <param name="separator">要过滤掉的分隔符字符。</param>
+            <param name="throwExceptionOnFormat">指定当输入文本中含有非法字符时是否抛出<seealso cref="T:System.FormatException"/>异常。</param>
+            <returns>与<paramref name="text"/>等效的字节数组。</returns>
+            <exception cref="T:System.FormatException">当<paramref name="throwExceptionOnFormat"/>参数为真，并且<paramref name="text"/>参数中含有非空白字符或非指定的分隔符。</exception>
+            <remarks>该方法的实现始终忽略<paramref name="text"/>参数中的空白字符。</remarks>
+        </member>
+        <member name="T:JF.Common.Converter.ObjectResolvingDirection">
+            <summary>
+            表示对象成员的解析方向。
+            </summary>
+        </member>
+        <member name="F:JF.Common.Converter.ObjectResolvingDirection.Get">
+            <summary>
+            获取对象的成员值。
+            </summary>
+        </member>
+        <member name="F:JF.Common.Converter.ObjectResolvingDirection.Set">
+            <summary>
+            设置对象的成员值。
+            </summary>
+        </member>
+        <member name="T:JF.Common.Converter.ObjectResolvingContext">
+            <summary>
+            表示在对象成员解析程序中的操作上下文。
+            </summary>
+        </member>
+        <member name="P:JF.Common.Converter.ObjectResolvingContext.Direction">
+            <summary>
+            获取解析过程中当前处理的方向。
+            </summary>
+        </member>
+        <member name="P:JF.Common.Converter.ObjectResolvingContext.Target">
+            <summary>
+            获取解析程序的目标根对象。
+            </summary>
+        </member>
+        <member name="P:JF.Common.Converter.ObjectResolvingContext.Container">
+            <summary>
+            获取解析过程中当前成员的容器对象。
+            </summary>
+        </member>
+        <member name="P:JF.Common.Converter.ObjectResolvingContext.Text">
+            <summary>
+            获取解析的文本参数值。
+            </summary>
+        </member>
+        <member name="P:JF.Common.Converter.ObjectResolvingContext.Value">
+            <summary>
+            获取或设置一个操作的值，该属性在不同场景中所表示的含义和可设置性均不同。详情请参考备注。
+            </summary>
+            <remarks>
+            	<para>当<see cref="P:JF.Common.Converter.ObjectResolvingContext.Direction"/>属性值等于<seealso cref="F:JF.Common.Converter.ObjectResolvingDirection.Get"/>时，表示处理程序所解析出来的成员值。</para>
+            	<para>当<see cref="P:JF.Common.Converter.ObjectResolvingContext.Direction"/>属性值等于<seealso cref="F:JF.Common.Converter.ObjectResolvingDirection.Set"/>时，表示是由用户指定要设置的目标值。</para>
+            </remarks>
+            <exception cref="T:System.InvalidOperationException">当<see cref="P:JF.Common.Converter.ObjectResolvingContext.Direction"/>属性值不等于<seealso cref="F:JF.Common.Converter.ObjectResolvingDirection.Get"/>时激发。</exception>
+        </member>
+        <member name="P:JF.Common.Converter.ObjectResolvingContext.MemberName">
+            <summary>
+            获取当前解析的成员名称。
+            </summary>
+        </member>
+        <member name="P:JF.Common.Converter.ObjectResolvingContext.Member">
+            <summary>
+            获取当前解析的成员信息。
+            </summary>
+        </member>
+        <member name="P:JF.Common.Converter.ObjectResolvingContext.MemberType">
+            <summary>
+            获取当前解析成员的类型。
+            </summary>
+        </member>
+        <member name="P:JF.Common.Converter.ObjectResolvingContext.Handled">
+            <summary>
+            获取或设置处理完成标记。
+            </summary>
+            <remarks>
+            	<para>如果设置该属性为真(true)，表示自定义解析程序已经完成对当前成员的解析，则表示告知系统不要再对当前成员的进行解析处理了；</para>
+            	<para>如果设置该属性为假(false)，即默认值。表示自定义自定义解析程序未对当前成员进行解析，则意味将由系统对当前成员进行解析处理。</para>
+            </remarks>
+        </member>
+        <member name="P:JF.Common.Converter.ObjectResolvingContext.IsTerminated">
+            <summary>
+            获取或设置是否终止标记。
+            </summary>
+        </member>
+        <member name="T:JF.Common.EnumEntry">
+            <summary>
+            表示枚举项的描述。
+            </summary>
+        </member>
+        <member name="P:JF.Common.EnumEntry.Name">
+            <summary>
+            获取枚举项的名称。
+            </summary>
+        </member>
+        <member name="P:JF.Common.EnumEntry.Type">
+            <summary>
+            获取枚举的类型。
+            </summary>
+        </member>
+        <member name="P:JF.Common.EnumEntry.Value">
+            <summary>
+            当前描述的枚举项值，该值有可能为枚举项的值也可能是对应的基元类型值。
+            </summary>
+        </member>
+        <member name="P:JF.Common.EnumEntry.Description">
+            <summary>
+            当前描述枚举项的描述文本，如果未定义建议创建者设置为枚举项的名称。
+            </summary>
+            <remarks>枚举项的描述由<seealso cref="!:ComponentModel.DescriptionAttribute"/>自定义特性指定。</remarks>
+        </member>
+        <member name="T:JF.Common.EnumUtility">
+            <summary>
+            为 <see cref="T:System.Enum"/> 类型扩展的辅助类。
+            </summary>
+        </member>
+        <member name="M:JF.Common.EnumUtility.GetEnumEntry(System.Enum)">
+            <summary>
+            获取指定枚举项对应的 <see cref="T:JF.Common.EnumEntry"/> 描述对象。
+            </summary>
+            <param name="enumValue">要获取的枚举项。</param>
+            <returns>返回指定枚举值对应的<seealso cref="T:JF.Common.EnumEntry"/>对象。</returns>
+        </member>
+        <member name="M:JF.Common.EnumUtility.GetEnumEntry(System.Enum,System.Boolean)">
+            <summary>
+            获取指定枚举项对应的 <see cref="T:JF.Common.EnumEntry"/> 描述对象。 
+            </summary>
+            <param name="enumValue">要获取的枚举项。</param>
+            <param name="underlyingType">是否将生成的 <seealso cref="T:JF.Common.EnumEntry"/> 元素的 <seealso cref="P:JF.Common.EnumEntry.Value"/> 属性值置为 enumType 参数对应的枚举项基类型值。</param>
+            <returns>返回指定枚举值对应的 <seealso cref="T:JF.Common.EnumEntry"/> 对象。</returns>
+        </member>
+        <member name="M:JF.Common.EnumUtility.GetEnumEntries(System.Type,System.Boolean)">
+            <summary>
+            获取指定枚举的描述对象数组。
+            </summary>
+            <param name="enumType">要获取的枚举类型。</param>
+            <param name="underlyingType">是否将生成的 <seealso cref="T:JF.Common.EnumEntry"/> 元素的 <seealso cref="P:JF.Common.EnumEntry.Value"/> 属性值置为 enumType 参数对应的枚举项基类型值。</param>
+            <returns>返回的枚举描述对象数组。</returns>
+        </member>
+        <member name="M:JF.Common.EnumUtility.GetEnumEntries(System.Type,System.Boolean,System.Object)">
+            <summary>
+            获取指定枚举的描述对象数组。
+            </summary>
+            <param name="enumType">要获取的枚举类型，可为<seealso cref="T:System.Nullable"/>类型。</param>
+            <param name="underlyingType">是否将生成的 <seealso cref="T:JF.Common.EnumEntry"/> 元素的 <seealso cref="P:JF.Common.EnumEntry.Value"/> 属性值置为 enumType 参数对应的枚举项基类型值。</param>
+            <param name="nullValue">如果参数<paramref name="enumType"/>为可空类型时，该空值对应的<seealso cref="P:JF.Common.EnumEntry.Value"/>属性的值。</param>
+            <returns>返回的枚举描述对象数组。</returns>
+        </member>
+        <member name="M:JF.Common.EnumUtility.GetEnumEntries(System.Type,System.Boolean,System.Object,System.String)">
+            <summary>
+            获取指定枚举的描述对象数组。
+            </summary>
+            <param name="enumType">要获取的枚举类型，可为<seealso cref="T:System.Nullable"/>类型。</param>
+            <param name="underlyingType">是否将生成的 <seealso cref="T:JF.Common.EnumEntry"/> 元素的 <seealso cref="P:JF.Common.EnumEntry.Value"/> 属性值置为 enumType 参数对应的枚举项基类型值。</param>
+            <param name="nullValue">如果参数<paramref name="enumType"/>为可空类型时，该空值对应的<seealso cref="P:JF.Common.EnumEntry.Value"/>属性的值。</param>
+            <param name="nullText">如果参数<paramref name="enumType"/>为可空类型时，该空值对应的<seealso cref="P:JF.Common.EnumEntry.Description"/>属性的值。</param>
+            <returns>返回的枚举描述对象数组。</returns>
+        </member>
+        <member name="M:JF.Common.EnumUtility.GetEnumDescription``1(System.Object)">
+            <summary>
+            根据枚举成员的数值或名称获取描述信息
+            </summary>
+            <typeparam name="T">要获取的枚举类型</typeparam>
+            <param name="valueOrName">枚举成员的数值或名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Common.EnumUtility.GetEnumDescriptions(System.Type)">
+            <summary>
+            获取枚举成员基类型值与描述的集合
+            </summary>
+            <param name="enumType">枚举类型</param>
+            <returns>返回枚举成员基类型值与描述的字典集合</returns> 
+        </member>
+        <member name="M:JF.Common.EnumUtility.ContainsEnumItem(System.Int32,System.Enum)">
+            <summary>
+            检测值中是否包含指定枚举成员（值）
+            <para>一般用于以2的N次方定义的枚举中,当对象的属性成员包含多个枚举成员属性时使用</para>
+            </summary>
+            <param name="values">对象的属性，以同一个<seealso cref="T:System.Enum"/>枚举中的一个或多个成员值的和组成 </param>
+            <param name="enumItem">要检测的<seealso cref="T:System.Enum"/>枚举中的成员是否存在</param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.Common.GuidExtension">
+            <summary>
+            基于<see cref="T:System.Guid"/>的扩展类
+            </summary>
+        </member>
+        <member name="T:JF.Common.ObjectExtensions">
+            <summary>
+            基于<see cref="T:System.Object"/>的扩展类
+            </summary>
+        </member>
+        <member name="M:JF.Common.ObjectExtensions.Copy``1(System.Object)">
+            <summary>
+            深度复制对象为指定类型<typeparamref name="TResult"/>的新对象
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="obj">源对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Common.ObjectExtensions.Copy(System.Object)">
+            <summary>
+            深度复制数据对象
+            </summary>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Common.ObjectExtensions.CopyTo``1(System.Object,``0@)">
+            <summary>
+            将源对象属性复制到目标对象
+            </summary>
+            <typeparam name="TResult">目标对象类型</typeparam>
+            <param name="source">源对象</param>
+            <param name="target">目标对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Common.ObjectExtensions.CopyTo``1(System.Object,``0)">
+            <summary>
+            将源对象属性复制到目标对象
+            </summary>
+            <typeparam name="TResult">目标对象类型</typeparam>
+            <param name="source">源对象</param>
+            <param name="target">目标对象</param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.Common.RandomGenerator">
+            <summary>
+            随机数生成类
+            </summary>
+        </member>
+        <member name="M:JF.Common.RandomGenerator.GetAverageRandom(System.Int32,System.Int32)">
+            <summary>
+            产生(min,max)之间均匀分布的随机数
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Common.RandomGenerator.GetAverageRandom(System.Double,System.Double)">
+            <summary>
+            产生(min,max)之间均匀分布的随机数
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Common.RandomGenerator.GetNormal(System.Double,System.Double,System.Double)">
+            <summary>
+            正态分布概率密度函数
+            </summary>
+            <param name="x"></param>
+            <param name="miu"></param>
+            <param name="sigma"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Common.RandomGenerator.GetRandomNormal(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            产生正态分布随机数
+            </summary>
+            <param name="miu"></param>
+            <param name="sigma"></param>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Common.RandomGenerator.GetRandExp(System.Double)">
+            <summary>
+            指数分布随机数
+            </summary>
+            <param name="const_a"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Common.RandomGenerator.GetRandomPoisson(System.Double,System.Double)">
+            <summary>
+            泊松分布产生
+            </summary>
+            <param name="lam">参数</param>
+            <param name="time">时间</param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.Common.StringExtensions">
+            <summary>
+            基于<see cref="T:System.String"/>的扩展类
+            </summary>
+        </member>
+        <member name="M:JF.Common.StringExtensions.TryRemove(System.String,System.Int32,System.String@)">
+            <summary>
+            移除指定索引范围内的字符串，并返回移除后的字符串值。
+            </summary>
+            <param name="text"></param>
+            <param name="startIndex"></param>
+            <param name="removedString">被移除的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Common.StringExtensions.TryRemove(System.String,System.Int32,System.Int32,System.String@)">
+            <summary>
+            移除指定索引范围内的字符串，并返回移除后的字符串值。
+            </summary>
+            <param name="text"></param>
+            <param name="startIndex"></param>
+            <param name="count"></param>
+            <param name="removedString">被移除的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Common.StringExtensions.Reverse(System.String)">
+            <summary>
+            反转字符串
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.Common.XmlDocumentExtensions">
+            <summary>
+            对<see cref="T:System.Xml.XmlDocument"/>的扩展类
+            </summary>
+        </member>
+        <member name="T:JF.ComponentModel.DataAnnotations.ValueInAttribute">
+            <summary>
+            自定义值包含验证特性
+            </summary>
+        </member>
+        <member name="T:JF.ComponentModel.DataEntity">
+            <summary>
+            DB数据模型抽象基类，
+            主要约束数据对象是否允许进行CURD操作，
+            本类已默认实现了对数据模型中<see cref="T:System.ComponentModel.DataAnnotations.ValidationAttribute"/>特性属性的验证。
+            </summary>
+        </member>
+        <member name="M:JF.ComponentModel.DataEntity.CanInsert(System.Collections.Hashtable@)">
+            <summary>
+            验证数据对象是否允许插入。
+            </summary>
+            <param name="htErrors">out 错误信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.ComponentModel.DataEntity.CanInsert">
+            <summary>
+            数据对象是否允许插入。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JF.ComponentModel.DataEntity.CanUpdate(System.Collections.Hashtable@)">
+            <summary>
+            验证数据对象是否允许更新。
+            </summary>
+            <param name="htErrors">out 错误信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.ComponentModel.DataEntity.CanUpdate">
+            <summary>
+            验证数据对象是否允许更新。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JF.ComponentModel.DataEntity.CanDelete(System.Collections.Hashtable@)">
+            <summary>
+            验证数据对象是否允许删除。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JF.ComponentModel.DataEntity.CanDelete">
+            <summary>
+            验证数据对象是否允许删除。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:JF.ComponentModel.IDataEntity">
+            <summary>
+            DB数据模型接口。
+            主要约束数据对象是否允许进行CURD操作。
+            </summary>
+        </member>
+        <member name="M:JF.ComponentModel.IDataEntity.CanInsert(System.Collections.Hashtable@)">
+            <summary>
+            验证数据对象是否允许插入。
+            </summary>
+            <param name="htErrors">out 错误信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.ComponentModel.IDataEntity.CanInsert">
+            <summary>
+            验证数据对象是否允许插入。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JF.ComponentModel.IDataEntity.CanUpdate(System.Collections.Hashtable@)">
+            <summary>
+            验证数据对象是否允许更新。
+            </summary>
+            <param name="htErrors"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.ComponentModel.IDataEntity.CanUpdate">
+            <summary>
+            验证数据对象是否允许更新。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JF.ComponentModel.IDataEntity.CanDelete(System.Collections.Hashtable@)">
+            <summary>
+            验证数据对象是否允许删除。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JF.ComponentModel.IDataEntity.CanDelete">
+            <summary>
+            验证数据对象是否允许删除。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:JF.ComponentModel.IPEndPointConverter">
+            <summary>
+            提供将 <see cref="T:System.Net.IPEndPoint"/> 对象与其他各种表示形式相互转换的类型转换器。
+            </summary>
+        </member>
+        <member name="T:JF.ComponentModel.ValidationModel">
+            <summary>
+            有需要验证的类型抽象类
+            </summary>
+        </member>
+        <member name="M:JF.ComponentModel.ValidationModel.IsValid">
+            <summary>
+            验证对象是否有效。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JF.ComponentModel.ValidationModel.ThrowExceptionWhenValidationFailed">
+            <summary>
+            验证数据模型，当验证失败时抛出异常。
+            </summary>
+        </member>
+        <member name="M:JF.ComponentModel.ValidationModel.IsValid(JF.Exceptions.JFValidateException@)">
+            <summary>
+            验证对象是否有效
+            </summary>
+            <param name="exception">如果验证失败，则输出未通过验证的属性名及错误信息的异常消息。</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.ComponentModel.ValidationModel.IsValid(System.Collections.Hashtable@)">
+            <summary>
+            验证对象是否有效。
+            </summary>
+            <param name="errors">如果验证失败，则输出未通过验证的属性名及错误信息。</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.ComponentModel.ValidationModel.CustomValidate">
+            <summary>
+            自定义验证。
+            请以属性名及对应的错误信息List输出。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JF.ComponentModel.ValidationModel.Validate">
+            <summary>
+            验证当前对象中所有带<see cref="T:System.ComponentModel.DataAnnotations.ValidationAttribute"/>特性的属性是否验证有效。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JF.ComponentModel.ValidationModel.FeatureAttributiesValidate">
+            <summary>
+            属性特性验证
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:JF.Exceptions.JFAuthorizationException">
+            <summary>
+            访问权限异常
+            </summary>
+        </member>
+        <member name="T:JF.Exceptions.JFBusinessException">
+            <summary>
+            业务处理或规则异常
+            </summary>
+        </member>
+        <member name="T:JF.Exceptions.JFException">
+            <summary>
+            自定义异常基类
+            </summary>
+        </member>
+        <member name="T:JF.Exceptions.JFOperationAccessException">
+            <summary>
+            操作权限验证异常
+            </summary>
+        </member>
+        <member name="T:JF.Exceptions.JFValidateException">
+            <summary>
+            数据验证异常类
+            </summary>
+        </member>
+        <member name="T:JF.Json.JsonSettingsHandler">
+            <summary>
+            。
+            </summary>
+        </member>
+        <member name="P:JF.Json.JsonSettingsHandler.Default">
+            <summary>
+            默认配置程序
+            </summary>
+        </member>
+        <member name="P:JF.Json.JsonSettingsHandler.DefaultSerializerSettings">
+            <summary>
+            默认Json序列化/反序列化处理配置。
+            1、采用Utc时区；
+            2、使用微软时间格式化，"yyyy-MM-dd HH:mm:ss"；
+            3、使用驼峰式属性名；
+            4、长整型转化为字符串。
+            </summary>
+        </member>
+        <member name="T:JF.Security.Encrypt">
+            <summary>
+            加/解密
+            </summary>
+        </member>
+        <member name="M:JF.Security.Encrypt.GetMD5(System.String)">
+            <summary>
+            获取MD5值
+            </summary>
+            <param name="sourceString">源字符串</param>
+            <returns>MD5值</returns>
+        </member>
+        <member name="M:JF.Security.Encrypt.GetSHA1(System.String)">
+            <summary>
+            获取SHA1值
+            </summary>
+            <param name="sourceString">源字符串</param>
+            <returns>SHA1值</returns>
+        </member>
+        <member name="M:JF.Security.Encrypt.GetSHA256(System.String)">
+            <summary>
+            获取SHA256值
+            </summary>
+            <param name="sourceString">源字符串</param>
+            <returns>SHA256值</returns>
+        </member>
+        <member name="M:JF.Security.Encrypt.GetSHA384(System.String)">
+            <summary>
+            获取SHA384值
+            </summary>
+            <param name="sourceString">源字符串</param>
+            <returns>SHA384值</returns>
+        </member>
+        <member name="M:JF.Security.Encrypt.GetSHA512(System.String)">
+            <summary>
+            获取SHA512值
+            </summary>
+            <param name="sourceString">源字符串</param>
+            <returns>SHA512值</returns>
+        </member>
+        <member name="M:JF.Security.Encrypt.GetHash(System.String,System.Security.Cryptography.HashAlgorithm)">
+            <summary>
+            获取某个哈希算法对应下的哈希值
+            </summary>
+            <param name="sourceString">源字符串</param>
+            <param name="algorithm">哈希算法</param>
+            <returns>经过计算的哈希值</returns>
+        </member>
+        <member name="M:JF.Security.Encrypt.DecryptFor(System.String,System.String)">
+            <summary>
+            Des对称解密方法
+            </summary>
+            <param name="sourceString"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Security.Encrypt.DecryptFor(System.String,System.String,System.String)">
+            <summary>
+            Des对称解密方法
+            </summary>
+            <param name="sourceString"></param>
+            <param name="key"></param>
+            <param name="iv"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Security.Encrypt.EncryptFor(System.String,System.String)">
+            <summary>
+            Des对称加密方法
+            </summary>
+            <param name="sourceString"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Security.Encrypt.EncryptFor(System.String,System.String,System.String)">
+            <summary>
+            Des对称加密方法
+            </summary>
+            <param name="sourceString"></param>
+            <param name="key"></param>
+            <param name="iv"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

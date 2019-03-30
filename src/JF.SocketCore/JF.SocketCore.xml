@@ -1,0 +1,465 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JF.SocketCore</name>
+    </assembly>
+    <members>
+        <member name="T:JF.SocketCore.Server.SendedHandler">
+            <summary>
+            发送消息后事件处理委托
+            </summary>
+            <param name="session"></param>
+            <param name="message"></param>
+        </member>
+        <member name="T:JF.SocketCore.Server.ConnectedHandler`1">
+            <summary>
+            连接成功后事件处理委托
+            </summary>
+            <typeparam name="TEventArgs"></typeparam>
+            <param name="session"></param>
+            <param name="args"></param>
+        </member>
+        <member name="T:JF.SocketCore.Server.DisConnectedHandler`1">
+            <summary>
+            断开连接后事件处理委托
+            </summary>
+            <typeparam name="TEventArgs"></typeparam>
+            <param name="session"></param>
+            <param name="args"></param>
+        </member>
+        <member name="T:JF.SocketCore.Server.ReceiveTextHandler">
+            <summary>
+            接收到文件本消息时的事件处理程序
+            </summary>
+            <param name="session"></param>
+            <param name="message"></param>
+        </member>
+        <member name="T:JF.SocketCore.Server.ReceiveBinaryHandler">
+            <summary>
+            接收到字节流消息时的事件处理程序
+            </summary>
+            <param name="session"></param>
+            <param name="message"></param>
+        </member>
+        <member name="T:JF.SocketCore.Server.ISocketIdentity">
+            <summary>
+            WebSocet通道的用户身份信息 - 抽象类
+            </summary>
+        </member>
+        <member name="P:JF.SocketCore.Server.ISocketIdentity.UserId">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="T:JF.SocketCore.Server.SocketSession">
+            <summary>
+            Socket连接的Session信息
+            </summary>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketSession.#ctor(JF.SocketCore.Server.SocketsPool,System.Net.WebSockets.WebSocket,System.String,System.Boolean)">
+            <summary>
+            实例化一个<see cref="T:JF.SocketCore.Server.SocketSession"/>对象
+            </summary>
+            <param name="pool">所属连接池</param>
+            <param name="socket">WebSocket连接通道</param>
+            <param name="ip">客户端IP</param>
+            <param name="allowAnonymous">是否允许匿名</param>
+        </member>
+        <member name="P:JF.SocketCore.Server.SocketSession.State">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:JF.SocketCore.Server.SocketSession.ChannelId">
+            <summary>
+            通道ID
+            </summary>
+        </member>
+        <member name="P:JF.SocketCore.Server.SocketSession.IP">
+            <summary>
+            客户端IP
+            </summary>
+        </member>
+        <member name="P:JF.SocketCore.Server.SocketSession.Identity">
+            <summary>
+            用户身份信息
+            </summary>
+        </member>
+        <member name="P:JF.SocketCore.Server.SocketSession.Channel">
+            <summary>
+            当前通道
+            </summary>
+        </member>
+        <member name="P:JF.SocketCore.Server.SocketSession.AllowAnonymous">
+            <summary>
+            是否允许匿名
+            </summary>
+        </member>
+        <member name="P:JF.SocketCore.Server.SocketSession.IsLogged">
+            <summary>
+            是否已登录
+            </summary>
+        </member>
+        <member name="E:JF.SocketCore.Server.SocketSession.ConnectedEvent">
+            <summary>
+            连接成功后事件处理程序
+            </summary>
+        </member>
+        <member name="E:JF.SocketCore.Server.SocketSession.DisConnectedEvent">
+            <summary>
+            关闭连接后事修的处理程序
+            </summary>
+        </member>
+        <member name="E:JF.SocketCore.Server.SocketSession.SendedEvent">
+            <summary>
+            发送消息后事件处理程序
+            </summary>
+        </member>
+        <member name="E:JF.SocketCore.Server.SocketSession.ReceiveTextEvent">
+            <summary>
+            接收到文件本消息时的事件处理程序
+            </summary>
+        </member>
+        <member name="E:JF.SocketCore.Server.SocketSession.ReceiveBinaryEvent">
+            <summary>
+            接收到字节流消息时的事件处理程序
+            </summary>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketSession.Listening(System.Boolean)">
+            <summary>
+            开始侦听
+            </summary>
+            <param name="isBackground">是否后台运行</param>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketSession.ReceiveUntilCloseAsync(System.Object)">
+            <summary>
+            接收消息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketSession.CloseSocketAsync(System.Boolean)">
+            <summary>
+            关闭连接
+            </summary>
+            <param name="disposeSession">是否销毁当前对象</param>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketSession.SendAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            发送消息
+            </summary>
+            <param name="message">消息内容</param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketSession.SendAsync(System.Byte[],System.Threading.CancellationToken)">
+            <summary>
+            发送消息
+            </summary>
+            <param name="message"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketSession.SetIdentity(JF.SocketCore.Server.ISocketIdentity)">
+            <summary>
+            设置用户身份信息
+            </summary>
+            <param name="identity">身份信息</param>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketSession.ClearSameUserSesstionsAtAsync(System.String)">
+            <summary>
+            清空其他相同身份信息的<see cref="T:JF.SocketCore.Server.SocketSession"/>对象身份，并发送消息
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketSession.ClearSameUserSesstionsAtAsync(System.Byte[])">
+            <summary>
+            清空其他相同身份信息的<see cref="T:JF.SocketCore.Server.SocketSession"/>对象身份，并发送消息
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketSession.ClearIdentityAsync(System.String)">
+            <summary>
+            清空身份信息，并发送消息
+            </summary>
+            <param name="sendMessage">当发送消息为null时，忽略</param>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketSession.ClearIdentityAsync(System.Byte[])">
+            <summary>
+            清空身份信息，并发送消息
+            </summary>
+            <param name="sendMessage">当发送消息为null时，忽略</param>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketSession.Dispose(System.Boolean)">
+            <summary>
+            释放资源
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="T:JF.SocketCore.Server.SocketsPool">
+            <summary>
+            Socket连接池
+            </summary>
+        </member>
+        <member name="F:JF.SocketCore.Server.SocketsPool._platform">
+            <summary>
+            所属平台标识
+            </summary>
+        </member>
+        <member name="F:JF.SocketCore.Server.SocketsPool._allowAnonymous">
+            <summary>
+            是否允许匿名
+            </summary>
+        </member>
+        <member name="F:JF.SocketCore.Server.SocketsPool._sessions">
+            <summary>
+            当前管理寄存器中的通道集合
+            </summary>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.#ctor(System.String,System.Boolean)">
+            <summary>
+            实例化一个<see cref="T:JF.SocketCore.Server.SocketsPool"/>对象
+            </summary>
+            <param name="platform">所属平台标识</param>
+            <param name="allowAnonymous">是否允许匿名</param>
+        </member>
+        <member name="P:JF.SocketCore.Server.SocketsPool.Count">
+            <summary>
+            <see cref="T:System.Net.WebSockets.WebSocket"/>在线通道总数
+            </summary>
+        </member>
+        <member name="P:JF.SocketCore.Server.SocketsPool.LoggedCount">
+            <summary>
+            已登录账号的通道总数
+            </summary>
+        </member>
+        <member name="P:JF.SocketCore.Server.SocketsPool.Item(System.Guid)">
+            <summary>
+            索引器（通道ID）
+            </summary>
+            <param name="channelId">通道ID</param>
+            <returns></returns>
+        </member>
+        <member name="P:JF.SocketCore.Server.SocketsPool.Item(System.String)">
+            <summary>
+            索引器（用户ID）
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="E:JF.SocketCore.Server.SocketsPool.ConnectedEvent">
+            <summary>
+            连接成功后事件处理程序
+            </summary>
+        </member>
+        <member name="E:JF.SocketCore.Server.SocketsPool.DisConnectedEvent">
+            <summary>
+            关闭连接后事修的处理程序
+            </summary>
+        </member>
+        <member name="E:JF.SocketCore.Server.SocketsPool.SendedEvent">
+            <summary>
+            发送消息后事件处理程序
+            </summary>
+        </member>
+        <member name="E:JF.SocketCore.Server.SocketsPool.ReceiveTextEvent">
+            <summary>
+            接收到文件本消息时的事件处理程序
+            </summary>
+        </member>
+        <member name="E:JF.SocketCore.Server.SocketsPool.ReceiveBinaryEvent">
+            <summary>
+            接收到字节流消息时的事件处理程序
+            </summary>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.GetSocketFor(System.Guid)">
+            <summary>
+            根据通道ID获取一个<see cref="T:JF.SocketCore.Server.SocketSession"/>对象
+            </summary>
+            <param name="channelId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.GetSocketsFor(System.String)">
+            <summary>
+            获取用户的所有连接通道
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.GetAllSockets">
+            <summary>
+            获取所有<see cref="T:JF.SocketCore.Server.SocketSession"/>对象集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.AddSocket(System.Net.WebSockets.WebSocket,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            添加一个<see cref="T:System.Net.WebSockets.WebSocket"/>通道，返回<see cref="T:JF.SocketCore.Server.SocketSession"/>对象通道ID
+            </summary>
+            <param name="socket"><see cref="T:System.Net.WebSockets.WebSocket"/>对象</param>
+            <param name="ip">客户端IP</param>
+            <param name="allowAnonymous">是否允许匿名</param>
+            <param name="isBackground">是否后台管理Socket连接</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.TryFind(System.String,JF.SocketCore.Server.SocketSession@)">
+            <summary>
+            查找 <see cref="T:JF.SocketCore.Server.SocketSession"/>
+            </summary>
+            <param name="userId"></param>
+            <param name="session"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.TryFind(System.String,System.Guid@)">
+            <summary>
+            查找用户的WebSocket通道ID
+            </summary>
+            <param name="userId"></param>
+            <param name="channelId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.RemoveAtAsync(System.Guid,System.Boolean)">
+            <summary>
+            从集合中移除并销毁<see cref="T:JF.SocketCore.Server.SocketSession"/>对象
+            </summary>
+            <param name="channelId"><see cref="T:System.Net.WebSockets.WebSocket"/>通道ID</param>
+            <param name="closeSocket">是否关闭连接</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.ClearSameUserSessionsAtAsync(System.Guid,System.String)">
+            <summary>
+            清空其他相同身份信息的<see cref="T:JF.SocketCore.Server.SocketSession"/>对象身份，并发送消息
+            </summary>
+            <param name="sourceChannelId"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.ClearSameUserSessionsAtAsync(System.Guid,System.Byte[])">
+            <summary>
+            清空其他相同身份信息的<see cref="T:JF.SocketCore.Server.SocketSession"/>对象身份，并发送消息
+            </summary>
+            <param name="sourceChannelId"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.ClearSameUserSessionsAtAsync(JF.SocketCore.Server.SocketSession,System.String)">
+            <summary>
+            清空其他相同身份信息的<see cref="T:JF.SocketCore.Server.SocketSession"/>对象身份，并发送消息
+            </summary>
+            <param name="source"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.ClearSameUserSessionsAtAsync(JF.SocketCore.Server.SocketSession,System.Byte[])">
+            <summary>
+            清空其他相同身份信息的<see cref="T:JF.SocketCore.Server.SocketSession"/>对象身份，并发送消息
+            </summary>
+            <param name="source"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.SendToAllAsync(System.String,System.Nullable{System.Boolean})">
+            <summary>
+            发送消息给所有<see cref="T:System.Net.WebSockets.WebSocket"/>通道
+            </summary>
+            <param name="message">消息内容</param>
+            <param name="isLogged">是否只发送给已登录账号的通道，为null时忽略此限制。</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.SendToAllAsync(System.Byte[],System.Nullable{System.Boolean})">
+            <summary>
+            发送消息给所有<see cref="T:System.Net.WebSockets.WebSocket"/>通道
+            </summary>
+            <param name="message">消息内容</param>
+            <param name="isLogged">是否只发送给已登录账号的通道，为null时忽略此限制。</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.SendToAsync(JF.SocketCore.Server.SocketSession,System.String)">
+            <summary>
+            发送消息给指定的<see cref="T:JF.SocketCore.Server.SocketSession"/>
+            </summary>
+            <param name="targetSesstion"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.SendToAsync(JF.SocketCore.Server.SocketSession,System.Byte[])">
+            <summary>
+            发送消息给指定的<see cref="T:JF.SocketCore.Server.SocketSession"/>
+            </summary>
+            <param name="targetSesstion"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.SendToAsync(System.Collections.Generic.IEnumerable{System.String},System.String)">
+            <summary>
+            发送消息给指定用户
+            </summary>
+            <param name="userIds">用户ID集合</param>
+            <param name="message">消息内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.SendToAsync(System.String,System.String)">
+            <summary>
+            发送消息给指定用户
+            </summary>
+            <param name="userId"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.SendToAsync(System.Collections.Generic.IEnumerable{System.String},System.Byte[])">
+            <summary>
+            发送消息给指定用户
+            </summary>
+            <param name="userIds">用户ID集合</param>
+            <param name="message">消息内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.SendToAsync(System.String,System.Byte[])">
+            <summary>
+            发送消息给指定用户
+            </summary>
+            <param name="userId"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.SendToAsync(System.Collections.Generic.IEnumerable{System.Guid},System.String)">
+            <summary>
+            发送消息
+            </summary>
+            <param name="targetChannelIds">目标<see cref="T:System.Net.WebSockets.WebSocket"/>通道ID集合</param>
+            <param name="message">消息内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.SendToAsync(System.Guid,System.String)">
+            <summary>
+            发送消息
+            </summary>
+            <param name="targetChannelId">目标<see cref="T:System.Net.WebSockets.WebSocket"/>通道ID</param>
+            <param name="message">消息内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.SendToAsync(System.Collections.Generic.IEnumerable{System.Guid},System.Byte[])">
+            <summary>
+            发送消息
+            </summary>
+            <param name="targetChannelIds">目标<see cref="T:System.Net.WebSockets.WebSocket"/>通道ID集合</param>
+            <param name="message">消息内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.SendToAsync(System.Guid,System.Byte[])">
+            <summary>
+            发送消息
+            </summary>
+            <param name="targetChannelId">目标<see cref="T:System.Net.WebSockets.WebSocket"/>通道ID</param>
+            <param name="message">消息内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.SocketCore.Server.SocketsPool.Abort">
+            <summary>
+            中止连接池
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
