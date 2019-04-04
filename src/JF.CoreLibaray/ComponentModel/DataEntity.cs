@@ -1,5 +1,9 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection;
+using System.Linq;
 
 namespace JF.ComponentModel
 {
@@ -10,6 +14,14 @@ namespace JF.ComponentModel
     /// </summary>
     public abstract class DataEntity : ValidationModel, IDataEntity
     {
+        #region
+
+        private static string tableName;
+
+        private static string[] columns;
+
+        #endregion
+
         /// <summary>
         /// 验证数据对象是否允许插入。
         /// </summary>

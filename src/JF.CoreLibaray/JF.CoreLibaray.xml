@@ -939,6 +939,14 @@
             基于<see cref="T:System.String"/>的扩展类
             </summary>
         </member>
+        <member name="M:JF.Common.StringExtensions.SameAs(System.String,System.String)">
+             <summary>
+            检测字符串是否类似，NULL与"null"视为相似，且忽略大小写。
+             </summary>
+             <param name="str"></param>
+             <param name="sameTxt"></param>
+             <returns></returns>
+        </member>
         <member name="M:JF.Common.StringExtensions.TryRemove(System.String,System.Int32,System.String@)">
             <summary>
             移除指定索引范围内的字符串，并返回移除后的字符串值。

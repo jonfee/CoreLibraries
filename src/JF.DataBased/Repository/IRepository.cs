@@ -1,10 +1,11 @@
 ﻿using JF.ComponentModel;
+using JF.DataBased.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace JF.EFContextBased
+namespace JF.DataBased.Repository
 {
     /// <summary>
     /// 主仓储服务接口。
@@ -14,7 +15,7 @@ namespace JF.EFContextBased
         /// <summary>
         /// 数据库上下文对象
         /// </summary>
-        JFDbContext DbContext { get; }
+        IDbContext DbContext { get; }
 
         /// <summary>
         /// 获取当前指定类型的所有数据。
@@ -89,20 +90,17 @@ namespace JF.EFContextBased
             where T : DataEntity;
 
         /// <summary>
-        /// 根据SQL命令查找
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sql"></param>
-        /// <returns></returns>
-        List<T> FromSql<T>(string sql)
-            where T : DataEntity;
-
-        /// <summary>
         /// 执行SQL命令
         /// </summary>
         /// <param name="sql"></param>
         /// <returns></returns>
         int ExecuteSqlCommand(string sql);
+
+        /// <summary>
+        /// 保存更改
+        /// </summary>
+        /// <returns></returns>
+        int SaveChanges();
 
         #region 子仓操作
 

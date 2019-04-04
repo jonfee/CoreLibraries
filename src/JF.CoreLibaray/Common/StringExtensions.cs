@@ -13,6 +13,31 @@ namespace JF.Common
 
         #region 实用方法
 
+        public static bool IsEmpty(this string str)
+        {
+            if (str == null) return true;
+            str = str.TrimStringStart(" ");
+            if (string.IsNullOrEmpty(str)) return true;
+            if (string.IsNullOrWhiteSpace(str)) return true;
+
+            return false;
+        }
+
+        /// <summary>
+        ///检测字符串是否类似，NULL与"null"视为相似，且忽略大小写。
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="sameTxt"></param>
+        /// <returns></returns>
+        public static bool SameAs(this string str, string sameTxt)
+        {
+            if (str == null && sameTxt == null) return true;
+            if (str == null && sameTxt.Equals("null", StringComparison.OrdinalIgnoreCase)) return true;
+            if (sameTxt == null && str.Equals("null", StringComparison.OrdinalIgnoreCase)) return true;
+
+            return str.Equals(sameTxt, StringComparison.OrdinalIgnoreCase);
+        }
+
         /// <summary>
         /// 移除指定索引范围内的字符串，并返回移除后的字符串值。
         /// </summary>

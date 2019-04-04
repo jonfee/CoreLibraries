@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreTestProject", "test\Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JF.WebAPIExtensions", "src\JF.WebAPIExtensions\JF.WebAPIExtensions.csproj", "{1CEE766E-7035-494B-B843-413BCDA0931D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JF.EFContextBased", "src\JF.EFContextBased\JF.EFContextBased.csproj", "{2842A154-091A-40A5-B8B7-76749AB0EB36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JF.DataBased", "src\JF.DataBased\JF.DataBased.csproj", "{2842A154-091A-40A5-B8B7-76749AB0EB36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

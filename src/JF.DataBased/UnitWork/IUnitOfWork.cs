@@ -1,8 +1,9 @@
 ﻿using JF.ComponentModel;
+using JF.DataBased.Repository;
 using System;
 using System.Collections.Generic;
 
-namespace JF.EFContextBased
+namespace JF.DataBased
 {
     /// <summary>
     /// 工作单元接口

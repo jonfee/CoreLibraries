@@ -1,10 +1,12 @@
 ﻿using JF.ComponentModel;
+using JF.DataBased.Context;
+using JF.DataBased.Repository;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Transactions;
 
-namespace JF.EFContextBased
+namespace JF.DataBased
 {
     /// <summary>
     /// 工作单元抽象基类
@@ -285,7 +287,7 @@ namespace JF.EFContextBased
                 if (disposing)
                 {
                     // TODO: 释放托管状态(托管对象)。
-                    foreach (KeyValuePair<JFDbContext, IRepository> kv in this.repositories)
+                    foreach (KeyValuePair<IDbContext, IRepository> kv in this.repositories)
                     {
                         kv.Key?.Dispose();
                         kv.Value?.Dispose();

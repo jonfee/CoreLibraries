@@ -1,4 +1,4 @@
-﻿using JF.EFContextBased;
+﻿using JF.DataBased;
 using System;
 
 namespace JF.DomainEventBased.DomainModel

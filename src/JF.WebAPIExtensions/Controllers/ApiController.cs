@@ -1,5 +1,4 @@
-﻿using JF.WebAPIExtensions.Auth;
-using JF.WebAPIExtensions.Responses;
+﻿using JF.WebAPIExtensions.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JF.WebAPIExtensions.Controllers
@@ -32,7 +31,7 @@ namespace JF.WebAPIExtensions.Controllers
 
             return JsonOk(response);
         }
-
+        
         /// <summary>
         /// JSON输出操作失败的API结果，HttpStatusCode = 200。
         /// </summary>

@@ -1,5 +1,5 @@
 ﻿using JF.ComponentModel;
-using Microsoft.EntityFrameworkCore;
+using JF.DataBased.Context;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -7,81 +7,66 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace JF.EFContextBased
+namespace JF.DataBased.Repository
 {
     /// <summary>
-    /// 子仓抽象基类
+    /// 使用了<see cref="DapperDbContext"/>数据连接的子仓抽象基类
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class ChildRepositoryBase<T> : IChildRepository<T> where T : DataEntity
+    internal class DapperChildRepositoryBase<T> : IChildRepository<T> where T : DataEntity
     {
         #region private variables
 
-        protected readonly JFDbContext dbContext;
+        protected readonly DapperDbContext dbContext;
 
         #endregion
 
-        public ChildRepositoryBase(JFDbContext context)
+        public DapperChildRepositoryBase(DapperDbContext context)
         {
             this.dbContext = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public virtual IQueryable<T> All()
         {
-            return dbContext.Set<T>().AsNoTracking();
+            return dbContext.Set<T>().Search().AsQueryable();
         }
 
         public virtual void Update(T entity)
         {
             if (!entity.CanUpdate(out Hashtable errors)) throw new Exception(JsonConvert.SerializeObject(errors));
 
-            var entry = dbContext.Entry(entity);
-            if (entry.State == EntityState.Detached)
-            {
-                dbContext.Set<T>().Attach(entity);
-            }
-            entry.State = EntityState.Modified;
+            dbContext.Set<T>().Update(entity);
         }
 
         public virtual void Insert(T entity)
         {
             if (!entity.CanInsert(out Hashtable errors)) throw new Exception(JsonConvert.SerializeObject(errors));
 
-            dbContext.Set<T>().Add(entity);
+            dbContext.Set<T>().Insert(entity);
         }
 
         public virtual void Delete(T entity)
         {
             if (!entity.CanDelete(out Hashtable errors)) throw new Exception(JsonConvert.SerializeObject(errors));
 
-            var entry = dbContext.Entry(entity);
-            if (entry.State == EntityState.Detached)
-            {
-                dbContext.Set<T>().Attach(entity);
-            }
-            entry.State = EntityState.Deleted;
-            dbContext.Set<T>().Remove(entity);
+            dbContext.Set<T>().Delete(entity);
         }
 
         public virtual void Delete(Expression<Func<T, bool>> conditions)
         {
-            var list = Find(conditions);
-            foreach (var item in list)
-            {
-                Delete(item);
-            }
+            Delete(conditions);
         }
 
-        public virtual T Get(Expression<Func<T, bool>> conditions)
+        public virtual T Find(Expression<Func<T, bool>> conditions)
         {
-            return All().FirstOrDefault(conditions);
+            return dbContext.Set<T>().FirstOrDefault(conditions);
         }
 
-        public virtual List<T> Find(Expression<Func<T, bool>> conditions = null)
+        public virtual List<T> Search(Expression<Func<T, bool>> conditions = null)
         {
             if (conditions != null)
             {
-                return All().Where(conditions).ToList();
+                return dbContext.Set<T>().Search(conditions).ToList();
             }
             else
             {
@@ -89,25 +74,20 @@ namespace JF.EFContextBased
             }
         }
 
-        public virtual List<T> Find<S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount)
+        public virtual List<T> Search<S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount)
         {
-            var queryList = conditions == null ?
-                All() :
-                All().Where(conditions);
+            var queryList = conditions == null
+                ? All()
+                : dbContext.Set<T>().Search(conditions);
 
             totalCount = queryList.Count();
 
-            return queryList.OrderByDescending(orderBy).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-        }
-
-        public virtual List<T> FromSql(string sql)
-        {
-            return dbContext.Set<T>().FromSql(sql).ToList();
+            return queryList.AsQueryable().OrderByDescending(orderBy).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         }
 
         public virtual int ExecuteSqlCommand(string sql)
         {
-            return dbContext.Database.ExecuteSqlCommand(sql);
+            return dbContext.ExecuteSqlCommand(sql);
         }
 
         #region IDisposable Support

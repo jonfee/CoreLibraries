@@ -1,6 +1,7 @@
 ﻿using JF.ComponentModel;
+using JF.DataBased.Repository;
 
-namespace JF.EFContextBased
+namespace JF.DataBased
 {
     /// <summary>
     /// 子仓服务扩展类
