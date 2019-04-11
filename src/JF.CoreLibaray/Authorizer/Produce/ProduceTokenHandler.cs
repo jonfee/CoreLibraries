@@ -10,7 +10,7 @@ namespace JF.Authorizer.Produce
             var jsonData = JsonConvert.SerializeObject(context.Agent);
 
             // 公钥加密
-            string token = jsonData.EncryptFor(context.PublicKey);
+            string token = jsonData.EncryptFor(context.JwtOption.SecretKey);
 
             context.SetToken(token);
 

@@ -4,97 +4,276 @@
         <name>JF.CoreLibaray</name>
     </assembly>
     <members>
-        <member name="T:JF.Authorizer.AuthUser">
+        <member name="T:JF.Authorizer.ClaimsTypeAttribute">
             <summary>
-            授权主体用户
+            自定义用于Claims的特性
             </summary>
         </member>
-        <member name="P:JF.Authorizer.AuthUser.UserID">
+        <member name="P:JF.Authorizer.JwtOption.HttpHeaderWith">
             <summary>
-            用户ID
+            登录授权令牌令牌在HTTP请求的Header中的名称。
             </summary>
         </member>
-        <member name="P:JF.Authorizer.AuthUser.Name">
+        <member name="P:JF.Authorizer.JwtOption.SecretKey">
             <summary>
-            用户名
+            密钥
             </summary>
         </member>
-        <member name="T:JF.Authorizer.TokenAgent">
+        <member name="P:JF.Authorizer.JwtOption.ExpireMode">
             <summary>
-            令牌代理持有者
+            过期策略
             </summary>
         </member>
-        <member name="P:JF.Authorizer.TokenAgent.Code">
+        <member name="P:JF.Authorizer.JwtOption.ExpireMinutes">
             <summary>
-            代理编号，固定的32位长度的字符串。
+            失效的时间（单位：分钟）
             </summary>
         </member>
-        <member name="P:JF.Authorizer.TokenAgent.IP">
+        <member name="P:JF.Authorizer.JwtOption.Issuer">
             <summary>
-            授权时代理所属的IP
+            Token颁发者
             </summary>
         </member>
-        <member name="P:JF.Authorizer.TokenAgent.Sercert">
+        <member name="P:JF.Authorizer.JwtOption.Audience">
             <summary>
-            代理密钥。
-            非实际私钥，此为私钥的密文（通过特殊算法加密）
+            Token授权使用的客户端标识
             </summary>
         </member>
-        <member name="P:JF.Authorizer.TokenAgent.Ciphertext">
+        <member name="M:JF.Authorizer.BearerOption.op_Implicit(JF.Authorizer.JwtAuthorizerOption)~JF.Authorizer.BearerOption">
             <summary>
-            密文。
+            
+            </summary>
+            <param name="option"></param>
+        </member>
+        <member name="T:JF.Authorizer.JfJwtOption">
+            <summary>
+            <see cref="!:JwtStrategy.JF_BEARER"/>策略下的JWT参数
             </summary>
         </member>
-        <member name="P:JF.Authorizer.TokenAgent.ExpireMode">
+        <member name="M:JF.Authorizer.JfJwtOption.op_Implicit(JF.Authorizer.JwtAuthorizerOption)~JF.Authorizer.JfJwtOption">
             <summary>
-            失效策略模式。
+            
+            </summary>
+            <param name="option"></param>
+        </member>
+        <member name="T:JF.Authorizer.JwtAuthorizerOption">
+            <summary>
+            JWT授权信息参数类
             </summary>
         </member>
-        <member name="P:JF.Authorizer.TokenAgent.CreatedTicks">
+        <member name="P:JF.Authorizer.JwtAuthorizerOption.JwtStrategy">
             <summary>
-            令牌创建时间、即登录时间。
+            JWT策略
             </summary>
         </member>
-        <member name="P:JF.Authorizer.TokenAgent.ExpireTicks">
+        <member name="P:JF.Authorizer.JwtAuthorizerOption.HttpHeaderWith">
             <summary>
-            令牌失效时间。
-            滑动过期策略时，忽略此值，实际过期时间以授权中心服务器管理令牌失效时间为准。
+            登录授权令牌令牌在HTTP请求的Header中的名称。
             </summary>
         </member>
-        <member name="T:JF.Authorizer.JFToken">
+        <member name="P:JF.Authorizer.JwtAuthorizerOption.SecretKey">
             <summary>
-            令牌信息
+            密钥
             </summary>
         </member>
-        <member name="P:JF.Authorizer.JFToken.Token">
+        <member name="P:JF.Authorizer.JwtAuthorizerOption.ExpireMode">
             <summary>
-            令牌字符串。
+            过期策略
             </summary>
         </member>
-        <member name="P:JF.Authorizer.JFToken.ExpireTicks">
+        <member name="P:JF.Authorizer.JwtAuthorizerOption.ExpireMinutes">
             <summary>
-            失效时间Ticks
+            失效的时间（单位：分钟）
             </summary>
         </member>
-        <member name="T:JF.Authorizer.JFAgentToken">
+        <member name="P:JF.Authorizer.JwtAuthorizerOption.Issuer">
             <summary>
-            带代理编号的令牌信息
+            Token颁发者
             </summary>
         </member>
-        <member name="P:JF.Authorizer.JFAgentToken.AgentCode">
+        <member name="P:JF.Authorizer.JwtAuthorizerOption.Audience">
             <summary>
-            代理用户编号
+            Token授权使用的客户端标识
             </summary>
         </member>
-        <member name="P:JF.Authorizer.JFAgentToken.Token">
+        <member name="P:JF.Authorizer.JwtAuthorizerOption.Validates">
             <summary>
-            令牌字符串。
+            验证器配置
             </summary>
         </member>
-        <member name="P:JF.Authorizer.JFAgentToken.ExpireTicks">
+        <member name="T:JF.Authorizer.JwtValidates">
             <summary>
-            失效时间Ticks
+            验证器配置
             </summary>
+        </member>
+        <member name="P:JF.Authorizer.JwtValidates.ValidateHost">
+            <summary>
+            是否验证客户端主机
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.JwtValidates.ValidateAudience">
+            <summary>
+            是否验证Audience
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.JwtValidates.ValidateIssuer">
+            <summary>
+            是否验证Issuer
+            </summary>
+        </member>
+        <member name="T:JF.Authorizer.JwtStrategy">
+            <summary>
+            JWT持票者类型枚举
+            </summary>
+        </member>
+        <member name="F:JF.Authorizer.JwtStrategy.Bearer">
+            <summary>
+            通用持票者
+            </summary>
+        </member>
+        <member name="F:JF.Authorizer.JwtStrategy.JF_Bearer">
+            <summary>
+            <see cref="N:JF.Authorizer"/>实现方案的持票者
+            </summary>
+        </member>
+        <member name="T:JF.Authorizer.BearerJwtter">
+            <summary>
+            基于Bearer的JWT处理器
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.BearerJwtter.JWT_TAG">
+            <summary>
+            JWT令牌头部标识
+            </summary>
+        </member>
+        <member name="M:JF.Authorizer.BearerJwtter.JF#Authorizer#IJwtter#TryReadToken(System.String,JF.Authorizer.JwtAuthorizerOption,System.Func{System.String,JF.Authorizer.JFToken},System.String@,JF.Authorizer.TicketUser@,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            读取Token信息，仅支持从接口调用。
+            </summary>
+            <param name="token"></param>
+            <param name="option"></param>
+            <param name="readTokenFunc"></param>
+            <param name="agentCode"></param>
+            <param name="user"></param>
+            <param name="errors"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Authorizer.BearerJwtter.JF#Authorizer#IJwtter#WriteToken(JF.Authorizer.TicketUser,JF.Authorizer.JwtAuthorizerOption,JF.Authorizer.JFAgentToken@)">
+            <summary>
+            输出Token信息，仅支持从接口调用。
+            </summary>
+            <param name="user"></param>
+            <param name="option"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Authorizer.BearerJwtter.TryReadToken(System.String,JF.Authorizer.BearerOption,System.Func{System.String,JF.Authorizer.JFToken},System.String@,JF.Authorizer.TicketUser@,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            读取出Token信息
+            </summary>
+            <param name="token"></param>
+            <param name="option"></param>
+            <param name="readTokenFunc"></param>
+            <param name="agentCode"></param>
+            <param name="user"></param>
+            <param name="errors"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Authorizer.BearerJwtter.WriteToken(JF.Authorizer.TicketUser,JF.Authorizer.BearerOption,JF.Authorizer.JFAgentToken@)">
+            <summary>
+            输出Token信息
+            </summary>
+            <param name="user"></param>
+            <param name="option"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Authorizer.BearerJwtter.TryResolveClaimsPrincipal(System.String,JF.Authorizer.JwtAuthorizerOption,System.Security.Claims.ClaimsPrincipal@)">
+            <summary>
+            从token中解析出<see cref="T:System.Security.Claims.ClaimsPrincipal"/>信息
+            </summary>
+            <param name="token"></param>
+            <param name="option"></param>
+            <param name="claims"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.Authorizer.IJwtter">
+            <summary>
+            JWT授权验证者 抽象类
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.IJwtter.JWT_TAG">
+            <summary>
+            JWT令牌头标识
+            </summary>
+        </member>
+        <member name="M:JF.Authorizer.IJwtter.WriteToken(JF.Authorizer.TicketUser,JF.Authorizer.JwtAuthorizerOption,JF.Authorizer.JFAgentToken@)">
+            <summary>
+            生成令牌。
+            </summary>
+            <param name="user">需要授权的用户</param>
+            <param name="option"></param>
+            <param name="token">生成后的令牌。</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Authorizer.IJwtter.TryReadToken(System.String,JF.Authorizer.JwtAuthorizerOption,System.Func{System.String,JF.Authorizer.JFToken},System.String@,JF.Authorizer.TicketUser@,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            解析令牌。
+            </summary>
+            <param name="token"></param>
+            <param name="option"></param>
+            <param name="readTokenFunc"></param>
+            <param name="user"></param>
+            <param name="agentCode"></param>
+            <param name="errors"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.Authorizer.JFBearerJwtter">
+            <summary>
+            基于自定义的JWT处理器
+            </summary>
+        </member>
+        <member name="M:JF.Authorizer.JFBearerJwtter.TryReadToken(System.String,JF.Authorizer.JfJwtOption,System.Func{System.String,JF.Authorizer.JFToken},System.String@,JF.Authorizer.TicketUser@,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            读出Token信息
+            </summary>
+            <param name="token"></param>
+            <param name="option"></param>
+            <param name="readTokenFunc"></param>
+            <param name="agentCode"></param>
+            <param name="user"></param>
+            <param name="errors"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Authorizer.JFBearerJwtter.WriteToken(JF.Authorizer.TicketUser,JF.Authorizer.JfJwtOption,JF.Authorizer.JFAgentToken@)">
+            <summary>
+            输出Token
+            </summary>
+            <param name="user"></param>
+            <param name="option"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Authorizer.JFBearerJwtter.JF#Authorizer#IJwtter#TryReadToken(System.String,JF.Authorizer.JwtAuthorizerOption,System.Func{System.String,JF.Authorizer.JFToken},System.String@,JF.Authorizer.TicketUser@,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            读出Token信息，仅支持从接口调用。
+            </summary>
+            <param name="token"></param>
+            <param name="option"></param>
+            <param name="readTokenFunc"></param>
+            <param name="agentCode"></param>
+            <param name="user"></param>
+            <param name="errors"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Authorizer.JFBearerJwtter.JF#Authorizer#IJwtter#WriteToken(JF.Authorizer.TicketUser,JF.Authorizer.JwtAuthorizerOption,JF.Authorizer.JFAgentToken@)">
+            <summary>
+            输出Token，仅支持从接口调用。
+            </summary>
+            <param name="user"></param>
+            <param name="option"></param>
+            <param name="token"></param>
+            <returns></returns>
         </member>
         <member name="T:JF.Authorizer.Produce.ProduceAgentHandler">
             <summary>
@@ -133,23 +312,16 @@
             令牌。
             </summary>
         </member>
-        <member name="M:JF.Authorizer.Produce.TokenProduceContext.#ctor(JF.Authorizer.AuthUser,System.String,System.Nullable{System.Int32},JF.Authorizer.TokenExpireMode)">
+        <member name="M:JF.Authorizer.Produce.TokenProduceContext.#ctor(JF.Authorizer.TicketUser,JF.Authorizer.JfJwtOption)">
             <summary>
             初始化一个<see cref="T:JF.Authorizer.Produce.TokenProduceContext"/>上下文实例。
             </summary>
             <param name="user">需要授权生成令牌的用户</param>
-            <param name="publicKey">设置公钥</param>
-            <param name="expireMinutes">令牌过期时间（单位 ：分钟）</param>
-            <param name="mode">失效模式，枚举<see cref="T:JF.Authorizer.TokenExpireMode"/></param>
+            <param name="option"></param>
         </member>
-        <member name="P:JF.Authorizer.Produce.TokenProduceContext.PublicKey">
+        <member name="P:JF.Authorizer.Produce.TokenProduceContext.JwtOption">
             <summary>
-            公钥
-            </summary>
-        </member>
-        <member name="P:JF.Authorizer.Produce.TokenProduceContext.ExpireMode">
-            <summary>
-            失效模式
+            JWT参数信息
             </summary>
         </member>
         <member name="P:JF.Authorizer.Produce.TokenProduceContext.Agent">
@@ -186,7 +358,7 @@
             </summary>
             <param name="token"></param>
         </member>
-        <member name="M:JF.Authorizer.Produce.TokenProduceContext.Output">
+        <member name="M:JF.Authorizer.Produce.TokenProduceContext.GenerateToken">
             <summary>
             产出令牌。
             </summary>
@@ -217,28 +389,17 @@
             从持久化方案中读取<see cref="T:JF.Authorizer.JFToken"/>信息的委托方法。
             </summary>
         </member>
-        <member name="M:JF.Authorizer.Resolve.TokenResolveContext.#ctor(System.String,System.String,System.String,System.Func{System.String,JF.Authorizer.JFToken})">
+        <member name="M:JF.Authorizer.Resolve.TokenResolveContext.#ctor(System.String,JF.Authorizer.JfJwtOption,System.Func{System.String,JF.Authorizer.JFToken})">
             <summary>
             实例化一个<see cref="T:JF.Authorizer.Resolve.TokenResolveContext"/>对象。
             </summary>
-            <param name="tokenStr">令牌加密串</param>
-            <param name="publicKey">公钥</param>
-            <param name="requestCheckIP">当前需要验证的IP</param>
+            <param name="token">令牌加密串</param>
+            <param name="option"></param>
             <param name="readTokenFunc">从持久化方案中读取<see cref="T:JF.Authorizer.JFToken"/>信息的委托方法。</param>
-        </member>
-        <member name="P:JF.Authorizer.Resolve.TokenResolveContext.PublicKey">
-            <summary>
-            公钥
-            </summary>
         </member>
         <member name="P:JF.Authorizer.Resolve.TokenResolveContext.Token">
             <summary>
             令牌加密串
-            </summary>
-        </member>
-        <member name="P:JF.Authorizer.Resolve.TokenResolveContext.CurrentCheckIP">
-            <summary>
-            当前需要验证的IP，为NULL时表示不需要验证。
             </summary>
         </member>
         <member name="P:JF.Authorizer.Resolve.TokenResolveContext.Agent">
@@ -272,7 +433,7 @@
             </summary>
             <param name="error"></param>
         </member>
-        <member name="M:JF.Authorizer.Resolve.TokenResolveContext.TryResolve(JF.Authorizer.AuthUser@)">
+        <member name="M:JF.Authorizer.Resolve.TokenResolveContext.TryResolve(JF.Authorizer.TicketUser@)">
             <summary>
             解析出授权用户
             </summary>
@@ -311,6 +472,135 @@
             默认过期时间（单位：分钟）
             </summary>
         </member>
+        <member name="F:JF.Authorizer.Settings.DEFAULT_ISSUER">
+            <summary>
+            默认Token颁发者
+            </summary>
+        </member>
+        <member name="F:JF.Authorizer.Settings.DEFAULT_AUDIENCE">
+            <summary>
+            默认Token授权使用客户端标识
+            </summary>
+        </member>
+        <member name="T:JF.Authorizer.TicketUser">
+            <summary>
+            授权主体用户
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TicketUser.ID">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TicketUser.Name">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TicketUser.Host">
+            <summary>
+            客户端IP
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TicketUser.UserData">
+            <summary>
+            附件信息。
+            用于拓展。非必须。
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TicketUser.TicketTime">
+            <summary>
+            票据时间
+            </summary>
+        </member>
+        <member name="M:JF.Authorizer.TicketUser.op_Implicit(JF.Authorizer.TicketUser)~System.Security.Claims.Claim[]">
+            <summary>
+            隐式转换
+            </summary>
+            <param name="user"></param>
+        </member>
+        <member name="T:JF.Authorizer.TokenAgent">
+            <summary>
+            令牌代理持有者
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TokenAgent.Code">
+            <summary>
+            代理编号，固定的32位长度的字符串。
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TokenAgent.Sercert">
+            <summary>
+            代理密钥。
+            非实际私钥，此为私钥的密文（通过特殊算法加密）
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TokenAgent.Ciphertext">
+            <summary>
+            密文。
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TokenAgent.ExpireMode">
+            <summary>
+            失效策略模式。
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TokenAgent.CreatedTicks">
+            <summary>
+            令牌创建时间、即登录时间。
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TokenAgent.ExpireTicks">
+            <summary>
+            令牌失效时间。
+            滑动过期策略时，忽略此值，实际过期时间以授权中心服务器管理令牌失效时间为准。
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TokenAgent.Issuer">
+            <summary>
+            Token颁发者
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.TokenAgent.Audience">
+            <summary>
+            Token授权使用的客户端标识
+            </summary>
+        </member>
+        <member name="T:JF.Authorizer.JFToken">
+            <summary>
+            令牌信息
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.JFToken.Token">
+            <summary>
+            令牌字符串。
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.JFToken.ExpireTicks">
+            <summary>
+            失效时间Ticks
+            </summary>
+        </member>
+        <member name="T:JF.Authorizer.JFAgentToken">
+            <summary>
+            带代理编号的令牌信息
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.JFAgentToken.AgentCode">
+            <summary>
+            代理用户编号
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.JFAgentToken.Token">
+            <summary>
+            令牌字符串。
+            </summary>
+        </member>
+        <member name="P:JF.Authorizer.JFAgentToken.ExpireTicks">
+            <summary>
+            失效时间Ticks
+            </summary>
+        </member>
         <member name="T:JF.Authorizer.TokenExpireMode">
             <summary>
             令牌失效策略枚举。
@@ -331,40 +621,43 @@
             令牌处理上下文。
             </summary>
         </member>
-        <member name="F:JF.Authorizer.TokenProvider.publicKey">
-            <summary>
-            公钥
-            </summary>
-        </member>
-        <member name="M:JF.Authorizer.TokenProvider.#ctor(System.String)">
+        <member name="M:JF.Authorizer.TokenProvider.#ctor(JF.Authorizer.JwtAuthorizerOption)">
             <summary>
             构造器
             </summary>
-            <param name="publicKey">公钥</param>
+            <param name="option"></param>
         </member>
-        <member name="M:JF.Authorizer.TokenProvider.TryProduce(JF.Authorizer.AuthUser,System.Int32,JF.Authorizer.TokenExpireMode,JF.Authorizer.JFAgentToken@)">
+        <member name="M:JF.Authorizer.TokenProvider.WriteToken(JF.Authorizer.TicketUser,JF.Authorizer.JFAgentToken@)">
             <summary>
             生成令牌。
             </summary>
             <param name="user">需要授权的用户</param>
-            <param name="expireMinutes">失效时间（单位：分钟）</param>
-            <param name="mode">失效模式，枚举<see cref="T:JF.Authorizer.TokenExpireMode"/></param>
             <param name="token">生成后的令牌。</param>
             <returns></returns>
         </member>
-        <member name="M:JF.Authorizer.TokenProvider.TryResolve(System.String,System.String,System.Func{System.String,JF.Authorizer.JFToken},System.String@,JF.Authorizer.AuthUser@,System.Collections.Generic.List{System.String}@)">
+        <member name="M:JF.Authorizer.TokenProvider.TryReadToken(System.String,System.Func{System.String,JF.Authorizer.JFToken},System.String@,JF.Authorizer.TicketUser@,System.Collections.Generic.List{System.String}@)">
             <summary>
             解析令牌。
             </summary>
             <param name="token"></param>
-            <param name="requestCheckIP">当前请求的IP，为NULL时表示不验证IP。</param>
-            <param name="readTokenFunc">
-            从持久化方案中读取<see cref="T:JF.Authorizer.JFToken"/>信息的委托方法。
-            一般用于滑动过期时需要使用，绝对过期时，<paramref name="token"/>具有自验证功能。
-            </param>
+            <param name="readTokenFunc"></param>
             <param name="user"></param>
             <param name="agentCode"></param>
-            <param name="errors">解析过程中的错误消息。</param>
+            <param name="errors"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Authorizer.TokenProvider.GetNoTagToken(System.String)">
+            <summary>
+            获取头部不携带令牌标识头的Token
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Authorizer.TokenProvider.GetTagToken(System.String)">
+            <summary>
+            获取头部携带令牌标识头的Token
+            </summary>
+            <param name="token"></param>
             <returns></returns>
         </member>
         <member name="M:JF.Authorizer.Tools.GeneratePrivateKey(System.String)">

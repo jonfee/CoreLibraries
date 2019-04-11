@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JF.CoreLibaray" Version="1.1.1" />
+    <PackageReference Include="JF.CoreLibaray" Version="1.1.26" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
   </ItemGroup>
 

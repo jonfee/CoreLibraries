@@ -9,9 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JF.CoreLibaray" Version="1.1.13" />
-    <PackageReference Include="JF.DataBased" Version="1.0.0" />
-    <PackageReference Include="JF.ExceptionHandler" Version="1.1.4" />
+    <PackageReference Include="JF.CoreLibaray" Version="1.1.26" />
+    <PackageReference Include="JF.DataBased" Version="1.0.9" />
+    <PackageReference Include="JF.ExceptionHandler" Version="1.1.7" />
   </ItemGroup>
 
 </Project>

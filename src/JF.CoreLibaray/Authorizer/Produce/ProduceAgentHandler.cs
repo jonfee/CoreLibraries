@@ -39,7 +39,7 @@ namespace JF.Authorizer.Produce
             var realPrivateKey = Tools.PrivateKeyResolver(context.Agent.Code, context.Agent.Sercert);
 
             // 使用公钥 + 实际私钥 加密
-            return jsonData.EncryptFor(context.PublicKey, realPrivateKey);
+            return jsonData.EncryptFor(context.JwtOption.SecretKey, realPrivateKey);
         }
     }
 }

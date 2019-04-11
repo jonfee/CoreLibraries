@@ -1,4 +1,5 @@
 ﻿using JF.Authorizer;
+using JF.WebAPIExtensions.Auth;
 using System.Web;
 
 namespace JF.WebAPIExtensions
@@ -21,10 +22,11 @@ namespace JF.WebAPIExtensions
             {
                 var userContext = new UserContext();
 
-                if (TryGetAuthUser(out var authUser))
+                if (TryGetTicketUser(out var ticketUser))
                 {
-                    userContext.UserID = authUser.UserID;
-                    userContext.UserName = authUser.Name;
+                    userContext.UserID = ticketUser.ID;
+                    userContext.UserName = ticketUser.Name;
+                    userContext.UserData = ticketUser.UserData;
                 }
 
                 return userContext;
@@ -50,6 +52,11 @@ namespace JF.WebAPIExtensions
         /// </summary>
         public string UserName { get; set; }
 
+        /// <summary>
+        /// 用户附件信息
+        /// </summary>
+        public object UserData { get; set; }
+
         #endregion
 
         #region behavious
@@ -59,15 +66,15 @@ namespace JF.WebAPIExtensions
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        private static bool TryGetAuthUser(out AuthUser user)
+        private static bool TryGetTicketUser(out TicketUser user)
         {
             user = null;
 
             try
             {
-                if (JFHttpContext.Current.Items.ContainsKey(Settings.HTTPCONTEXT_ITEMNAME_WITH_AUTHUSER))
+                if (JFHttpContext.Current.Items.ContainsKey(Settings.HTTPCONTEXT_ITEMNAME_WITH_TICKETUSER))
                 {
-                    user = JFHttpContext.Current.Items[Settings.HTTPCONTEXT_ITEMNAME_WITH_AUTHUSER] as AuthUser;
+                    user = JFHttpContext.Current.Items[Settings.HTTPCONTEXT_ITEMNAME_WITH_TICKETUSER] as TicketUser;
                 }
             }
             catch

@@ -30,7 +30,7 @@ namespace JF.WebAPIExtensions.Auth
             {
                 IsAnonymous = IsAnonymousCheck(context);
             }
-
+            
             IsLogged = UserContext.Current.IsLogged;
 
             if (!IsAnonymous && !IsLogged) throw new JFAuthorizationException("请求无效，未经授权的请求或授权信息已失效。");

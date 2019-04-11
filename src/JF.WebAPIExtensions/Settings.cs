@@ -13,7 +13,7 @@
         /// <summary>
         /// 登录成功后登录信息在HTTP请求上下文Itemss中存储的名称。
         /// </summary>
-        public const string HTTPCONTEXT_ITEMNAME_WITH_AUTHUSER = "JF_AuthUser";
+        public const string HTTPCONTEXT_ITEMNAME_WITH_TICKETUSER = "JF_TicketUser";
 
         /// <summary>
         /// 解析Token时的错误信息在HTTP请求上下文Itemss中存储的名称。

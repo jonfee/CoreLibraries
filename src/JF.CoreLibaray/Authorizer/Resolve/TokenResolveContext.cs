@@ -6,7 +6,7 @@ namespace JF.Authorizer.Resolve
     /// <summary>
     /// 令牌解析验证上下文
     /// </summary>
-    public sealed class TokenResolveContext : IDisposable
+    internal sealed class TokenResolveContext : IDisposable
     {
         #region private variables
 
@@ -27,16 +27,14 @@ namespace JF.Authorizer.Resolve
         /// <summary>
         /// 实例化一个<see cref="TokenResolveContext"/>对象。
         /// </summary>
-        /// <param name="tokenStr">令牌加密串</param>
-        /// <param name="publicKey">公钥</param>
-        /// <param name="requestCheckIP">当前需要验证的IP</param>
+        /// <param name="token">令牌加密串</param>
+        /// <param name="option"></param>
         /// <param name="readTokenFunc">从持久化方案中读取<see cref="JFToken"/>信息的委托方法。</param>
-        public TokenResolveContext(string token, string publicKey = null, string requestCheckIP = null, Func<string, JFToken> readTokenFunc = null)
+        public TokenResolveContext(string token, JfJwtOption option, Func<string, JFToken> readTokenFunc = null)
         {
             if (string.IsNullOrEmpty(token)) throw new ArgumentNullException(nameof(token));
+            this.Option = option ?? throw new ArgumentNullException(nameof(option));
             this.Token = token;
-            this.PublicKey = publicKey ?? Settings.DEFAULT_PUBLIC_KEY;
-            this.CurrentCheckIP = requestCheckIP;
             this.readTokenFunc = readTokenFunc;
             this.errors = new List<string>();
         }
@@ -45,20 +43,12 @@ namespace JF.Authorizer.Resolve
 
         #region Properties
 
-        /// <summary>
-        /// 公钥
-        /// </summary>
-        internal string PublicKey { get; }
+        internal JfJwtOption Option { get; }
 
         /// <summary>
         /// 令牌加密串
         /// </summary>
         internal string Token { get; }
-
-        /// <summary>
-        /// 当前需要验证的IP，为NULL时表示不需要验证。
-        /// </summary>
-        internal string CurrentCheckIP { get; }
 
         /// <summary>
         /// 解析出的令牌代理。
@@ -68,7 +58,7 @@ namespace JF.Authorizer.Resolve
         /// <summary>
         /// 授权用户信息
         /// </summary>
-        public AuthUser User { get; internal set; }
+        public TicketUser User { get; internal set; }
 
         /// <summary>
         /// 错误信息
@@ -102,7 +92,7 @@ namespace JF.Authorizer.Resolve
         /// 解析出授权用户
         /// </summary>
         /// <returns></returns>
-        public bool TryResolve(out AuthUser user)
+        public bool TryResolve(out TicketUser user)
         {
             this.errors.Clear();
             user = null;
@@ -111,12 +101,10 @@ namespace JF.Authorizer.Resolve
             {
                 TokenValidator agentValidator = new AgentValidator();
                 TokenValidator expireValidator = new ExpireValidator(this.readTokenFunc);
-                TokenValidator ipValidator = new IPValidator();
                 TokenValidator userValidator = new UserValidator();
 
                 agentValidator.SetSuccessor(expireValidator);
-                expireValidator.SetSuccessor(ipValidator);
-                ipValidator.SetSuccessor(userValidator);
+                expireValidator.SetSuccessor(userValidator);
 
                 if (agentValidator.TryResolve(this))
                 {

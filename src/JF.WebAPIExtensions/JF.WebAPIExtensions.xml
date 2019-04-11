@@ -4,12 +4,12 @@
         <name>JF.WebAPIExtensions</name>
     </assembly>
     <members>
-        <member name="T:JF.WebAPIExtensions.AuthorizationMiddlewareExtensions">
+        <member name="T:JF.WebAPIExtensions.Auth.AuthorizationMiddlewareExtensions">
             <summary>
             登录授权、验证中间件扩展类
             </summary>
         </member>
-        <member name="M:JF.WebAPIExtensions.AuthorizationMiddlewareExtensions.UseAuthorizationHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,JF.WebAPIExtensions.AuthorizationOptions)">
+        <member name="M:JF.WebAPIExtensions.Auth.AuthorizationMiddlewareExtensions.UseAuthorizationHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,JF.WebAPIExtensions.Auth.AuthorizationOptions)">
             <summary>
             注册一个登录授权、验证处理器。
             会根据HTTP请求，自动获取登录授权信息。
@@ -18,77 +18,63 @@
             <param name="options">用户登录授权/验证中间件配置。</param>
             <returns></returns>
         </member>
-        <member name="T:JF.WebAPIExtensions.AuthorizationMiddleware">
+        <member name="T:JF.WebAPIExtensions.Auth.AuthorizationMiddleware">
             <summary>
             登录授权、验证中间件
             </summary>
         </member>
-        <member name="M:JF.WebAPIExtensions.AuthorizationMiddleware.TryUpdateToken(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String,System.Int32)">
+        <member name="T:JF.WebAPIExtensions.Auth.AuthorizationOptions">
             <summary>
-            更新缓存
-            </summary>
-            <param name="context"></param>
-            <param name="agentCode"></param>
-            <param name="token"></param>
-            <param name="expireMinutes"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JF.WebAPIExtensions.AuthorizationMiddleware.TryGetAuthUser(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String@,JF.Authorizer.AuthUser@,System.Collections.Generic.List{System.String}@)">
-            <summary>
-            从HTTP请求中，获取授权登录的用户信息。
-            </summary>
-            <param name="context"></param>
-            <param name="token"></param>
-            <param name="user"></param>
-            <param name="agentCode"></param>
-            <param name="errors"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JF.WebAPIExtensions.AuthorizationMiddleware.TryGetToken(Microsoft.AspNetCore.Http.HttpContext,System.String@)">
-            <summary>
-            从HTTP请求中，获取授权令牌信息。
-            </summary>
-            <param name="context"></param>
-            <param name="token"></param>
-            <returns></returns>
-        </member>
-        <member name="T:JF.WebAPIExtensions.AuthorizationOptions">
-            <summary>
-            用户登录授权/验证中间件配置。
+            用于授权验证相关的参数配置类
             </summary>
         </member>
-        <member name="P:JF.WebAPIExtensions.AuthorizationOptions.HttpHeaderWith">
+        <member name="P:JF.WebAPIExtensions.Auth.AuthorizationOptions.JwtStrategy">
+            <summary>
+            授权持票者类型，默认为<see cref="!:JwtStrategy.BEARER"/>
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.Auth.AuthorizationOptions.HttpHeaderWith">
             <summary>
             登录授权令牌令牌在HTTP请求的Header中的名称。
             </summary>
         </member>
-        <member name="P:JF.WebAPIExtensions.AuthorizationOptions.PublicKey">
+        <member name="P:JF.WebAPIExtensions.Auth.AuthorizationOptions.SecretKey">
             <summary>
-            公钥
+            密钥
             </summary>
         </member>
-        <member name="P:JF.WebAPIExtensions.AuthorizationOptions.NeedCheckIP">
-            <summary>
-            是否需要校验IP
-            </summary>
-        </member>
-        <member name="P:JF.WebAPIExtensions.AuthorizationOptions.ExpireMode">
+        <member name="P:JF.WebAPIExtensions.Auth.AuthorizationOptions.ExpireMode">
             <summary>
             过期策略
             </summary>
         </member>
-        <member name="P:JF.WebAPIExtensions.AuthorizationOptions.ExpireMinutes">
+        <member name="P:JF.WebAPIExtensions.Auth.AuthorizationOptions.ExpireMinutes">
             <summary>
             失效的时间（单位：分钟）
             </summary>
         </member>
-        <member name="P:JF.WebAPIExtensions.AuthorizationOptions.ReadTokenFunc">
+        <member name="P:JF.WebAPIExtensions.Auth.AuthorizationOptions.Issuer">
+            <summary>
+            Token颁发者
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.Auth.AuthorizationOptions.Audience">
+            <summary>
+            Token授权使用的客户端标识
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.Auth.AuthorizationOptions.Validates">
+            <summary>
+            验证器，默认不需要验证客户端主机。
+            </summary>
+        </member>
+        <member name="P:JF.WebAPIExtensions.Auth.AuthorizationOptions.ReadTokenFunc">
             <summary>
             根据授权代理编号读取服务器端存储的令牌信息委托方法。
             如未提供此委托，将按令牌自解析后的过期时间做为令牌失效的验证标准。
             </summary>
         </member>
-        <member name="P:JF.WebAPIExtensions.AuthorizationOptions.UpdateTokenFunc">
+        <member name="P:JF.WebAPIExtensions.Auth.AuthorizationOptions.UpdateTokenFunc">
             <summary>
             更新指定授权代理的令牌信息。
             一般为滑动过期时，更新令牌失效时间。
@@ -97,7 +83,7 @@
         <member name="T:JF.WebAPIExtensions.Auth.JFAuthorizationAttribute">
             <summary>
             自定义授权（登录校验）属性特性。
-            使用此特性前，请确认是否已在HTTP请求管理中注入<see cref="M:JF.WebAPIExtensions.AuthorizationMiddlewareExtensions.UseAuthorizationHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,JF.WebAPIExtensions.AuthorizationOptions)"/>服务。
+            使用此特性前，请确认是否已在HTTP请求管理中注入<see cref="M:JF.WebAPIExtensions.Auth.AuthorizationMiddlewareExtensions.UseAuthorizationHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,JF.WebAPIExtensions.Auth.AuthorizationOptions)"/>服务。
             </summary>
         </member>
         <member name="P:JF.WebAPIExtensions.Auth.JFAuthorizationAttribute.IsAnonymous">
@@ -117,6 +103,41 @@
             是否无需登录授权检测
             </summary>
             <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.WebAPIExtensions.Auth.JwtHandler">
+            <summary>
+            持票验证处理者
+            </summary>
+        </member>
+        <member name="M:JF.WebAPIExtensions.Auth.JwtHandler.Handle">
+            <summary>
+            处理授权信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JF.WebAPIExtensions.Auth.JwtHandler.TryGetToken(Microsoft.AspNetCore.Http.HttpContext,System.String@)">
+            <summary>
+            从HTTP请求中，获取授权令牌信息。
+            </summary>
+            <param name="context"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.WebAPIExtensions.Auth.JwtHandler.AttachToHttpContext(JF.Authorizer.TicketUser)">
+            <summary>
+            用户登录的用户信息写入上下文
+            </summary>
+            <param name="user"></param>
+        </member>
+        <member name="M:JF.WebAPIExtensions.Auth.JwtHandler.TryRenewalContract(System.String,System.String)">
+            <summary>
+            续约令牌。
+            如果为滑动过期策略，则续约；
+            否则直接返回True，不做续约处理。
+            </summary>
+            <param name="key"></param>
+            <param name="token"></param>
             <returns></returns>
         </member>
         <member name="T:JF.WebAPIExtensions.Controllers.ApiController">
@@ -267,7 +288,7 @@
             默认授权方案在HTTP请求Headers中的名称。
             </summary>
         </member>
-        <member name="F:JF.WebAPIExtensions.Settings.HTTPCONTEXT_ITEMNAME_WITH_AUTHUSER">
+        <member name="F:JF.WebAPIExtensions.Settings.HTTPCONTEXT_ITEMNAME_WITH_TICKETUSER">
             <summary>
             登录成功后登录信息在HTTP请求上下文Itemss中存储的名称。
             </summary>
@@ -307,7 +328,12 @@
             用户名称
             </summary>
         </member>
-        <member name="M:JF.WebAPIExtensions.UserContext.TryGetAuthUser(JF.Authorizer.AuthUser@)">
+        <member name="P:JF.WebAPIExtensions.UserContext.UserData">
+            <summary>
+            用户附件信息
+            </summary>
+        </member>
+        <member name="M:JF.WebAPIExtensions.UserContext.TryGetTicketUser(JF.Authorizer.TicketUser@)">
             <summary>
             获取当前登录授权的用户信息。
             </summary>

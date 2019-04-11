@@ -5,7 +5,7 @@ namespace JF.Authorizer.Produce
     /// <summary>
     /// 令牌生成上下文
     /// </summary>
-    public sealed class TokenProduceContext : IDisposable
+    internal sealed class TokenProduceContext : IDisposable
     {
         #region private variables
 
@@ -22,16 +22,21 @@ namespace JF.Authorizer.Produce
         /// 初始化一个<see cref="TokenProduceContext"/>上下文实例。
         /// </summary>
         /// <param name="user">需要授权生成令牌的用户</param>
-        /// <param name="publicKey">设置公钥</param>
-        /// <param name="expireMinutes">令牌过期时间（单位 ：分钟）</param>
-        /// <param name="mode">失效模式，枚举<see cref="TokenExpireMode"/></param>
-        public TokenProduceContext(AuthUser user, string publicKey = null, int? expireMinutes = null, TokenExpireMode mode = TokenExpireMode.AbsoluteTime)
+        /// <param name="option"></param>
+        public TokenProduceContext(TicketUser user, JfJwtOption option)
         {
             this.User = user ?? throw new ArgumentNullException(nameof(user));
-            this.Agent = new TokenAgent { CreatedTicks = DateTime.Now.Ticks };
-            this.PublicKey = publicKey ?? Settings.DEFAULT_PUBLIC_KEY;
-            this.ExpireMode = mode;
-            this.Agent.ExpireTicks = DateTime.Now.AddMinutes(expireMinutes ?? Settings.DEFAULT_EXPIRE_MINUTES).Ticks;
+            this.JwtOption = option ?? throw new ArgumentNullException(nameof(option));
+
+            this.User.TicketTime = DateTime.Now;
+
+            this.Agent = new TokenAgent
+            {
+                Issuer=option.Issuer,
+                Audience=option.Audience,
+                CreatedTicks = DateTime.Now.Ticks,
+                ExpireTicks = DateTime.Now.AddMinutes(this.JwtOption.ExpireMinutes).Ticks
+            };
         }
 
         #endregion
@@ -39,14 +44,9 @@ namespace JF.Authorizer.Produce
         #region properties
 
         /// <summary>
-        /// 公钥
+        /// JWT参数信息
         /// </summary>
-        public string PublicKey { get; }
-
-        /// <summary>
-        /// 失效模式
-        /// </summary>
-        public TokenExpireMode ExpireMode { get; }
+        public JfJwtOption JwtOption { get; }
 
         /// <summary>
         /// 授权代理
@@ -56,7 +56,7 @@ namespace JF.Authorizer.Produce
         /// <summary>
         /// 授权用户
         /// </summary>
-        public AuthUser User { get; }
+        public TicketUser User { get; }
 
         #endregion
 
@@ -66,7 +66,7 @@ namespace JF.Authorizer.Produce
         /// 设置私钥
         /// </summary>
         /// <param name="key"></param>
-        public void SetPrivateKey(string key)
+        internal void SetPrivateKey(string key)
         {
             if (string.IsNullOrEmpty(key)) throw new ArgumentNullException(nameof(key));
 
@@ -77,7 +77,7 @@ namespace JF.Authorizer.Produce
         /// 设置用户令牌密文
         /// </summary>
         /// <param name="ciphertext"></param>
-        public void SetUserCiphertext(string ciphertext)
+        internal void SetUserCiphertext(string ciphertext)
         {
             if (string.IsNullOrEmpty(ciphertext)) throw new ArgumentNullException(nameof(ciphertext));
 
@@ -88,7 +88,7 @@ namespace JF.Authorizer.Produce
         /// 设置代理用户编号
         /// </summary>
         /// <param name="code"></param>
-        public void SetAgentCode(string code)
+        internal void SetAgentCode(string code)
         {
             if (string.IsNullOrEmpty(code)) throw new ArgumentNullException(nameof(code));
 
@@ -99,7 +99,7 @@ namespace JF.Authorizer.Produce
         /// 设置Token
         /// </summary>
         /// <param name="token"></param>
-        public void SetToken(string token)
+        internal void SetToken(string token)
         {
             if (string.IsNullOrEmpty(token)) throw new ArgumentNullException(nameof(token));
 
@@ -110,7 +110,7 @@ namespace JF.Authorizer.Produce
         /// 产出令牌。
         /// </summary>
         /// <returns></returns>
-        public JFToken Output()
+        public JFToken GenerateToken()
         {
             ProduceHandler agentHandler = new ProduceAgentHandler();
             ProduceHandler tokenHandler = new ProduceTokenHandler();

@@ -16,7 +16,7 @@ namespace JF.Common
         public static bool IsEmpty(this string str)
         {
             if (str == null) return true;
-            str = str.TrimStringStart(" ");
+            str = str.TrimStart(" ");
             if (string.IsNullOrEmpty(str)) return true;
             if (string.IsNullOrWhiteSpace(str)) return true;
 
@@ -154,53 +154,53 @@ namespace JF.Common
             return result;
         }
 
-        public static string TrimString(this string text, string trimString)
+        public static string Trim(this string text, string trimStr)
         {
-            return TrimString(text, trimString, StringComparison.OrdinalIgnoreCase);
+            return Trim(text, trimStr, StringComparison.OrdinalIgnoreCase);
         }
 
-        public static string TrimString(this string text, string trimString, StringComparison comparisonType)
+        public static string Trim(this string text, string trimStr, StringComparison comparisonType)
         {
-            return TrimStringEnd(
-                TrimStringStart(text, trimString, comparisonType),
-                trimString,
+            return TrimEnd(
+                TrimStart(text, trimStr, comparisonType),
+                trimStr,
                 comparisonType);
         }
 
-        public static string TrimString(this string text, string prefix, string suffix)
+        public static string Trim(this string text, string prefix, string suffix)
         {
-            return TrimString(text, prefix, suffix, StringComparison.OrdinalIgnoreCase);
+            return Trim(text, prefix, suffix, StringComparison.OrdinalIgnoreCase);
         }
 
-        public static string TrimString(this string text, string prefix, string suffix, StringComparison comparisonType)
+        public static string Trim(this string text, string prefix, string suffix, StringComparison comparisonType)
         {
             return text
-                    .TrimStringStart(prefix, comparisonType)
-                    .TrimStringEnd(suffix, comparisonType);
+                    .TrimStart(prefix, comparisonType)
+                    .TrimEnd(suffix, comparisonType);
         }
 
-        public static string TrimStringEnd(this string text, string trimString)
+        public static string TrimEnd(this string text, string trimStr)
         {
-            return TrimStringEnd(text, trimString, StringComparison.OrdinalIgnoreCase);
+            return TrimEnd(text, trimStr, StringComparison.OrdinalIgnoreCase);
         }
 
-        public static string TrimStringEnd(this string text, string trimString, StringComparison comparisonType)
+        public static string TrimEnd(this string text, string trimStr, StringComparison comparisonType)
         {
-            if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(trimString))
+            if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(trimStr))
                 return text;
 
-            while (text.EndsWith(trimString, comparisonType))
-                text = text.Remove(text.Length - trimString.Length);
+            while (text.EndsWith(trimStr, comparisonType))
+                text = text.Remove(text.Length - trimStr.Length);
 
             return text;
         }
 
-        public static string TrimStringStart(this string text, string trimString)
+        public static string TrimStart(this string text, string trimStr)
         {
-            return TrimStringStart(text, trimString, StringComparison.OrdinalIgnoreCase);
+            return TrimStart(text, trimStr, StringComparison.OrdinalIgnoreCase);
         }
 
-        public static string TrimStringStart(this string text, string trimString, StringComparison comparisonType)
+        public static string TrimStart(this string text, string trimString, StringComparison comparisonType)
         {
             if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(trimString))
                 return text;

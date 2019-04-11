@@ -14,8 +14,8 @@ namespace JF.Authorizer.Resolve
             try
             {
                 var realPrivateKey = Tools.PrivateKeyResolver(context.Agent.Code, context.Agent.Sercert);
-                var jsonData = context.Agent.Ciphertext.DecryptFor(context.PublicKey, realPrivateKey);
-                var user = JsonConvert.DeserializeObject<AuthUser>(jsonData);
+                var jsonData = context.Agent.Ciphertext.DecryptFor(context.Option.SecretKey, realPrivateKey);
+                var user = JsonConvert.DeserializeObject<TicketUser>(jsonData);
 
                 if (user == null) context.AddErrors("用户信息无效");
 

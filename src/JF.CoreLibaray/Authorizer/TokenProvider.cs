@@ -1,7 +1,6 @@
-﻿using JF.Authorizer.Produce;
-using JF.Authorizer.Resolve;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using JF.Common;
 
 namespace JF.Authorizer
 {
@@ -12,10 +11,8 @@ namespace JF.Authorizer
     {
         #region private variables
 
-        /// <summary>
-        /// 公钥
-        /// </summary>
-        private string publicKey;
+        private JwtAuthorizerOption option;
+        private IJwtter jwtter;
 
         #endregion
 
@@ -24,89 +21,93 @@ namespace JF.Authorizer
         /// <summary>
         /// 构造器
         /// </summary>
-        /// <param name="publicKey">公钥</param>
-        public TokenProvider(string publicKey = null)
+        /// <param name="option"></param>
+        public TokenProvider(JwtAuthorizerOption option)
         {
-            this.publicKey = publicKey ?? Settings.DEFAULT_PUBLIC_KEY;
+            this.option = option ?? throw new ArgumentNullException(nameof(option));
+
+            switch (this.option.JwtStrategy)
+            {
+                case JwtStrategy.Bearer:
+                    jwtter = new BearerJwtter();
+                    break;
+                case JwtStrategy.JF_Bearer:
+                    jwtter = new JFBearerJwtter();
+                    break;
+            }
         }
 
         #endregion
 
-        #region Interface implementation
+        #region behavious
 
         /// <summary>
         /// 生成令牌。
         /// </summary>
         /// <param name="user">需要授权的用户</param>
-        /// <param name="expireMinutes">失效时间（单位：分钟）</param>
-        /// <param name="mode">失效模式，枚举<see cref="TokenExpireMode"/></param>
         /// <param name="token">生成后的令牌。</param>
         /// <returns></returns>
-        public virtual bool TryProduce(AuthUser user, int expireMinutes, TokenExpireMode mode, out JFAgentToken token)
+        public string WriteToken(TicketUser user, out JFAgentToken token)
         {
-            token = default(JFAgentToken);
+            token = null;
 
-            try
-            {
-                using (var context = new TokenProduceContext(user, publicKey, expireMinutes, mode))
-                {
-                    var t = context.Output();
+            var tokenStr = jwtter?.WriteToken(user, option, out token);
 
-                    token = new JFAgentToken
-                    {
-                        AgentCode = context.Agent.Code,
-                        Token = t.Token,
-                        ExpireTicks = t.ExpireTicks
-                    };
-                }
-            }
-            catch
-            {
-                // Tag: 暂不需要处理。
-            }
-
-            return token != default(JFAgentToken);
+            return GetTagToken(tokenStr);
         }
 
         /// <summary>
         /// 解析令牌。
         /// </summary>
         /// <param name="token"></param>
-        /// <param name="requestCheckIP">当前请求的IP，为NULL时表示不验证IP。</param>
-        /// <param name="readTokenFunc">
-        /// 从持久化方案中读取<see cref="JFToken"/>信息的委托方法。
-        /// 一般用于滑动过期时需要使用，绝对过期时，<paramref name="token"/>具有自验证功能。
-        /// </param>
+        /// <param name="readTokenFunc"></param>
         /// <param name="user"></param>
         /// <param name="agentCode"></param>
-        /// <param name="errors">解析过程中的错误消息。</param>
+        /// <param name="errors"></param>
         /// <returns></returns>
-        public virtual bool TryResolve(string token, string requestCheckIP, Func<string, JFToken> readTokenFunc, out string agentCode, out AuthUser user, out List<string> errors)
+        public bool TryReadToken(string token, Func<string, JFToken> readTokenFunc, out string agentCode, out TicketUser user, out List<string> errors)
         {
-            bool success = false;
-            agentCode = null;
+            agentCode = string.Empty;
             user = null;
             errors = null;
 
-            try
-            {
-                using (var context = new TokenResolveContext(token, this.publicKey, requestCheckIP, readTokenFunc))
-                {
-                    if (!context.TryResolve(out user))
-                    {
-                        errors = context.Errors;
-                    }
+            return jwtter != null
+                 ? jwtter.TryReadToken(token, option, readTokenFunc, out agentCode, out user, out errors)
+                 : false;
+        }
 
-                    agentCode = context.Agent.Code;
-                    success = context.IsValid;
-                }
-            }
-            catch
+        /// <summary>
+        /// 获取头部不携带令牌标识头的Token
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public string GetNoTagToken(string token)
+        {
+            if (string.IsNullOrEmpty(token)) return string.Empty;
+
+            if (token.StartsWith(jwtter.JWT_TAG))
             {
-                success = false;
+                token = token.TrimStart(jwtter.JWT_TAG);
             }
 
-            return success;
+            return token;
+        }
+
+        /// <summary>
+        /// 获取头部携带令牌标识头的Token
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public string GetTagToken(string token)
+        {
+            if (string.IsNullOrEmpty(token)) return string.Empty;
+
+            if (!token.StartsWith(jwtter.JWT_TAG))
+            {
+                token = $"{jwtter.JWT_TAG}{token}";
+            }
+
+            return token;
         }
 
         #endregion

@@ -62,15 +62,11 @@ namespace JF.ExceptionHandler
             {
                 exception = ex;
             }
-            finally
-            {
-                if (exception != null)
-                {
-                    handle?.Invoke(exception);
-                }
-            }
 
-            await next.Invoke(context);
+            if (exception != null)
+            {
+                handle?.Invoke(exception);
+            }
         }
     }
 }
