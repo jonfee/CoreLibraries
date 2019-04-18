@@ -65,7 +65,7 @@ namespace JF.DataBased.Context
             }
             else if (options.SqlType == DataBaseType.MySql)
             {
-                optionsBuilder.UseMySQL(this.options.ConnectionString);
+                optionsBuilder.UseMySql(this.options.ConnectionString);
             }
         }
     }

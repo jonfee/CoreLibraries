@@ -20,12 +20,19 @@ namespace JF.DataBased.Repository
         IQueryable<T> All();
 
         /// <summary>
+        /// 根据主键获取实体数据。
+        /// </summary>
+        /// <param name="keyValues"></param>
+        /// <returns></returns>
+        T Find(params object[] keyValues);
+
+        /// <summary>
         /// 根据条件返回匹配条件的第一条数据。
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="conditions"></param>
         /// <returns></returns>
-        T Find(Expression<Func<T, bool>> conditions);
+        T FirstOrDefault(Expression<Func<T, bool>> conditions);
 
         /// <summary>
         /// 插入一条数据

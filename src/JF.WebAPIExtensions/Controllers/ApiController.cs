@@ -19,6 +19,18 @@ namespace JF.WebAPIExtensions.Controllers
         }
 
         /// <summary>
+        /// JSON输出，HttpStatusCode = 200。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        [NonAction]
+        public IActionResult Ok<T>(JFApiResponse<T> response)
+        {
+            return JsonOk(response);
+        }
+
+        /// <summary>
         /// JSON输出操作成功的API结果，HttpStatusCode = 200，有消息。
         /// </summary>
         /// <typeparam name="T"></typeparam>

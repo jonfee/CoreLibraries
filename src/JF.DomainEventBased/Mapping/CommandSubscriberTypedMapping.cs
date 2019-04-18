@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace JF.DomainEventBased.Mapping
 {
@@ -32,7 +33,8 @@ namespace JF.DomainEventBased.Mapping
         /// <summary>
         /// 当前实例，单例
         /// </summary>
-        public static CommandSubscriberTypedMapping Current {
+        public static CommandSubscriberTypedMapping Current
+        {
             get
             {
                 if (current == null)
@@ -58,7 +60,7 @@ namespace JF.DomainEventBased.Mapping
         /// <param name="type"></param>
         /// <param name="commandHandler"></param>
         /// <returns></returns>
-        public bool TryGet(Type type,out object commandHandler)
+        public bool TryGet(Type type, out object commandHandler)
         {
             commandHandler = null;
             bool success = this.commandHandlers.ContainsKey(type);
@@ -101,8 +103,10 @@ namespace JF.DomainEventBased.Mapping
         private void ResolveCommandsSubscriberTypeMappings(Assembly assemblie)
         {
             string ihandlerName = typeof(IDomainCommandHandler<>).Name;
-            
-            foreach (var type in assemblie.GetTypes())
+
+            var types = assemblie.GetTypes().Where(type => type.IsClass && !type.IsAbstract && type.GetCustomAttributes(typeof(CompilerGeneratedAttribute), true).Count() == 0);
+
+            foreach (var type in types)
             {
                 var interfaces = type.GetInterfaces();
 
@@ -110,18 +114,34 @@ namespace JF.DomainEventBased.Mapping
                 {
                     if (ifc.Name != ihandlerName) continue;
 
-                    var executeMethod = type.GetMethods().Where(m => m.Name == "Execute").FirstOrDefault();
+                    var executeMethod = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).Where(m => IsCommandHandler(m) && m.Name == "Execute").FirstOrDefault();
                     if (executeMethod == null) continue;
 
                     //按照约定，Excute方法的第一个参数便是派生自IDomainCommand接口的命令类型
                     var commandType = executeMethod.GetParameters().FirstOrDefault()?.ParameterType;
 
-                    if (typeof(IDomainCommand).IsAssignableFrom(commandType) && !commandHandlers.ContainsKey(commandType))
+                    if (commandType != null && typeof(IDomainCommand).IsAssignableFrom(commandType) && !commandHandlers.ContainsKey(commandType))
                     {
                         commandHandlers.Add(commandType, Activator.CreateInstance(type));
                     }
                 }
             }
         }
+
+        #region 私有方法
+
+        /// <summary>
+        /// 检测方法是否为一个处理<see cref="IDomainCommand"/>命令的方法
+        /// </summary>
+        /// <param name="methodInfo"></param>
+        /// <returns></returns>
+        private bool IsCommandHandler(MethodInfo methodInfo)
+        {
+            var parameters = methodInfo.GetParameters();
+
+            return parameters.Count() == 1 && typeof(IDomainCommand).IsAssignableFrom(parameters[0].ParameterType);
+        }
+
+        #endregion
     }
 }

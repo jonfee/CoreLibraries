@@ -69,19 +69,24 @@ namespace JF.DataBased.Repository
             return repository.ExecuteSqlCommand(sql);
         }
 
-        public List<T> Find<T>(Expression<Func<T, bool>> conditions = null) where T : DataEntity
+        public List<T> Search<T>(Expression<Func<T, bool>> conditions = null) where T : DataEntity
         {
-            return repository.Find(conditions);
+            return repository.Search(conditions);
         }
 
-        public List<T> Find<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount) where T : DataEntity
+        public List<T> Search<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount) where T : DataEntity
         {
-            return repository.Find(conditions, orderBy, pageSize, pageIndex, out totalCount);
+            return repository.Search(conditions, orderBy, pageSize, pageIndex, out totalCount);
         }
 
-        public T Get<T>(Expression<Func<T, bool>> conditions) where T : DataEntity
+        public T Find<T>(params object[] keyValues) where T : DataEntity
         {
-            return repository.Get(conditions);
+            return repository.Find<T>(keyValues);
+        }
+
+        public T FirstOrDefault<T>(Expression<Func<T, bool>> conditions) where T : DataEntity
+        {
+            return repository.FirstOrDefault(conditions);
         }
 
         public void Insert<T>(T entity) where T : DataEntity

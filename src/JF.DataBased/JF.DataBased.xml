@@ -340,7 +340,14 @@
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
-        <member name="M:JF.DataBased.Repository.IChildRepository`1.Find(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+        <member name="M:JF.DataBased.Repository.IChildRepository`1.Find(System.Object[])">
+            <summary>
+            根据主键获取实体数据。
+            </summary>
+            <param name="keyValues"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.DataBased.Repository.IChildRepository`1.FirstOrDefault(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
             <summary>
             根据条件返回匹配条件的第一条数据。
             </summary>
@@ -421,7 +428,7 @@
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
-        <member name="M:JF.DataBased.Repository.IRepository.Get``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+        <member name="M:JF.DataBased.Repository.IRepository.FirstOrDefault``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
             <summary>
             根据条件返回匹配条件的第一条数据。
             </summary>
@@ -457,7 +464,15 @@
             <typeparam name="T"></typeparam>
             <param name="conditions"></param>
         </member>
-        <member name="M:JF.DataBased.Repository.IRepository.Find``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+        <member name="M:JF.DataBased.Repository.IRepository.Find``1(System.Object[])">
+            <summary>
+            根据主键获取实体数据。
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="keyValues"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.DataBased.Repository.IRepository.Search``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
             <summary>
             根据条件查找
             </summary>
@@ -465,7 +480,7 @@
             <param name="conditions"></param>
             <returns></returns>
         </member>
-        <member name="M:JF.DataBased.Repository.IRepository.Find``2(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Int32,System.Int32,System.Int32@)">
+        <member name="M:JF.DataBased.Repository.IRepository.Search``2(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Int32,System.Int32,System.Int32@)">
             <summary>
             根据条件分页查找
             </summary>

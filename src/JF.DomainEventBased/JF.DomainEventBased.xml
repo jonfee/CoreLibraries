@@ -328,6 +328,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:JF.DomainEventBased.Mapping.CommandSubscriberTypedMapping.IsCommandHandler(System.Reflection.MethodInfo)">
+            <summary>
+            检测方法是否为一个处理<see cref="T:JF.DomainEventBased.DomainModel.IDomainCommand"/>命令的方法
+            </summary>
+            <param name="methodInfo"></param>
+            <returns></returns>
+        </member>
         <member name="T:JF.DomainEventBased.Mapping.EventSubscriberTypedMapping">
             <summary>
             事件与订阅对象类型映射程序

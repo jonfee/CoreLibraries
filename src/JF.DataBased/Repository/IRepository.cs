@@ -31,7 +31,7 @@ namespace JF.DataBased.Repository
         /// <typeparam name="T"></typeparam>
         /// <param name="conditions"></param>
         /// <returns></returns>
-        T Get<T>(Expression<Func<T, bool>> conditions)
+        T FirstOrDefault<T>(Expression<Func<T, bool>> conditions)
             where T : DataEntity;
 
         /// <summary>
@@ -67,12 +67,20 @@ namespace JF.DataBased.Repository
             where T : DataEntity;
 
         /// <summary>
+        /// 根据主键获取实体数据。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="keyValues"></param>
+        /// <returns></returns>
+        T Find<T>(params object[] keyValues) where T : DataEntity;
+
+        /// <summary>
         /// 根据条件查找
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="conditions"></param>
         /// <returns></returns>
-        List<T> Find<T>(Expression<Func<T, bool>> conditions = null)
+        List<T> Search<T>(Expression<Func<T, bool>> conditions = null)
             where T : DataEntity;
 
         /// <summary>
@@ -86,7 +94,7 @@ namespace JF.DataBased.Repository
         /// <param name="pageIndex"></param>
         /// <param name="totalCount"></param>
         /// <returns></returns>
-        List<T> Find<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount)
+        List<T> Search<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount)
             where T : DataEntity;
 
         /// <summary>

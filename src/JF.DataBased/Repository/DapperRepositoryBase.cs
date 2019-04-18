@@ -1,5 +1,4 @@
-﻿using JF.ComponentModel;
-using JF.DataBased.Context;
+﻿using JF.DataBased.Context;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -52,19 +51,24 @@ namespace JF.DataBased.Repository
 
         public override void Delete<T>(Expression<Func<T, bool>> conditions)
         {
-            var list = Find<T>(conditions);
+            var list = Search<T>(conditions);
             foreach (var item in list)
             {
                 Delete<T>(item);
             }
         }
 
-        public override T Get<T>(Expression<Func<T, bool>> conditions)
+        public override T FirstOrDefault<T>(Expression<Func<T, bool>> conditions)
         {
             return DbContext.Set<T>().FirstOrDefault(conditions);
         }
 
-        public override List<T> Find<T>(Expression<Func<T, bool>> conditions = null)
+        public override T Find<T>(params object[] keyValues)
+        {
+            return DbContext.Set<T>().Find(keyValues.FirstOrDefault());
+        }
+
+        public override List<T> Search<T>(Expression<Func<T, bool>> conditions = null)
         {
             if (conditions != null)
             {
@@ -76,7 +80,7 @@ namespace JF.DataBased.Repository
             }
         }
 
-        public override List<T> Find<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount)
+        public override List<T> Search<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount)
         {
             var queryList = conditions == null
                 ? All<T>()

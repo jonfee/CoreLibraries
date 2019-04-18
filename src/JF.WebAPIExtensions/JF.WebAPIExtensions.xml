@@ -151,6 +151,14 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.Ok``1(JF.WebAPIExtensions.Responses.JFApiResponse{``0})">
+            <summary>
+            JSON输出，HttpStatusCode = 200。
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="response"></param>
+            <returns></returns>
+        </member>
         <member name="M:JF.WebAPIExtensions.Controllers.ApiController.Success``1(``0)">
             <summary>
             JSON输出操作成功的API结果，HttpStatusCode = 200，有消息。

@@ -73,9 +73,14 @@ namespace JF.DataBased.Repository
             }
         }
 
-        public virtual T Find(Expression<Func<T, bool>> conditions)
+        public virtual T FirstOrDefault(Expression<Func<T, bool>> conditions)
         {
             return All().FirstOrDefault(conditions);
+        }
+
+        public virtual T Find(params object[] keyValues)
+        {
+            return dbContext.Set<T>().Find(keyValues);
         }
 
         public virtual List<T> Search(Expression<Func<T, bool>> conditions = null)

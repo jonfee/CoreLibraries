@@ -62,9 +62,14 @@ namespace JF.DataBased.Repository
             return repository.ExecuteSqlCommand(sql);
         }
 
-        public TEntity Find(Expression<Func<TEntity, bool>> conditions)
+        public TEntity FirstOrDefault(Expression<Func<TEntity, bool>> conditions)
         {
-            return repository.Find(conditions);
+            return repository.FirstOrDefault(conditions);
+        }
+
+        public TEntity Find(params object[] keyValues)
+        {
+            return repository.Find(keyValues);
         }
 
         public void Insert(TEntity entity)
