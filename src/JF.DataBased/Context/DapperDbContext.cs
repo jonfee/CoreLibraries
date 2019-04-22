@@ -42,7 +42,7 @@ namespace JF.DataBased.Context
 
         #endregion
 
-        #region ov
+        #region 
 
         protected override void OnConfiguring(DbConnectOptions options)
         {

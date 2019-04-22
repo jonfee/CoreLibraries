@@ -104,12 +104,12 @@ namespace Dapper
             CurrentTransaction = null;
         }
 
-        public int ExecuteSqlCommand(string sql, object param = null)
+        public virtual int ExecuteSqlCommand(string sql, object param = null)
         {
             return Connection.Execute(sql, param, CurrentTransaction, CommandTimeout);
         }
 
-        public IEnumerable<T> Query<T>(string sql, object param = null, bool buffered = true)
+        public virtual IEnumerable<T> Query<T>(string sql, object param = null, bool buffered = true)
         {
             return Connection.Query<T>(sql,
                                         param,
@@ -117,7 +117,7 @@ namespace Dapper
                                         commandTimeout: CommandTimeout);
         }
 
-        public IEnumerable<TEntity> Query<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class
+        public virtual IEnumerable<TEntity> Query<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class
         {
             return Set<TEntity>().Search(expression);
         }
@@ -144,6 +144,11 @@ namespace Dapper
             {
                 _database = database;
                 Init();
+            }
+
+            internal IEnumerable<TEntity> AsNoTracking()
+            {
+                throw new NotImplementedException();
             }
 
             private void Init()

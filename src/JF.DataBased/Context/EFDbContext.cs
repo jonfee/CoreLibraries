@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace JF.DataBased.Context
 {
@@ -39,6 +42,26 @@ namespace JF.DataBased.Context
             if (string.IsNullOrEmpty(options.ConnectionString)) throw new ArgumentNullException(nameof(options.ConnectionString));
         }
 
+        public int ExecuteSqlCommand(string sql, params object[] paramters)
+        {
+            return this.Database.ExecuteSqlCommand(sql, paramters);
+        }
+
+        public IEnumerable<T> Query<T>(string sql, params object[] paramters) where T : class, new()
+        {
+            return this.Database.SqlQuery<T>(sql,paramters).ToList();
+        }
+
+        public IEnumerable<TEntity> Query<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class
+        {
+            return this.Set<TEntity>().AsNoTracking().Where(expression);
+        }
+        
+        public virtual IEnumerable<T> ProcQuery<T>(string procName, params object[] paramters) where T : class, new()
+        {
+            return this.Database.ProcdureQuery<T>(procName, paramters).ToList();
+        }
+
         #endregion
 
         #region properties
@@ -52,7 +75,7 @@ namespace JF.DataBased.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (string.IsNullOrWhiteSpace(this.options.ConnectionString))
+            if (string.IsNullOrWhiteSpace(this.options?.ConnectionString))
             {
                 base.OnConfiguring(optionsBuilder);
                 return;
