@@ -35,6 +35,12 @@ namespace JF.DataBased.Context
         /// 实例化一个对象实例，提供实例化参数信息。
         /// </summary>
         /// <param name="options"></param>
+        public EFDbContext(DbContextOptions<EFDbContext> options) : base(options) { }
+
+        /// <summary>
+        /// 实例化一个对象实例，提供实例化参数信息。
+        /// </summary>
+        /// <param name="options"></param>
         public EFDbContext(DbConnectOptions options) : base()
         {
             this.options = options ?? throw new ArgumentNullException(nameof(options));

@@ -41,6 +41,12 @@
             </summary>
             <param name="options"></param>
         </member>
+        <member name="M:JF.DataBased.Context.EFDbContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{JF.DataBased.Context.EFDbContext})">
+            <summary>
+            实例化一个对象实例，提供实例化参数信息。
+            </summary>
+            <param name="options"></param>
+        </member>
         <member name="M:JF.DataBased.Context.EFDbContext.#ctor(JF.DataBased.DbConnectOptions)">
             <summary>
             实例化一个对象实例，提供实例化参数信息。
