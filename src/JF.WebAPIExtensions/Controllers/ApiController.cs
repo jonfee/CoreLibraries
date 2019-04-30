@@ -30,6 +30,19 @@ namespace JF.WebAPIExtensions.Controllers
             return JsonOk(response);
         }
 
+        [NonAction]
+        public IActionResult BoolResult(bool success)
+        {
+            if (success)
+            {
+                return Success("Success");
+            }
+            else
+            {
+                return Failure("Failed");
+            }
+        }
+
         /// <summary>
         /// JSON输出操作成功的API结果，HttpStatusCode = 200，有消息。
         /// </summary>
@@ -43,16 +56,16 @@ namespace JF.WebAPIExtensions.Controllers
 
             return JsonOk(response);
         }
-        
+
         /// <summary>
         /// JSON输出操作失败的API结果，HttpStatusCode = 200。
         /// </summary>
         /// <param name="message">错误消息。</param>
         /// <param name="errorDetails">错误详细。</param>
         /// <returns></returns>
-        public IActionResult Failure(string message, string errorDetails)
+        public IActionResult Failure(string message, string errorDetails = null)
         {
-            var response = JFApiResponse<string>.FromFailure(message, errorDetails);
+            var response = JFApiResponse<string>.FromFailure(message, errorDetails ?? message);
 
             return JsonOk(response);
         }

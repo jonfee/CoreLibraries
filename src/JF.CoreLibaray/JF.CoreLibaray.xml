@@ -675,6 +675,47 @@
             <param name="secret"></param>
             <returns></returns>
         </member>
+        <member name="M:JF.CoreLibaray.Http.HttpRequest.PostAsyncJson(System.String,System.String)">
+            <summary>
+            使用post方法异步请求
+            </summary>
+            <param name="url">目标链接</param>
+            <param name="json">发送的参数字符串，只能用json</param>
+            <returns>返回的字符串</returns>
+        </member>
+        <member name="M:JF.CoreLibaray.Http.HttpRequest.PostAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            使用post方法异步请求
+            </summary>
+            <param name="url">目标链接</param>
+            <param name="data">发送的参数字符串</param>
+            <returns>返回的字符串</returns>
+        </member>
+        <member name="M:JF.CoreLibaray.Http.HttpRequest.GetAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            使用get方法异步请求
+            </summary>
+            <param name="url">目标链接</param>
+            <returns>返回的字符串</returns>
+        </member>
+        <member name="M:JF.CoreLibaray.Http.HttpRequest.PostObjectAsync``2(System.String,``1)">
+            <summary>
+            使用post返回异步请求直接返回对象
+            </summary>
+            <typeparam name="T">返回对象类型</typeparam>
+            <typeparam name="T2">请求对象类型</typeparam>
+            <param name="url">请求链接</param>
+            <param name="obj">请求对象数据</param>
+            <returns>请求返回的目标对象</returns>
+        </member>
+        <member name="M:JF.CoreLibaray.Http.HttpRequest.GetObjectAsync``1(System.String)">
+            <summary>
+            使用Get返回异步请求直接返回对象
+            </summary>
+            <typeparam name="T">请求对象类型</typeparam>
+            <param name="url">请求链接</param>
+            <returns>返回请求的对象</returns>
+        </member>
         <member name="T:JF.Caching.CacheMode">
             <summary>
             缓存方式 枚举
