@@ -213,8 +213,10 @@ namespace JF.DataBased
         /// </remarks>
         /// <param name="callback">事务执行成功后的回调程序。</param>
         /// <param name="timeoutSeconds">事务超时时间(单位：秒)。</param>
-        public void Commit(Action callback = null, int timeoutSeconds = 60)
+        public int Commit(Action callback = null, int timeoutSeconds = 60)
         {
+            // 事务影响的总行数
+            int rows = 0;
             if (timeoutSeconds < 1) timeoutSeconds = 10;
             TransactionOptions options = new TransactionOptions();
             options.Timeout = new TimeSpan(0, 0, timeoutSeconds);
@@ -248,7 +250,7 @@ namespace JF.DataBased
                 // 执行SaveChanges()
                 foreach (IRepository repository in this.repositories.Values)
                 {
-                    repository.DbContext.SaveChanges();
+                    rows += repository.DbContext.SaveChanges();
                 }
 
                 trans.Complete();
@@ -257,6 +259,8 @@ namespace JF.DataBased
                 this.ClearWorks();
 
                 callback?.Invoke();
+
+                return rows;
             }
         }
 

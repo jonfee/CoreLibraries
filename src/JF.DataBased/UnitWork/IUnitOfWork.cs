@@ -74,6 +74,6 @@ namespace JF.DataBased
         /// </remarks>
         /// <param name="callback">事务执行成功后的回调程序。</param>
         /// <param name="timeoutSeconds">事务超时时间(单位：秒)。</param>
-        void Commit(Action callback = null, int timeoutSeconds = 60);
+        int Commit(Action callback = null, int timeoutSeconds = 60);
     }
 }

@@ -716,6 +716,58 @@
             <param name="url">请求链接</param>
             <returns>返回请求的对象</returns>
         </member>
+        <member name="T:JF.CoreLibaray.Random.IDGenerator">
+            <summary>
+            ID生成器
+            </summary>
+        </member>
+        <member name="M:JF.CoreLibaray.Random.IDGenerator.#ctor(System.Int64,System.Int64,System.Int64)">
+            <summary>
+            实例化一个<see cref="T:JF.CoreLibaray.Random.IDGenerator"/>
+            </summary>
+            <param name="workerId">机器标识ID</param>
+            <param name="datacenterId">数据标识ID</param>
+            <param name="sequence">序列号</param>
+        </member>
+        <member name="P:JF.CoreLibaray.Random.IDGenerator.Default">
+            <summary>
+            默认实例，一般用于单服务数据中心时使用。
+            </summary>
+        </member>
+        <member name="P:JF.CoreLibaray.Random.IDGenerator.WorkerId">
+            <summary>
+            机器标识ID
+            </summary>
+        </member>
+        <member name="P:JF.CoreLibaray.Random.IDGenerator.DatacenterId">
+            <summary>
+            数据标识ID
+            </summary>
+        </member>
+        <member name="P:JF.CoreLibaray.Random.IDGenerator.Sequence">
+            <summary>
+            序列号
+            </summary>
+        </member>
+        <member name="M:JF.CoreLibaray.Random.IDGenerator.NextId">
+            <summary>
+            读取下一个ID
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JF.CoreLibaray.Random.IDGenerator.TilNextMillis(System.Int64)">
+            <summary>
+            防止产生的时间比之前的时间还要小（由于NTP回拨等问题）,保持增量的趋势.
+            </summary>
+            <param name="lastTimestamp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.CoreLibaray.Random.IDGenerator.TimeGen">
+            <summary>
+            获取当前的时间戳
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:JF.Caching.CacheMode">
             <summary>
             缓存方式 枚举
