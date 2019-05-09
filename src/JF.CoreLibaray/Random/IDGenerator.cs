@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace JF.CoreLibaray.Random
+namespace JF.Random
 {
     /// <summary>
     /// ID生成器

@@ -675,99 +675,6 @@
             <param name="secret"></param>
             <returns></returns>
         </member>
-        <member name="M:JF.CoreLibaray.Http.HttpRequest.PostAsyncJson(System.String,System.String)">
-            <summary>
-            使用post方法异步请求
-            </summary>
-            <param name="url">目标链接</param>
-            <param name="json">发送的参数字符串，只能用json</param>
-            <returns>返回的字符串</returns>
-        </member>
-        <member name="M:JF.CoreLibaray.Http.HttpRequest.PostAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
-            <summary>
-            使用post方法异步请求
-            </summary>
-            <param name="url">目标链接</param>
-            <param name="data">发送的参数字符串</param>
-            <returns>返回的字符串</returns>
-        </member>
-        <member name="M:JF.CoreLibaray.Http.HttpRequest.GetAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
-            <summary>
-            使用get方法异步请求
-            </summary>
-            <param name="url">目标链接</param>
-            <returns>返回的字符串</returns>
-        </member>
-        <member name="M:JF.CoreLibaray.Http.HttpRequest.PostObjectAsync``2(System.String,``1)">
-            <summary>
-            使用post返回异步请求直接返回对象
-            </summary>
-            <typeparam name="T">返回对象类型</typeparam>
-            <typeparam name="T2">请求对象类型</typeparam>
-            <param name="url">请求链接</param>
-            <param name="obj">请求对象数据</param>
-            <returns>请求返回的目标对象</returns>
-        </member>
-        <member name="M:JF.CoreLibaray.Http.HttpRequest.GetObjectAsync``1(System.String)">
-            <summary>
-            使用Get返回异步请求直接返回对象
-            </summary>
-            <typeparam name="T">请求对象类型</typeparam>
-            <param name="url">请求链接</param>
-            <returns>返回请求的对象</returns>
-        </member>
-        <member name="T:JF.CoreLibaray.Random.IDGenerator">
-            <summary>
-            ID生成器
-            </summary>
-        </member>
-        <member name="M:JF.CoreLibaray.Random.IDGenerator.#ctor(System.Int64,System.Int64,System.Int64)">
-            <summary>
-            实例化一个<see cref="T:JF.CoreLibaray.Random.IDGenerator"/>
-            </summary>
-            <param name="workerId">机器标识ID</param>
-            <param name="datacenterId">数据标识ID</param>
-            <param name="sequence">序列号</param>
-        </member>
-        <member name="P:JF.CoreLibaray.Random.IDGenerator.Default">
-            <summary>
-            默认实例，一般用于单服务数据中心时使用。
-            </summary>
-        </member>
-        <member name="P:JF.CoreLibaray.Random.IDGenerator.WorkerId">
-            <summary>
-            机器标识ID
-            </summary>
-        </member>
-        <member name="P:JF.CoreLibaray.Random.IDGenerator.DatacenterId">
-            <summary>
-            数据标识ID
-            </summary>
-        </member>
-        <member name="P:JF.CoreLibaray.Random.IDGenerator.Sequence">
-            <summary>
-            序列号
-            </summary>
-        </member>
-        <member name="M:JF.CoreLibaray.Random.IDGenerator.NextId">
-            <summary>
-            读取下一个ID
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:JF.CoreLibaray.Random.IDGenerator.TilNextMillis(System.Int64)">
-            <summary>
-            防止产生的时间比之前的时间还要小（由于NTP回拨等问题）,保持增量的趋势.
-            </summary>
-            <param name="lastTimestamp"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JF.CoreLibaray.Random.IDGenerator.TimeGen">
-            <summary>
-            获取当前的时间戳
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:JF.Caching.CacheMode">
             <summary>
             缓存方式 枚举
@@ -1537,6 +1444,47 @@
             数据验证异常类
             </summary>
         </member>
+        <member name="M:JF.Http.HttpRequest.PostAsyncJson(System.String,System.String)">
+            <summary>
+            使用post方法异步请求
+            </summary>
+            <param name="url">目标链接</param>
+            <param name="json">发送的参数字符串，只能用json</param>
+            <returns>返回的字符串</returns>
+        </member>
+        <member name="M:JF.Http.HttpRequest.PostAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            使用post方法异步请求
+            </summary>
+            <param name="url">目标链接</param>
+            <param name="data">发送的参数字符串</param>
+            <returns>返回的字符串</returns>
+        </member>
+        <member name="M:JF.Http.HttpRequest.GetAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            使用get方法异步请求
+            </summary>
+            <param name="url">目标链接</param>
+            <returns>返回的字符串</returns>
+        </member>
+        <member name="M:JF.Http.HttpRequest.PostObjectAsync``2(System.String,``1)">
+            <summary>
+            使用post返回异步请求直接返回对象
+            </summary>
+            <typeparam name="T">返回对象类型</typeparam>
+            <typeparam name="T2">请求对象类型</typeparam>
+            <param name="url">请求链接</param>
+            <param name="obj">请求对象数据</param>
+            <returns>请求返回的目标对象</returns>
+        </member>
+        <member name="M:JF.Http.HttpRequest.GetObjectAsync``1(System.String)">
+            <summary>
+            使用Get返回异步请求直接返回对象
+            </summary>
+            <typeparam name="T">请求对象类型</typeparam>
+            <param name="url">请求链接</param>
+            <returns>返回请求的对象</returns>
+        </member>
         <member name="T:JF.Json.JsonSettingsHandler">
             <summary>
             。
@@ -1555,6 +1503,58 @@
             3、使用驼峰式属性名；
             4、长整型转化为字符串。
             </summary>
+        </member>
+        <member name="T:JF.Random.IDGenerator">
+            <summary>
+            ID生成器
+            </summary>
+        </member>
+        <member name="M:JF.Random.IDGenerator.#ctor(System.Int64,System.Int64,System.Int64)">
+            <summary>
+            实例化一个<see cref="T:JF.Random.IDGenerator"/>
+            </summary>
+            <param name="workerId">机器标识ID</param>
+            <param name="datacenterId">数据标识ID</param>
+            <param name="sequence">序列号</param>
+        </member>
+        <member name="P:JF.Random.IDGenerator.Default">
+            <summary>
+            默认实例，一般用于单服务数据中心时使用。
+            </summary>
+        </member>
+        <member name="P:JF.Random.IDGenerator.WorkerId">
+            <summary>
+            机器标识ID
+            </summary>
+        </member>
+        <member name="P:JF.Random.IDGenerator.DatacenterId">
+            <summary>
+            数据标识ID
+            </summary>
+        </member>
+        <member name="P:JF.Random.IDGenerator.Sequence">
+            <summary>
+            序列号
+            </summary>
+        </member>
+        <member name="M:JF.Random.IDGenerator.NextId">
+            <summary>
+            读取下一个ID
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Random.IDGenerator.TilNextMillis(System.Int64)">
+            <summary>
+            防止产生的时间比之前的时间还要小（由于NTP回拨等问题）,保持增量的趋势.
+            </summary>
+            <param name="lastTimestamp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Random.IDGenerator.TimeGen">
+            <summary>
+            获取当前的时间戳
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:JF.Security.Encrypt">
             <summary>

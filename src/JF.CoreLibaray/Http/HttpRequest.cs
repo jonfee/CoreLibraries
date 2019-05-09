@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JF.CoreLibaray.Http
+namespace JF.Http
 {
     public class HttpRequest
     {

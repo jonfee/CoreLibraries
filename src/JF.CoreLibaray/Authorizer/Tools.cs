@@ -24,7 +24,7 @@ namespace JF.Authorizer
             {
                 while (digits-- > 0)
                 {
-                    int index = new Random(Guid.NewGuid().GetHashCode()).Next(agentCode.Length - 1);
+                    int index = new System.Random(Guid.NewGuid().GetHashCode()).Next(agentCode.Length - 1);
 
                     // 每个索引位用两位字符表示，不足两的前面补0
                     keys.Append(index.ToString().PadLeft(2, '0'));

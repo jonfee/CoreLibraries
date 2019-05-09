@@ -83,7 +83,7 @@ namespace JF.Common
 
             int MINnteger = (int)(min * exp);
             int MAXnteger = (int)(max * exp);
-            int resultInteger = new Random(Guid.NewGuid().GetHashCode()).Next(MINnteger, MAXnteger);
+            int resultInteger = new System.Random(Guid.NewGuid().GetHashCode()).Next(MINnteger, MAXnteger);
             return (int)resultInteger / exp;
         }
 
@@ -99,7 +99,7 @@ namespace JF.Common
 
             int MINnteger = (int)(min * exp);
             int MAXnteger = (int)(max * exp);
-            int resultInteger = new Random(Guid.NewGuid().GetHashCode()).Next(MINnteger, MAXnteger);
+            int resultInteger = new System.Random(Guid.NewGuid().GetHashCode()).Next(MINnteger, MAXnteger);
             return resultInteger / (exp * 1.0);
         }
 
@@ -144,7 +144,7 @@ namespace JF.Common
         /// <returns></returns>
         public static double GetRandExp(double const_a)//const_a是指数分布的参数λ
         {
-            Random rand = new Random(Guid.NewGuid().GetHashCode());
+            var rand = new System.Random(Guid.NewGuid().GetHashCode());
             double p;
             double temp;
             if (const_a != 0)
@@ -162,7 +162,7 @@ namespace JF.Common
             return randres;
         }
 
-        private static double ngtIndex(Random ran, double lam)
+        private static double ngtIndex(System.Random ran, double lam)
         {
             double dec = ran.NextDouble();
             while (dec == 0)
@@ -178,7 +178,7 @@ namespace JF.Common
         /// <returns></returns>
         public static double GetRandomPoisson(double lam, double time)
         {
-            Random ran = new Random(Guid.NewGuid().GetHashCode());
+            var ran = new System.Random(Guid.NewGuid().GetHashCode());
 
             int count = 0;
             while (true)
