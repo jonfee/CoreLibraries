@@ -321,11 +321,6 @@ namespace JF.DataBased
             // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
             // GC.SuppressFinalize(this);
         }
-
-        void IDisposable.Dispose()
-        {
-            throw new NotImplementedException();
-        }
         #endregion
     }
 }
