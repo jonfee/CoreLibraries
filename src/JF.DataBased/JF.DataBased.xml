@@ -767,6 +767,12 @@
             清空当前的工作项
             </summary>
         </member>
+        <member name="M:JF.DataBased.UnitOfWorkBase.Dispose(System.Boolean)">
+            <summary>
+            Dispose
+            </summary>
+            <param name="disposing"></param>
+        </member>
         <member name="T:Dapper.Database`1">
             <summary>
             针对于Dapper的一个数据库操作类。

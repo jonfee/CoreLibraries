@@ -222,7 +222,7 @@ namespace Dapper
 
                 string columns = string.Join(", ", paramList.Select(paramName => _metadata.PropertyColumnMaps[paramName]));
                 string values = string.Join(", ", paramList.Select(paramName => $"@{paramName}"));
-                string sql = $"insert into {_metadata.TableName} ({columns}) values ({values}) select cast(scope_identity() as int)";
+                string sql = $"insert into {_metadata.TableName} ({columns}) values ({values})";
 
                 if (trans)
                 {

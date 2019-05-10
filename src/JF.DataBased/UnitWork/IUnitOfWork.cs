@@ -13,17 +13,17 @@ namespace JF.DataBased
         /// <summary>
         /// 需要新增的数据对象
         /// </summary>
-        Dictionary<DataEntity, IRepository> AddedEntities { get; }
+        Dictionary<dynamic, IRepository> AddedEntities { get; }
 
         /// <summary>
         /// 需要更新的数据对象
         /// </summary>
-        Dictionary<DataEntity, IRepository> UpdatedEntities { get; }
+        Dictionary<dynamic, IRepository> UpdatedEntities { get; }
 
         /// <summary>
         /// 需要删除的数据对象
         /// </summary>
-        Dictionary<DataEntity, IRepository> DeletedEntities { get; }
+        Dictionary<dynamic, IRepository> DeletedEntities { get; }
 
         /// <summary>
         /// 需要执行的SQL命令行

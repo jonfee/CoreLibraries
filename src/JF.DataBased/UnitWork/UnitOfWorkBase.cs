@@ -49,17 +49,17 @@ namespace JF.DataBased
         /// <summary>
         /// 需要新增的数据对象
         /// </summary>
-        public Dictionary<DataEntity, IRepository> AddedEntities { get; }
+        public Dictionary<dynamic, IRepository> AddedEntities { get; }
 
         /// <summary>
         /// 需要更新的数据对象
         /// </summary>
-        public Dictionary<DataEntity, IRepository> UpdatedEntities { get; }
+        public Dictionary<dynamic, IRepository> UpdatedEntities { get; }
 
         /// <summary>
         /// 需要删除的数据对象
         /// </summary>
-        public Dictionary<DataEntity, IRepository> DeletedEntities { get; }
+        public Dictionary<dynamic, IRepository> DeletedEntities { get; }
 
         /// <summary>
         /// 需要执行的SQL命令行
@@ -87,9 +87,9 @@ namespace JF.DataBased
         public UnitOfWorkBase(IRepository repository)
         {
             this.repositories = Hashtable.Synchronized(new Hashtable());
-            this.AddedEntities = new Dictionary<DataEntity, IRepository>();
-            this.UpdatedEntities = new Dictionary<DataEntity, IRepository>();
-            this.DeletedEntities = new Dictionary<DataEntity, IRepository>();
+            this.AddedEntities = new Dictionary<dynamic, IRepository>();
+            this.UpdatedEntities = new Dictionary<dynamic, IRepository>();
+            this.DeletedEntities = new Dictionary<dynamic, IRepository>();
             this.SqlCommands = new Dictionary<string, IRepository>();
 
             if (repository != null)
@@ -164,7 +164,7 @@ namespace JF.DataBased
             this.SqlCommands.Add(sql, repository);
             this.AddRepository(repository);
         }
-
+        
         /// <summary>
         /// 添加仓储服务
         /// </summary>
@@ -284,6 +284,10 @@ namespace JF.DataBased
         #region IDisposable Support
         private bool disposedValue = false; // 要检测冗余调用
 
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -291,10 +295,9 @@ namespace JF.DataBased
                 if (disposing)
                 {
                     // TODO: 释放托管状态(托管对象)。
-                    foreach (KeyValuePair<IDbContext, IRepository> kv in this.repositories)
+                    foreach (IRepository repository in this.repositories.Values)
                     {
-                        kv.Key?.Dispose();
-                        kv.Value?.Dispose();
+                        repository.DbContext?.Dispose();
                     }
                     this.repositories.Clear();
                 }

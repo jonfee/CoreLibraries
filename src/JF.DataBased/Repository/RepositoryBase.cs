@@ -20,8 +20,7 @@ namespace JF.DataBased.Repository
 
         public RepositoryBase(TDbContext dbContext)
         {
-            if (dbContext == null) throw new ArgumentNullException(nameof(dbContext));
-            this.DbContext = dbContext;
+            this.DbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             this.childRepositories = Hashtable.Synchronized(new Hashtable());
         }
 
