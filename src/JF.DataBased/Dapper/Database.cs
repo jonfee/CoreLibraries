@@ -386,9 +386,11 @@ namespace Dapper
 
             public IEnumerable<TEntity> All()
             {
-                string sql = $"Select * from {_metadata.TableName}";
+                StringBuilder builder = new StringBuilder("select ");
+                builder.Append(string.Join(", ", _metadata.ColumnPropertyMaps.Select(item => $"{item.Key} AS {item.Value}")));
+                builder.AppendLine($" from {_metadata.TableName}");
 
-                return _database.Query<TEntity>(sql);
+                return _database.Query<TEntity>(builder.ToString());
             }
 
             public IEnumerable<TEntity> Search(string where = null, object param = null, string ordering = null)
