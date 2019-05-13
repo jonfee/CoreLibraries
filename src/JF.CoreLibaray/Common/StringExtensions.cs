@@ -47,7 +47,7 @@ namespace JF.Common
         /// true 表示只针对中文字符 ，false 表示转换全部。默认为false。
         /// </param>
         /// <returns></returns>
-        public static string ToUnicode(string text, bool onlyChineseSymbols = false)
+        public static string ToUnicode(this string text, bool onlyChineseSymbols = false)
         {
             if (string.IsNullOrEmpty(text)) return string.Empty;
 
