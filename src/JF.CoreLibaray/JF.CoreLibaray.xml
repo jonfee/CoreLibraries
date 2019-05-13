@@ -898,6 +898,25 @@
             Key
             </summary>
         </member>
+        <member name="T:JF.Common.CharExtensions">
+            <summary>
+            字符类型扩展
+            </summary>
+        </member>
+        <member name="M:JF.Common.CharExtensions.IsChineseSymbols(System.Char)">
+            <summary>
+            是否为中文符号（汉字及标点符号）
+            </summary>
+            <param name="char"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Common.CharExtensions.ToUnicode(System.Char)">
+            <summary>
+            转换为Unicode编码的字符串
+            </summary>
+            <param name="char"></param>
+            <returns></returns>
+        </member>
         <member name="T:JF.Common.CollectionExtensions">
             <summary>
             集合类扩展
@@ -1239,6 +1258,16 @@
              <param name="str"></param>
              <param name="sameTxt"></param>
              <returns></returns>
+        </member>
+        <member name="M:JF.Common.StringExtensions.ToUnicode(System.String,System.Boolean)">
+            <summary>
+            将字符串转换为Unicode码的字符串。
+            </summary>
+            <param name="text">将要转换的字符串</param>
+            <param name="onlyChineseSymbols">是否只针对于中文符号（汉字及标点符号）才做Unicode转换，
+            true 表示只针对中文字符 ，false 表示转换全部。默认为false。
+            </param>
+            <returns></returns>
         </member>
         <member name="M:JF.Common.StringExtensions.TryRemove(System.String,System.Int32,System.String@)">
             <summary>

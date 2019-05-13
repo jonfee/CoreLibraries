@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace JF.Common
 {
@@ -36,6 +37,39 @@ namespace JF.Common
             if (sameTxt == null && str.Equals("null", StringComparison.OrdinalIgnoreCase)) return true;
 
             return str.Equals(sameTxt, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// 将字符串转换为Unicode码的字符串。
+        /// </summary>
+        /// <param name="text">将要转换的字符串</param>
+        /// <param name="onlyChineseSymbols">是否只针对于中文符号（汉字及标点符号）才做Unicode转换，
+        /// true 表示只针对中文字符 ，false 表示转换全部。默认为false。
+        /// </param>
+        /// <returns></returns>
+        public static string ToUnicode(string text, bool onlyChineseSymbols = false)
+        {
+            if (string.IsNullOrEmpty(text)) return string.Empty;
+
+            char[] charbuffers = text.ToCharArray();
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < charbuffers.Length; i++)
+            {
+                char c = charbuffers[i];
+
+                if (!onlyChineseSymbols || c.IsChineseSymbols())
+                {
+                    sb.Append(c.ToUnicode());
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+            }
+
+            return sb.ToString();
         }
 
         /// <summary>
