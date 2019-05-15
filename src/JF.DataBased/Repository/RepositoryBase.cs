@@ -71,6 +71,8 @@ namespace JF.DataBased.Repository
         public abstract List<T> Search<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount) where T : DataEntity;
         public abstract T FirstOrDefault<T>(Expression<Func<T, bool>> conditions) where T : DataEntity;
 
+        public abstract bool Exists<T>(Expression<Func<T, bool>> conditions) where T : DataEntity;
+
         public abstract void Insert<T>(T entity) where T : DataEntity;
 
         public abstract void Update<T>(T entity) where T : DataEntity;

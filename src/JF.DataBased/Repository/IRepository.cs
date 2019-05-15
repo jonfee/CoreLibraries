@@ -35,6 +35,15 @@ namespace JF.DataBased.Repository
             where T : DataEntity;
 
         /// <summary>
+        /// 检测是否存在符合条件的数据。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="conditions"></param>
+        /// <returns></returns>
+        bool Exists<T>(Expression<Func<T, bool>> conditions)
+            where T : DataEntity;
+
+        /// <summary>
         /// 插入一条数据
         /// </summary>
         /// <typeparam name="T"></typeparam>

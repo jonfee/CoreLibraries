@@ -35,6 +35,13 @@ namespace JF.DataBased.Repository
         T FirstOrDefault(Expression<Func<T, bool>> conditions);
 
         /// <summary>
+        /// 检测是否存在符合条件的数据。
+        /// </summary>
+        /// <param name="conditions"></param>
+        /// <returns></returns>
+        bool Exists(Expression<Func<T, bool>> conditions);
+
+        /// <summary>
         /// 插入一条数据
         /// </summary>
         /// <typeparam name="T"></typeparam>

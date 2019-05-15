@@ -63,6 +63,11 @@ namespace JF.DataBased.Repository
             return DbContext.Set<T>().FirstOrDefault(conditions);
         }
 
+        public override bool Exists<T>(Expression<Func<T, bool>> conditions)
+        {
+            return DbContext.Set<T>().Exists(conditions);
+        }
+
         public override T Find<T>(params object[] keyValues)
         {
             return DbContext.Set<T>().Find(keyValues.FirstOrDefault());

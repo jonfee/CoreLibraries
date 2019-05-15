@@ -78,6 +78,11 @@ namespace JF.DataBased.Repository
             return All().FirstOrDefault(conditions);
         }
 
+        public virtual bool Exists(Expression<Func<T, bool>> conditions)
+        {
+            return All().Count(conditions) > 0;
+        }
+
         public virtual T Find(params object[] keyValues)
         {
             return dbContext.Set<T>().Find(keyValues);

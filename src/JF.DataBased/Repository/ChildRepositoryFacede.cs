@@ -67,6 +67,11 @@ namespace JF.DataBased.Repository
             return repository.FirstOrDefault(conditions);
         }
 
+        public bool Exists(Expression<Func<TEntity, bool>> conditions)
+        {
+            return repository.Exists(conditions);
+        }
+
         public TEntity Find(params object[] keyValues)
         {
             return repository.Find(keyValues);

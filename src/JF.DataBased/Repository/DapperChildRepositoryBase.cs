@@ -62,6 +62,11 @@ namespace JF.DataBased.Repository
             return dbContext.Set<T>().FirstOrDefault(conditions);
         }
 
+        public virtual bool Exists(Expression<Func<T, bool>> conditions)
+        {
+            return dbContext.Set<T>().Exists(conditions);
+        }
+
         public virtual T Find(params object[] keyValues)
         {
             return dbContext.Set<T>().Find(keyValues.FirstOrDefault());

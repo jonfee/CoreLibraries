@@ -384,6 +384,20 @@ namespace Dapper
                 return _database.Query<TEntity>(builder.ToString()).FirstOrDefault();
             }
 
+            public bool Exists(Expression<Func<TEntity, bool>> expression)
+            {
+                StringBuilder builder = new StringBuilder("select count(1)");
+                builder.AppendLine($" from {_metadata.TableName}");
+
+                if (expression != null)
+                {
+                    var where = SqlGenerate.GetWhereByLambda(expression);
+                    builder.Append("where ").Append(ReplacePropertyNameWithColumnName(where));
+                }
+
+                return _database.Query<TEntity>(builder.ToString()).Count() > 0;
+            }
+
             public IEnumerable<TEntity> All()
             {
                 StringBuilder builder = new StringBuilder("select ");
@@ -416,7 +430,7 @@ namespace Dapper
                 builder.Append(string.Join(", ", _metadata.ColumnPropertyMaps.Select(item => $"{item.Key} AS {item.Value}")));
                 builder.AppendLine($" from {_metadata.TableName}");
 
-                if (expression!=null)
+                if (expression != null)
                 {
                     var where = SqlGenerate.GetWhereByLambda(expression);
                     builder.Append("where ").AppendLine(ReplacePropertyNameWithColumnName(where));

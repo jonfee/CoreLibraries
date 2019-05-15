@@ -361,6 +361,13 @@
             <param name="conditions"></param>
             <returns></returns>
         </member>
+        <member name="M:JF.DataBased.Repository.IChildRepository`1.Exists(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            检测是否存在符合条件的数据。
+            </summary>
+            <param name="conditions"></param>
+            <returns></returns>
+        </member>
         <member name="M:JF.DataBased.Repository.IChildRepository`1.Insert(`0)">
             <summary>
             插入一条数据
@@ -437,6 +444,14 @@
         <member name="M:JF.DataBased.Repository.IRepository.FirstOrDefault``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
             <summary>
             根据条件返回匹配条件的第一条数据。
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="conditions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.DataBased.Repository.IRepository.Exists``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            检测是否存在符合条件的数据。
             </summary>
             <typeparam name="T"></typeparam>
             <param name="conditions"></param>

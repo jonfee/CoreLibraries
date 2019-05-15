@@ -89,6 +89,11 @@ namespace JF.DataBased.Repository
             return repository.FirstOrDefault(conditions);
         }
 
+        public bool Exists<T>(Expression<Func<T, bool>> conditions) where T : DataEntity
+        {
+            return repository.Exists(conditions);
+        }
+
         public void Insert<T>(T entity) where T : DataEntity
         {
             repository.Insert(entity);

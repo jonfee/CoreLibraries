@@ -114,20 +114,17 @@ namespace JF.DomainEventBased.DomainModel
     /// </summary>
     /// <typeparam name="TDomainObjectID">领域对象ID类型</typeparam>
     /// <typeparam name="TUnitOfWork">工作单元类型</typeparam>
-    public abstract class AggregateRoot<TDomainObjectID, TUnitOfWork> : IAggregateRoot<TDomainObjectID, TUnitOfWork>
+    public abstract class AggregateRoot<TDomainObjectID, TUnitOfWork> : DomainObject<TDomainObjectID>, IAggregateRoot<TDomainObjectID, TUnitOfWork>
         where TUnitOfWork : class, IUnitOfWork, new()
     {
         public TUnitOfWork Worker { get; protected set; }
 
         public AggregateRoot() : this(default(TDomainObjectID)) { }
 
-        public AggregateRoot(TDomainObjectID id)
+        public AggregateRoot(TDomainObjectID id) : base(id)
         {
-            ID = id;
             Worker = new TUnitOfWork();
         }
-
-        public TDomainObjectID ID { get; set; }
 
         public override int GetHashCode()
         {
