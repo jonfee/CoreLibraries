@@ -69,6 +69,22 @@ namespace JF.DataBased.Repository
             return repository.ExecuteSqlCommand(sql);
         }
 
+        /// <summary>
+        /// 执行SQL命令
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="paramters"></param>
+        /// <returns></returns>
+        public int ExecuteSqlCommand(string sql, params object[] paramters)
+        {
+            return repository.ExecuteSqlCommand(sql, paramters);
+        }
+
+        public IEnumerable<T> Search<T>(string sql, object paramters) where T : DataEntity, new()
+        {
+            return repository.Search<T>(sql, paramters);
+        }
+
         public List<T> Search<T>(Expression<Func<T, bool>> conditions = null) where T : DataEntity
         {
             return repository.Search(conditions);

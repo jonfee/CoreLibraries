@@ -14,7 +14,7 @@ namespace JF.DataBased.Repository
     /// 使用了<see cref="EFDbContext"/>数据连接的子仓抽象基类
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal class EFChildRepositoryBase<T> : IChildRepository<T> where T : DataEntity
+    internal class EFChildRepositoryBase<T> : IChildRepository<T> where T : DataEntity,new()
     {
         #region private variables
 
@@ -88,6 +88,11 @@ namespace JF.DataBased.Repository
             return dbContext.Set<T>().Find(keyValues);
         }
 
+        public virtual IEnumerable<T> Search(string sql, object paramters)
+        {
+            return dbContext.Query<T>(sql, paramters);
+        }
+
         public virtual List<T> Search(Expression<Func<T, bool>> conditions = null)
         {
             if (conditions != null)
@@ -114,6 +119,17 @@ namespace JF.DataBased.Repository
         public virtual int ExecuteSqlCommand(string sql)
         {
             return dbContext.Database.ExecuteSqlCommand(sql);
+        }
+
+        /// <summary>
+        /// 执行SQL命令
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="paramters"></param>
+        /// <returns></returns>
+        public int ExecuteSqlCommand(string sql, params object[] paramters)
+        {
+            return dbContext.ExecuteSqlCommand(sql, paramters);
         }
 
         #region IDisposable Support

@@ -347,12 +347,7 @@ namespace Dapper
             public int Delete(Expression<Func<TEntity, bool>> expression)
             {
                 StringBuilder builder = new StringBuilder($"delete from {_metadata.TableName}");
-
-                if (expression != null)
-                {
-                    var where = SqlGenerate.GetWhereByLambda(expression);
-                    builder.Append(" where ").Append(ReplacePropertyNameWithColumnName(where));
-                }
+                builder.Append(ResolveWehreTsql(expression));
 
                 return _database.ExecuteSqlCommand(builder.ToString());
             }
@@ -374,12 +369,7 @@ namespace Dapper
                 StringBuilder builder = new StringBuilder("select ");
                 builder.Append(string.Join(", ", _metadata.ColumnPropertyMaps.Select(item => $"{item.Key} AS {item.Value}")));
                 builder.AppendLine($" from {_metadata.TableName}");
-
-                if (expression != null)
-                {
-                    var where = SqlGenerate.GetWhereByLambda(expression);
-                    builder.Append("where ").Append(ReplacePropertyNameWithColumnName(where));
-                }
+                builder.Append(ResolveWehreTsql(expression));
 
                 return _database.Query<TEntity>(builder.ToString()).FirstOrDefault();
             }
@@ -388,14 +378,11 @@ namespace Dapper
             {
                 StringBuilder builder = new StringBuilder("select count(1)");
                 builder.AppendLine($" from {_metadata.TableName}");
+                builder.Append(ResolveWehreTsql(expression));
 
-                if (expression != null)
-                {
-                    var where = SqlGenerate.GetWhereByLambda(expression);
-                    builder.Append("where ").Append(ReplacePropertyNameWithColumnName(where));
-                }
+                var aa= _database.Query<int>(builder.ToString()).FirstOrDefault();
 
-                return _database.Query<TEntity>(builder.ToString()).Count() > 0;
+                return aa > 0;
             }
 
             public IEnumerable<TEntity> All()
@@ -428,15 +415,31 @@ namespace Dapper
             {
                 StringBuilder builder = new StringBuilder("select ");
                 builder.Append(string.Join(", ", _metadata.ColumnPropertyMaps.Select(item => $"{item.Key} AS {item.Value}")));
-                builder.AppendLine($" from {_metadata.TableName}");
+                builder.Append($" from {_metadata.TableName}");
+                builder.Append(ResolveWehreTsql(expression));
 
+                return _database.Query<TEntity>(sql: builder.ToString());
+            }
+
+            public IEnumerable<TEntity> Search(string sql, object paramters)
+            {
+                return _database.Query<TEntity>(sql, paramters);
+            }
+
+            private string ResolveWehreTsql(Expression<Func<TEntity, bool>> expression)
+            {
+                string whereTsql = string.Empty;
                 if (expression != null)
                 {
                     var where = SqlGenerate.GetWhereByLambda(expression);
-                    builder.Append("where ").AppendLine(ReplacePropertyNameWithColumnName(where));
+
+                    if (!string.IsNullOrEmpty(where))
+                    {
+                        whereTsql = $" where {ReplacePropertyNameWithColumnName(where)}";
+                    }
                 }
 
-                return _database.Query<TEntity>(builder.ToString());
+                return whereTsql;
             }
 
             private string ReplacePropertyNameWithColumnName(string clause)

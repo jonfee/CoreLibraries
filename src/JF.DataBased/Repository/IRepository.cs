@@ -93,6 +93,15 @@ namespace JF.DataBased.Repository
             where T : DataEntity;
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <param name="paramters"></param>
+        /// <returns></returns>
+        IEnumerable<T> Search<T>(string sql, object paramters) where T : DataEntity,new();
+
+        /// <summary>
         /// 根据条件分页查找
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -112,6 +121,14 @@ namespace JF.DataBased.Repository
         /// <param name="sql"></param>
         /// <returns></returns>
         int ExecuteSqlCommand(string sql);
+
+        /// <summary>
+        /// 执行SQL命令
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="paramters"></param>
+        /// <returns></returns>
+        int ExecuteSqlCommand(string sql, params object[] paramters);
 
         /// <summary>
         /// 保存更改

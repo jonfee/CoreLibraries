@@ -12,7 +12,7 @@ namespace JF.DataBased.Repository
     /// </summary>
     /// <typeparam name="TDbContext"></typeparam>
     /// <typeparam name="TEntity"></typeparam>
-    public class ChildRepositoryFacede<TEntity> : IChildRepository<TEntity> where TEntity : DataEntity
+    public class ChildRepositoryFacede<TEntity> : IChildRepository<TEntity> where TEntity : DataEntity,new()
     {
         #region private variables
 
@@ -62,6 +62,17 @@ namespace JF.DataBased.Repository
             return repository.ExecuteSqlCommand(sql);
         }
 
+        /// <summary>
+        /// 执行SQL命令
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="paramters"></param>
+        /// <returns></returns>
+        public int ExecuteSqlCommand(string sql, params object[] paramters)
+        {
+            return repository.ExecuteSqlCommand(sql, paramters);
+        }
+
         public TEntity FirstOrDefault(Expression<Func<TEntity, bool>> conditions)
         {
             return repository.FirstOrDefault(conditions);
@@ -80,6 +91,11 @@ namespace JF.DataBased.Repository
         public void Insert(TEntity entity)
         {
             repository.Insert(entity);
+        }
+
+        public virtual IEnumerable<TEntity> Search(string sql, object paramters)
+        {
+            return repository.Search(sql, paramters);
         }
 
         public List<TEntity> Search(Expression<Func<TEntity, bool>> conditions = null)

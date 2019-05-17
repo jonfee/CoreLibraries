@@ -242,28 +242,34 @@ namespace JF.DataBased.Core
         /// <returns></returns>
         protected sealed override Expression VisitMethodCall(MethodCallExpression m)
         {
-            if (m == null)
-                return m;
             string connectorWords = GetLikeConnectorWords(DataBaseType);
             string format;
+            bool isCollections = m.Method.ToString().Contains("System.Collections.Generic");
             switch (m.Method.Name.ToUpper())
             {
-                case "StartsWith":
-                    format = "({0} like ''" + connectorWords + "{1}" + connectorWords + "'%')";
+                case "STARTSWITH":
+                    format = "({0} like '{1}%')";
                     break;
-                case "Contains":
-                    format = "({0} like '%'" + connectorWords + "{1}" + connectorWords + "'%')";
+                case "CONTAINS":
+                    if (isCollections)
+                    {
+                        format = "({0} in ({1}))";
+                    }
+                    else
+                    {
+                        format = "({0} like '%{1}%')";
+                    }
                     break;
-                case "EndsWith":
-                    format = "({0} like '%'" + connectorWords + "{1}" + connectorWords + "'')";
+                case "ENDSWITH":
+                    format = "({0} like '%{1}')";
                     break;
-                case "Equals":
+                case "EQUALS":
                     format = "({0} {1} )";
                     break;
                 default:
                     throw new NotSupportedException(m.NodeType + " is not supported!");
             }
-            this.Visit(m.Object);
+            this.Visit(m.Object ?? m.Arguments[1]);
             this.Visit(m.Arguments[0]);
             string right = this.conditionParts.Pop();
             string left = this.conditionParts.Pop();

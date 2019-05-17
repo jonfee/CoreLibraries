@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 
 namespace JF.DataBased.Core
 {
@@ -23,7 +26,7 @@ namespace JF.DataBased.Core
             conditionBuilder.DataBaseType = databaseType;
             conditionBuilder.Build(expression);
 
-            object ce = null;
+            dynamic ce = null;
             for (int i = 0; i < conditionBuilder.Arguments.Count; i++)
             {
                 ce = conditionBuilder.Arguments[i];
@@ -35,15 +38,26 @@ namespace JF.DataBased.Core
                 if (ce is string || ce is char)
                 {
                     bool isQuote = ce.ToString().ToLower().Trim().IndexOf(@"in(") == 0 ||
-                        ce.ToString().ToLower().Trim().IndexOf(@"not in(") == 0 ||
-                        ce.ToString().ToLower().Trim().IndexOf(@" like '") == 0 ||
-                        ce.ToString().ToLower().Trim().IndexOf(@"not like") == 0;
-                    conditionBuilder.Arguments[i] = string.Format(" {1}{0}{2} ", ce.ToString(), isQuote ? "" : "'", isQuote ? "" : "'");
+                        ce.ToString().ToLower().Trim().IndexOf(@"not in(") == 0;
+                    conditionBuilder.Arguments[i] = string.Format("{1}{0}{1}", ce.ToString(), isQuote ? "'" : "");
                     continue;
                 }
                 if (ce is int || ce is long || ce is short || ce is decimal || ce is double || ce is float || ce is bool || ce is byte || ce is sbyte || ce is ValueType)
                 {
                     conditionBuilder.Arguments[i] = ce.ToString();
+                    continue;
+                }
+                if (ce.GetType().DeclaringType == typeof(System.Linq.Enumerable))
+                {
+                    bool isStr = ce.GetType().BaseType.ToString().Contains("System.String");
+                    if (isStr)
+                    {
+                        conditionBuilder.Arguments[i] =$"'{String.Join(",", ce)}'";
+                    }
+                    else
+                    {
+                        conditionBuilder.Arguments[i] = String.Join(",", ce);
+                    }
                     continue;
                 }
                 conditionBuilder.Arguments[i] = string.Format("'{0}'", ce.ToString());

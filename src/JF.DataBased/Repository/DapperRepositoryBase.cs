@@ -73,6 +73,11 @@ namespace JF.DataBased.Repository
             return DbContext.Set<T>().Find(keyValues.FirstOrDefault());
         }
 
+        public override IEnumerable<T> Search<T>(string sql, object paramters)
+        {
+            return DbContext.Set<T>().Search(sql, paramters);
+        }
+
         public override List<T> Search<T>(Expression<Func<T, bool>> conditions = null)
         {
             if (conditions != null)
@@ -100,7 +105,18 @@ namespace JF.DataBased.Repository
         {
             return DbContext.ExecuteSqlCommand(sql);
         }
-        
+
+        /// <summary>
+        /// 执行SQL命令
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="paramters"></param>
+        /// <returns></returns>
+        public override int ExecuteSqlCommand(string sql, params object[] paramters)
+        {
+            return DbContext.ExecuteSqlCommand(sql, paramters);
+        }
+
         #endregion
 
         #region IDisposable Support

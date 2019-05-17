@@ -84,6 +84,16 @@ namespace JF.DataBased.Repository
             }
         }
 
+        public virtual IEnumerable<T> Search(string sql, object paramters)
+        {
+            return dbContext.Database.Query<T>(sql, paramters);
+        }
+
+        public virtual IEnumerable<T> Search(string where = null, object param = null, string ordering = null)
+        {
+            return dbContext.Set<T>().Search(where, param, ordering);
+        }
+
         public virtual List<T> Search<S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount)
         {
             var queryList = conditions == null
@@ -98,6 +108,17 @@ namespace JF.DataBased.Repository
         public virtual int ExecuteSqlCommand(string sql)
         {
             return dbContext.ExecuteSqlCommand(sql);
+        }
+
+        /// <summary>
+        /// 执行SQL命令
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="paramters"></param>
+        /// <returns></returns>
+        public int ExecuteSqlCommand(string sql, params object[] paramters)
+        {
+            return dbContext.ExecuteSqlCommand(sql,paramters);
         }
 
         #region IDisposable Support

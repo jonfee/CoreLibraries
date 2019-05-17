@@ -53,7 +53,7 @@ namespace JF.DataBased.Context
             return this.Database.ExecuteSqlCommand(sql, paramters);
         }
 
-        public IEnumerable<T> Query<T>(string sql, params object[] paramters) where T : class, new()
+        public IEnumerable<T> Query<T>(string sql, params object[] paramters) where T : class,new()
         {
             return this.Database.SqlQuery<T>(sql,paramters).ToList();
         }

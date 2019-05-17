@@ -70,6 +70,15 @@ namespace JF.DataBased.Repository
         void Delete(Expression<Func<T, bool>> conditions);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <param name="paramters"></param>
+        /// <returns></returns>
+        IEnumerable<T> Search(string sql, object paramters);
+
+        /// <summary>
         /// 根据条件查找
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -96,5 +105,13 @@ namespace JF.DataBased.Repository
         /// <param name="sql"></param>
         /// <returns></returns>
         int ExecuteSqlCommand(string sql);
+
+        /// <summary>
+        /// 执行SQL命令
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="paramters"></param>
+        /// <returns></returns>
+        int ExecuteSqlCommand(string sql,params object[] paramters);
     }
 }

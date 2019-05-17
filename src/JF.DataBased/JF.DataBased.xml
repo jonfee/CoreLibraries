@@ -311,16 +311,40 @@
             <typeparam name="TDbContext"></typeparam>
             <typeparam name="TEntity"></typeparam>
         </member>
+        <member name="M:JF.DataBased.Repository.ChildRepositoryFacede`1.ExecuteSqlCommand(System.String,System.Object[])">
+            <summary>
+            执行SQL命令
+            </summary>
+            <param name="sql"></param>
+            <param name="paramters"></param>
+            <returns></returns>
+        </member>
         <member name="T:JF.DataBased.Repository.DapperChildRepositoryBase`1">
             <summary>
             使用了<see cref="T:JF.DataBased.Context.DapperDbContext"/>数据连接的子仓抽象基类
             </summary>
             <typeparam name="T"></typeparam>
         </member>
+        <member name="M:JF.DataBased.Repository.DapperChildRepositoryBase`1.ExecuteSqlCommand(System.String,System.Object[])">
+            <summary>
+            执行SQL命令
+            </summary>
+            <param name="sql"></param>
+            <param name="paramters"></param>
+            <returns></returns>
+        </member>
         <member name="T:JF.DataBased.Repository.DapperRepositoryBase">
             <summary>
             使用了<see cref="T:JF.DataBased.Context.DapperDbContext"/>数据连接的仓储基类。
             </summary>
+        </member>
+        <member name="M:JF.DataBased.Repository.DapperRepositoryBase.ExecuteSqlCommand(System.String,System.Object[])">
+            <summary>
+            执行SQL命令
+            </summary>
+            <param name="sql"></param>
+            <param name="paramters"></param>
+            <returns></returns>
         </member>
         <member name="T:JF.DataBased.Repository.EFChildRepositoryBase`1">
             <summary>
@@ -328,10 +352,26 @@
             </summary>
             <typeparam name="T"></typeparam>
         </member>
+        <member name="M:JF.DataBased.Repository.EFChildRepositoryBase`1.ExecuteSqlCommand(System.String,System.Object[])">
+            <summary>
+            执行SQL命令
+            </summary>
+            <param name="sql"></param>
+            <param name="paramters"></param>
+            <returns></returns>
+        </member>
         <member name="T:JF.DataBased.Repository.EFRepositoryBase">
             <summary>
             使用了<see cref="T:JF.DataBased.Context.EFDbContext"/>数据连接的仓储基类。
             </summary>
+        </member>
+        <member name="M:JF.DataBased.Repository.EFRepositoryBase.ExecuteSqlCommand(System.String,System.Object[])">
+            <summary>
+            执行SQL命令
+            </summary>
+            <param name="sql"></param>
+            <param name="paramters"></param>
+            <returns></returns>
         </member>
         <member name="T:JF.DataBased.Repository.IChildRepository`1">
             <summary>
@@ -396,6 +436,15 @@
             <typeparam name="T"></typeparam>
             <param name="conditions"></param>
         </member>
+        <member name="M:JF.DataBased.Repository.IChildRepository`1.Search(System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sql"></param>
+            <param name="paramters"></param>
+            <returns></returns>
+        </member>
         <member name="M:JF.DataBased.Repository.IChildRepository`1.Search(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
             <summary>
             根据条件查找
@@ -422,6 +471,14 @@
             执行SQL命令
             </summary>
             <param name="sql"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.DataBased.Repository.IChildRepository`1.ExecuteSqlCommand(System.String,System.Object[])">
+            <summary>
+            执行SQL命令
+            </summary>
+            <param name="sql"></param>
+            <param name="paramters"></param>
             <returns></returns>
         </member>
         <member name="T:JF.DataBased.Repository.IRepository">
@@ -501,6 +558,15 @@
             <param name="conditions"></param>
             <returns></returns>
         </member>
+        <member name="M:JF.DataBased.Repository.IRepository.Search``1(System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sql"></param>
+            <param name="paramters"></param>
+            <returns></returns>
+        </member>
         <member name="M:JF.DataBased.Repository.IRepository.Search``2(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Int32,System.Int32,System.Int32@)">
             <summary>
             根据条件分页查找
@@ -519,6 +585,14 @@
             执行SQL命令
             </summary>
             <param name="sql"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.DataBased.Repository.IRepository.ExecuteSqlCommand(System.String,System.Object[])">
+            <summary>
+            执行SQL命令
+            </summary>
+            <param name="sql"></param>
+            <param name="paramters"></param>
             <returns></returns>
         </member>
         <member name="M:JF.DataBased.Repository.IRepository.SaveChanges">
@@ -595,6 +669,14 @@
             主仓外观类
             </summary>
             <typeparam name="TDbContext"></typeparam>
+        </member>
+        <member name="M:JF.DataBased.Repository.RepositoryFacede.ExecuteSqlCommand(System.String,System.Object[])">
+            <summary>
+            执行SQL命令
+            </summary>
+            <param name="sql"></param>
+            <param name="paramters"></param>
+            <returns></returns>
         </member>
         <member name="M:JF.DataBased.Repository.RepositoryFacede.GetChild``2">
             <summary>
