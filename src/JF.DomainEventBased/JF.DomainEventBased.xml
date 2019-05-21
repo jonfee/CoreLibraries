@@ -268,7 +268,27 @@
             <summary>
             验证事件是否有效
             </summary>
-            <param name="command">派生自<see cref="T:JF.DomainEventBased.DomainModel.IDomainEvent"/>的命令实例</param>
+            <param name="@event">派生自<see cref="T:JF.DomainEventBased.DomainModel.IDomainEvent"/>的事件实例</param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.DomainEventBased.DomainEventHandler`1">
+            <summary>
+            领域事件处理程序接口
+            </summary>
+            <typeparam name="TEvent"></typeparam>
+        </member>
+        <member name="M:JF.DomainEventBased.DomainEventHandler`1.Handle(`0)">
+            <summary>
+            处理执行
+            </summary>
+            <param name="event"></param>
+        </member>
+        <member name="M:JF.DomainEventBased.DomainEventHandler`1.Validate(`0)">
+            <summary>
+            验证事件是否有效。
+            基类中仅检测了事件是否为null,为null时返回false,非null返回true。
+            </summary>
+            <param name="event"></param>
             <returns></returns>
         </member>
         <member name="T:JF.DomainEventBased.IDomainService">

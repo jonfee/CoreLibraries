@@ -61,7 +61,7 @@ namespace JF.DomainEventBased.DomainModel
         /// <summary>
         /// 领域对象ID
         /// </summary>
-        public TDomainObjectID ID { get; set; }
+        public virtual TDomainObjectID ID { get; set; }
 
         public override int GetHashCode()
         {
