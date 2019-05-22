@@ -82,6 +82,10 @@ namespace JF.WebAPIExtensions.Auth
                 {
                     token = context.Request.Headers[options.HttpHeaderWith];
                 }
+                else if(context.Request.Cookies.ContainsKey(options.HttpHeaderWith))
+                {
+                    token = context.Request.Cookies[options.HttpHeaderWith];
+                }
             }
             catch
             {

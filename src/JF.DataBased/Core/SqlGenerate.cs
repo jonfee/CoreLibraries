@@ -35,24 +35,12 @@ namespace JF.DataBased.Core
                     conditionBuilder.Arguments[i] = DBNull.Value;
                     continue;
                 }
-                if (ce is string || ce is char)
-                {
-                    bool isQuote = ce.ToString().ToLower().Trim().IndexOf(@"in(") == 0 ||
-                        ce.ToString().ToLower().Trim().IndexOf(@"not in(") == 0;
-                    conditionBuilder.Arguments[i] = string.Format("{1}{0}{1}", ce.ToString(), isQuote ? "'" : "");
-                    continue;
-                }
-                if (ce is int || ce is long || ce is short || ce is decimal || ce is double || ce is float || ce is bool || ce is byte || ce is sbyte || ce is ValueType)
-                {
-                    conditionBuilder.Arguments[i] = ce.ToString();
-                    continue;
-                }
                 if (ce.GetType().DeclaringType == typeof(System.Linq.Enumerable))
                 {
                     bool isStr = ce.GetType().BaseType.ToString().Contains("System.String");
                     if (isStr)
                     {
-                        conditionBuilder.Arguments[i] =$"'{String.Join(",", ce)}'";
+                        conditionBuilder.Arguments[i] = $"'{String.Join(",", ce)}'";
                     }
                     else
                     {
@@ -60,6 +48,22 @@ namespace JF.DataBased.Core
                     }
                     continue;
                 }
+                if (ce is string || ce is char)
+                {
+                    bool isQuote = ce.ToString().ToLower().Trim().IndexOf(@"in(") == 0 ||
+                        ce.ToString().ToLower().Trim().IndexOf(@"not in(") == 0 ||
+                        ce.ToString().ToLower().Trim().IndexOf(@" like '") == 0 ||
+                        ce.ToString().ToLower().Trim().IndexOf(@"not like") == 0;
+
+                    conditionBuilder.Arguments[i] = string.Format("{1}{0}{1}", ce.ToString(), isQuote ? "" : "'");
+                    continue;
+                }
+                if (ce is int || ce is long || ce is short || ce is decimal || ce is double || ce is float || ce is bool || ce is byte || ce is sbyte || ce is ValueType)
+                {
+                    conditionBuilder.Arguments[i] = ce.ToString();
+                    continue;
+                }
+                
                 conditionBuilder.Arguments[i] = string.Format("'{0}'", ce.ToString());
             }
             return string.Format(conditionBuilder.Condition, conditionBuilder.Arguments.ToArray());

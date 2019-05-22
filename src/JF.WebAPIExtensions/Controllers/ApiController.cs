@@ -1,4 +1,5 @@
-﻿using JF.WebAPIExtensions.Responses;
+﻿using JF.Json;
+using JF.WebAPIExtensions.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JF.WebAPIExtensions.Controllers
@@ -13,9 +14,9 @@ namespace JF.WebAPIExtensions.Controllers
         /// </summary>
         /// <returns></returns>
         [NonAction]
-        public new IActionResult Ok()
+        public new IActionResult Ok(JsonSettingsHandler jsonSettingsHandler = null)
         {
-            return Success(true);
+            return Success(true, jsonSettingsHandler);
         }
 
         /// <summary>
@@ -23,23 +24,30 @@ namespace JF.WebAPIExtensions.Controllers
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="response"></param>
+        /// <param name="jsonSettingsHandler"></param>
         /// <returns></returns>
         [NonAction]
-        public IActionResult Ok<T>(JFApiResponse<T> response)
+        public IActionResult Ok<T>(JFApiResponse<T> response, JsonSettingsHandler jsonSettingsHandler = null)
         {
-            return JsonOk(response);
+            return JsonOk(response, jsonSettingsHandler);
         }
 
+        /// <summary>
+        /// 布尔结果返回
+        /// </summary>
+        /// <param name="success"></param>
+        /// <param name="jsonSettingsHandler"></param>
+        /// <returns></returns>
         [NonAction]
-        public IActionResult BoolResult(bool success)
+        public IActionResult BoolResult(bool success, JsonSettingsHandler jsonSettingsHandler = null)
         {
             if (success)
             {
-                return Success("Success");
+                return Success("Success", jsonSettingsHandler);
             }
             else
             {
-                return Failure("Failed");
+                return Failure("Failed", jsonSettingsHandler: jsonSettingsHandler);
             }
         }
 
@@ -48,13 +56,14 @@ namespace JF.WebAPIExtensions.Controllers
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="message">成功消息。</param>
+        /// <param name="jsonSettingsHandler"></param>
         /// <returns></returns>
         [NonAction]
-        public IActionResult Success<T>(T message)
+        public IActionResult Success<T>(T message, JsonSettingsHandler jsonSettingsHandler = null)
         {
             var response = JFApiResponse<T>.FromSuccess(message);
 
-            return JsonOk(response);
+            return JsonOk(response, jsonSettingsHandler);
         }
 
         /// <summary>
@@ -62,12 +71,13 @@ namespace JF.WebAPIExtensions.Controllers
         /// </summary>
         /// <param name="message">错误消息。</param>
         /// <param name="errorDetails">错误详细。</param>
+        /// <param name="jsonSettingsHandler"></param>
         /// <returns></returns>
-        public IActionResult Failure(string message, string errorDetails = null)
+        public IActionResult Failure(string message, string errorDetails = null, JsonSettingsHandler jsonSettingsHandler = null)
         {
             var response = JFApiResponse<string>.FromFailure(message, errorDetails ?? message);
 
-            return JsonOk(response);
+            return JsonOk(response, jsonSettingsHandler);
         }
 
         /// <summary>
@@ -75,12 +85,13 @@ namespace JF.WebAPIExtensions.Controllers
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="response"></param>
+        /// <param name="jsonSettingsHandler"></param>
         /// <returns></returns>
         [NonAction]
-        public IActionResult JsonOk<T>(JFApiResponse<T> response)
+        public IActionResult JsonOk<T>(JFApiResponse<T> response, JsonSettingsHandler jsonSettingsHandler = null)
         {
             HttpContext.Response.ContentType = "application/json;charset=utf-8;";
-            return Content(response.ToJson());
+            return Content(response.ToJson(jsonSettingsHandler));
         }
 
         /// <summary>

@@ -145,42 +145,54 @@
             WebApi接口基础类。
             </summary>
         </member>
-        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.Ok">
+        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.Ok(JF.Json.JsonSettingsHandler)">
             <summary>
             JSON输出操作成功的API结果，HttpStatusCode = 200，无消息。
             </summary>
             <returns></returns>
         </member>
-        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.Ok``1(JF.WebAPIExtensions.Responses.JFApiResponse{``0})">
+        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.Ok``1(JF.WebAPIExtensions.Responses.JFApiResponse{``0},JF.Json.JsonSettingsHandler)">
             <summary>
             JSON输出，HttpStatusCode = 200。
             </summary>
             <typeparam name="T"></typeparam>
             <param name="response"></param>
+            <param name="jsonSettingsHandler"></param>
             <returns></returns>
         </member>
-        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.Success``1(``0)">
+        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.BoolResult(System.Boolean,JF.Json.JsonSettingsHandler)">
+            <summary>
+            布尔结果返回
+            </summary>
+            <param name="success"></param>
+            <param name="jsonSettingsHandler"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.Success``1(``0,JF.Json.JsonSettingsHandler)">
             <summary>
             JSON输出操作成功的API结果，HttpStatusCode = 200，有消息。
             </summary>
             <typeparam name="T"></typeparam>
             <param name="message">成功消息。</param>
+            <param name="jsonSettingsHandler"></param>
             <returns></returns>
         </member>
-        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.Failure(System.String,System.String)">
+        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.Failure(System.String,System.String,JF.Json.JsonSettingsHandler)">
             <summary>
             JSON输出操作失败的API结果，HttpStatusCode = 200。
             </summary>
             <param name="message">错误消息。</param>
             <param name="errorDetails">错误详细。</param>
+            <param name="jsonSettingsHandler"></param>
             <returns></returns>
         </member>
-        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.JsonOk``1(JF.WebAPIExtensions.Responses.JFApiResponse{``0})">
+        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.JsonOk``1(JF.WebAPIExtensions.Responses.JFApiResponse{``0},JF.Json.JsonSettingsHandler)">
             <summary>
             JSON输出，HttpStatusCode = 200。
             </summary>
             <typeparam name="T"></typeparam>
             <param name="response"></param>
+            <param name="jsonSettingsHandler"></param>
             <returns></returns>
         </member>
         <member name="M:JF.WebAPIExtensions.Controllers.ApiController.XmlOk``1(JF.WebAPIExtensions.Responses.JFApiResponse{``0})">

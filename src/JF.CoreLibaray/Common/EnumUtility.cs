@@ -176,8 +176,7 @@ namespace JF.Common
                     {
                         var descAttr = field.GetCustomAttributes(typeof(DescriptionAttribute), false).OfType<DescriptionAttribute>().FirstOrDefault();
 
-                        if (null != descAttr)
-                            description = descAttr.Description;
+                        description = descAttr?.Description ?? field.Name;
 
                         break;
                     }
