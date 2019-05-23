@@ -580,6 +580,15 @@
             <param name="totalCount"></param>
             <returns></returns>
         </member>
+        <member name="M:JF.DataBased.Repository.IRepository.Query``1(System.String,System.Object[])">
+            <summary>
+            查询并返回自定义类型结果
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sql"></param>
+            <param name="paramters"></param>
+            <returns></returns>
+        </member>
         <member name="M:JF.DataBased.Repository.IRepository.ExecuteSqlCommand(System.String)">
             <summary>
             执行SQL命令

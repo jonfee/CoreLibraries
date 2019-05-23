@@ -80,6 +80,11 @@ namespace JF.DataBased.Repository
             return repository.ExecuteSqlCommand(sql, paramters);
         }
 
+        public IEnumerable<T> Query<T>(string sql, params object[] paramters) where T : class, new()
+        {
+            return repository.Query<T>(sql, paramters);
+        }
+
         public IEnumerable<T> Search<T>(string sql, object paramters) where T : DataEntity, new()
         {
             return repository.Search<T>(sql, paramters);

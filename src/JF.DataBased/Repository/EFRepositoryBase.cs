@@ -115,6 +115,11 @@ namespace JF.DataBased.Repository
             return queryList.OrderByDescending(orderBy).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         }
 
+        public override IEnumerable<T> Query<T>(string sql, params object[] paramters)
+        {
+            return DbContext.Query<T>(sql, paramters);
+        }
+
         public override int ExecuteSqlCommand(string sql)
         {
             return DbContext.Database.ExecuteSqlCommand(sql);
