@@ -87,7 +87,7 @@ namespace JF.DataBased.Repository
             return DbContext.Set<T>().Find(keyValues);
         }
 
-        public override IEnumerable<T> Search<T>(string sql, object paramters)
+        public override IEnumerable<T> Search<T>(string sql, object paramters = null)
         {
             return DbContext.Query<T>(sql, paramters);
         }
@@ -115,7 +115,7 @@ namespace JF.DataBased.Repository
             return queryList.OrderByDescending(orderBy).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         }
 
-        public override IEnumerable<T> Query<T>(string sql, params object[] paramters)
+        public override IEnumerable<T> Query<T>(string sql, object paramters = null)
         {
             return DbContext.Query<T>(sql, paramters);
         }
@@ -131,7 +131,7 @@ namespace JF.DataBased.Repository
         /// <param name="sql"></param>
         /// <param name="paramters"></param>
         /// <returns></returns>
-        public override int ExecuteSqlCommand(string sql, params object[] paramters)
+        public override int ExecuteSqlCommand(string sql, object paramters = null)
         {
             return DbContext.ExecuteSqlCommand(sql, paramters);
         }

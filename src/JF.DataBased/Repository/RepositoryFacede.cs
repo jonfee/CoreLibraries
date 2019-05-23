@@ -75,17 +75,17 @@ namespace JF.DataBased.Repository
         /// <param name="sql"></param>
         /// <param name="paramters"></param>
         /// <returns></returns>
-        public int ExecuteSqlCommand(string sql, params object[] paramters)
+        public int ExecuteSqlCommand(string sql, object paramters = null)
         {
             return repository.ExecuteSqlCommand(sql, paramters);
         }
 
-        public IEnumerable<T> Query<T>(string sql, params object[] paramters) where T : class, new()
+        public IEnumerable<T> Query<T>(string sql, object paramters = null) where T : class, new()
         {
             return repository.Query<T>(sql, paramters);
         }
 
-        public IEnumerable<T> Search<T>(string sql, object paramters) where T : DataEntity, new()
+        public IEnumerable<T> Search<T>(string sql, object paramters = null) where T : DataEntity, new()
         {
             return repository.Search<T>(sql, paramters);
         }

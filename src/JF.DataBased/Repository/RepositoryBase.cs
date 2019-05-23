@@ -66,10 +66,10 @@ namespace JF.DataBased.Repository
         public abstract void Delete<T>(Expression<Func<T, bool>> conditions) where T : DataEntity;
         public abstract void Dispose();
         public abstract int ExecuteSqlCommand(string sql);
-        public abstract int ExecuteSqlCommand(string sql, params object[] paramters);
-        public abstract IEnumerable<T> Query<T>(string sql, params object[] paramters) where T : class, new();
+        public abstract int ExecuteSqlCommand(string sql, object paramters = null);
+        public abstract IEnumerable<T> Query<T>(string sql, object paramters = null) where T : class, new();
         public abstract T Find<T>(params object[] keyValues) where T : DataEntity;
-        public abstract IEnumerable<T> Search<T>(string sql, object paramters) where T : DataEntity,new();
+        public abstract IEnumerable<T> Search<T>(string sql, object paramters = null) where T : DataEntity,new();
         public abstract List<T> Search<T>(Expression<Func<T, bool>> conditions = null) where T : DataEntity;
         public abstract List<T> Search<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount) where T : DataEntity;
         public abstract T FirstOrDefault<T>(Expression<Func<T, bool>> conditions) where T : DataEntity;

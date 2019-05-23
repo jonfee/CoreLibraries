@@ -48,12 +48,12 @@ namespace JF.DataBased.Context
             if (string.IsNullOrEmpty(options.ConnectionString)) throw new ArgumentNullException(nameof(options.ConnectionString));
         }
 
-        public int ExecuteSqlCommand(string sql, params object[] paramters)
+        public int ExecuteSqlCommand(string sql, object paramters)
         {
             return this.Database.ExecuteSqlCommand(sql, paramters);
         }
 
-        public IEnumerable<T> Query<T>(string sql, params object[] paramters) where T : class,new()
+        public IEnumerable<T> Query<T>(string sql, object paramters) where T : class,new()
         {
             return this.Database.SqlQuery<T>(sql,paramters).ToList();
         }
@@ -63,7 +63,7 @@ namespace JF.DataBased.Context
             return this.Set<TEntity>().AsNoTracking().Where(expression);
         }
         
-        public virtual IEnumerable<T> ProcQuery<T>(string procName, params object[] paramters) where T : class, new()
+        public virtual IEnumerable<T> ProcQuery<T>(string procName, object paramters) where T : class, new()
         {
             return this.Database.ProcdureQuery<T>(procName, paramters).ToList();
         }
