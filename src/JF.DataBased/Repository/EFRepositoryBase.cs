@@ -1,5 +1,4 @@
-﻿using JF.ComponentModel;
-using JF.DataBased.Context;
+﻿using JF.DataBased.Context;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
@@ -92,7 +91,7 @@ namespace JF.DataBased.Repository
             return DbContext.Query<T>(sql, paramters);
         }
 
-        public override List<T> Search<T>(Expression<Func<T, bool>> conditions = null)
+        public override IEnumerable<T> Search<T>(Expression<Func<T, bool>> conditions = null)
         {
             if (conditions != null)
             {
@@ -104,7 +103,7 @@ namespace JF.DataBased.Repository
             }
         }
 
-        public override List<T> Search<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount)
+        public override IEnumerable<T> Search<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount)
         {
             var queryList = conditions == null ?
                 All<T>() :

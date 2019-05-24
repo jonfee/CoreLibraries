@@ -921,6 +921,14 @@
             <param name="trans">就否加入事务处理，默认为True，如果想立即执行，请使用False。</param>
             <returns></returns>
         </member>
+        <member name="M:Dapper.Database`1.DbSet`1.ResolveOrderByTsql``1(System.Linq.Expressions.Expression{System.Func{`1,``0}},System.Boolean)">
+            <summary>
+            解析Order by语句
+            </summary>
+            <param name="expression"></param>
+            <param name="asc">是否为升序，true为升序，false为降序</param>
+            <returns></returns>
+        </member>
         <member name="T:Dapper.DbContext">
             <summary>
             使用Dapper作为ORM时的数据库上下文
@@ -954,6 +962,37 @@
             <param name="entity"></param>
             <param name="methodName">执行方法，仅限：Insert,Update,Delete</param>
             <returns></returns>
+        </member>
+        <member name="M:Dapper.FallBackTypeMapper.FindExplicitConstructor">
+            <summary>
+            Returns a constructor which should *always* be used.
+            Parameters will be default values, nulls for reference types and zero'd for value types.
+            Use this class to force object creation away from parameterless constructors you don't control.
+            </summary>
+        </member>
+        <member name="T:Dapper.TypeMapper">
+            <summary>
+            Type Mapper
+            </summary>
+        </member>
+        <member name="M:Dapper.TypeMapper.InjectToSqlMapper``1">
+            <summary>
+            注入到Dapper.SqlMapper
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Dapper.TypeMapper.InjectToSqlMapper(System.Type)">
+            <summary>
+            注入到Dapper.SqlMapper
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="M:Dapper.TypeMapper.Initialize(System.Reflection.Assembly,System.String)">
+            <summary>
+            将程序集中对应的类型注入到Dapper.SqlMapper，以用于Query查询映射。
+            </summary>
+            <param name="assembly"></param>
+            <param name="namespaceStart"></param>
         </member>
     </members>
 </doc>

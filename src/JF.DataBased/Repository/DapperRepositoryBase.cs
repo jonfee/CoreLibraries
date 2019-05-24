@@ -1,4 +1,5 @@
-﻿using JF.DataBased.Context;
+﻿using Dapper;
+using JF.DataBased.Context;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -78,7 +79,7 @@ namespace JF.DataBased.Repository
             return DbContext.Set<T>().Search(sql, paramters);
         }
 
-        public override List<T> Search<T>(Expression<Func<T, bool>> conditions = null)
+        public override IEnumerable<T> Search<T>(Expression<Func<T, bool>> conditions = null)
         {
             if (conditions != null)
             {
@@ -90,25 +91,19 @@ namespace JF.DataBased.Repository
             }
         }
 
-        public override List<T> Search<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount)
+        public override IEnumerable<T> Search<T,S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount)
         {
-            var queryList = conditions == null
-                ? All<T>()
-                : DbContext.Set<T>().Search(conditions);
-
-            totalCount = queryList.Count();
-
-            return queryList.AsQueryable().OrderByDescending(orderBy).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            return DbContext.Set<T>().Search(pageIndex, pageSize, out totalCount, conditions, orderBy, true);
         }
 
         public override IEnumerable<T> Query<T>(string sql, object paramters = null)
         {
-            return DbContext.Query<T>(sql, paramters);
+            return DbContext.Database.Query<T>(sql, paramters);
         }
 
         public override int ExecuteSqlCommand(string sql)
         {
-            return DbContext.ExecuteSqlCommand(sql);
+            return DbContext.Database.ExecuteSqlCommand(sql);
         }
 
         /// <summary>
@@ -119,7 +114,7 @@ namespace JF.DataBased.Repository
         /// <returns></returns>
         public override int ExecuteSqlCommand(string sql, object paramters = null)
         {
-            return DbContext.ExecuteSqlCommand(sql, paramters);
+            return DbContext.Database.ExecuteSqlCommand(sql, paramters);
         }
 
         #endregion

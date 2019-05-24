@@ -90,12 +90,12 @@ namespace JF.DataBased.Repository
             return repository.Search<T>(sql, paramters);
         }
 
-        public List<T> Search<T>(Expression<Func<T, bool>> conditions = null) where T : DataEntity
+        public IEnumerable<T> Search<T>(Expression<Func<T, bool>> conditions = null) where T : DataEntity
         {
             return repository.Search(conditions);
         }
 
-        public List<T> Search<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount) where T : DataEntity
+        public IEnumerable<T> Search<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount) where T : DataEntity
         {
             return repository.Search(conditions, orderBy, pageSize, pageIndex, out totalCount);
         }

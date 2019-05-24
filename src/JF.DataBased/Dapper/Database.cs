@@ -111,8 +111,12 @@ namespace Dapper
 
         public virtual IEnumerable<T> Query<T>(string sql, object param = null, bool buffered = true)
         {
+            typeof(T).InjectToSqlMapper();
+
+            DynamicParameters parameters = new DynamicParameters(param);
+
             return Connection.Query<T>(sql,
-                                        param,
+                                        parameters,
                                         buffered: buffered,
                                         commandTimeout: CommandTimeout);
         }
@@ -125,8 +129,10 @@ namespace Dapper
 
         public virtual IEnumerable<T> ProcQuery<T>(string procName, object param = null, bool buffered = true)
         {
+            typeof(T).InjectToSqlMapper();
+            DynamicParameters parameters = new DynamicParameters(param);
             return Connection.Query<T>(procName,
-                                        param,
+                                        parameters,
                                         buffered: buffered,
                                         commandTimeout: CommandTimeout,
                                         commandType: CommandType.StoredProcedure);
@@ -146,14 +152,10 @@ namespace Dapper
                 Init();
             }
 
-            internal IEnumerable<TEntity> AsNoTracking()
-            {
-                throw new NotImplementedException();
-            }
-
             private void Init()
             {
                 _metadata = GetTableMetadata();
+                typeof(TEntity).InjectToSqlMapper();
             }
 
             private static readonly ConcurrentDictionary<Type, TableMetadata> TableMetadataCache = new ConcurrentDictionary<Type, TableMetadata>();
@@ -347,7 +349,7 @@ namespace Dapper
             public int Delete(Expression<Func<TEntity, bool>> expression)
             {
                 StringBuilder builder = new StringBuilder($"delete from {_metadata.TableName}");
-                builder.Append(ResolveWehreTsql(expression));
+                builder.Append(ResolveWhereTsql(expression));
 
                 return _database.ExecuteSqlCommand(builder.ToString());
             }
@@ -356,9 +358,12 @@ namespace Dapper
             {
                 WhereById(id, out string clause, out object param);
 
-                StringBuilder builder = new StringBuilder("select ");
-                builder.Append(string.Join(", ", _metadata.ColumnPropertyMaps.Select(item => $"{item.Key} AS {item.Value}")));
-                builder.AppendLine($" from {_metadata.TableName}");
+                //StringBuilder builder = new StringBuilder("select ");
+                //builder.Append(string.Join(", ", _metadata.ColumnPropertyMaps.Select(item => $"{item.Key} AS {item.Value}")));
+                //builder.AppendLine($" from {_metadata.TableName}");
+                //builder.Append("where ").Append(clause);
+
+                StringBuilder builder = new StringBuilder($"select * from {_metadata.TableName} ");
                 builder.Append("where ").Append(clause);
 
                 return _database.Query<TEntity>(builder.ToString(), param).SingleOrDefault();
@@ -366,46 +371,72 @@ namespace Dapper
 
             public TEntity FirstOrDefault(Expression<Func<TEntity, bool>> expression)
             {
-                StringBuilder builder = new StringBuilder("select ");
-                builder.Append(string.Join(", ", _metadata.ColumnPropertyMaps.Select(item => $"{item.Key} AS {item.Value}")));
-                builder.AppendLine($" from {_metadata.TableName}");
-                builder.Append(ResolveWehreTsql(expression));
+                //StringBuilder builder = new StringBuilder("select ");
+                //builder.Append(string.Join(", ", _metadata.ColumnPropertyMaps.Select(item => $"{item.Key} AS {item.Value}")));
+                //builder.AppendLine($" from {_metadata.TableName}");
+                //builder.Append(ResolveWehreTsql(expression));
+
+                StringBuilder builder = new StringBuilder($"select * from {_metadata.TableName} ");
+                builder.Append(ResolveWhereTsql(expression));
 
                 return _database.Query<TEntity>(builder.ToString()).FirstOrDefault();
             }
 
             public bool Exists(Expression<Func<TEntity, bool>> expression)
             {
-                StringBuilder builder = new StringBuilder("select count(1)");
-                builder.AppendLine($" from {_metadata.TableName}");
-                builder.Append(ResolveWehreTsql(expression));
+                StringBuilder builder = new StringBuilder($"select count(1) from {_metadata.TableName}");
+                builder.Append(ResolveWhereTsql(expression));
 
-                var aa= _database.Query<int>(builder.ToString()).FirstOrDefault();
+                var aa = _database.Query<int>(builder.ToString()).FirstOrDefault();
 
                 return aa > 0;
             }
 
             public IEnumerable<TEntity> All()
             {
-                StringBuilder builder = new StringBuilder("select ");
-                builder.Append(string.Join(", ", _metadata.ColumnPropertyMaps.Select(item => $"{item.Key} AS {item.Value}")));
-                builder.AppendLine($" from {_metadata.TableName}");
+                //StringBuilder builder = new StringBuilder("select ");
+                //builder.Append(string.Join(", ", _metadata.ColumnPropertyMaps.Select(item => $"{item.Key} AS {item.Value}")));
+                //builder.AppendLine($" from {_metadata.TableName}");
+
+                StringBuilder builder = new StringBuilder($"select * from {_metadata.TableName}");
 
                 return _database.Query<TEntity>(builder.ToString());
             }
 
+            public IEnumerable<TEntity> Search<S>(int pageIndex, int pageSize, out int totalCount, Expression<Func<TEntity, bool>> query, Expression<Func<TEntity, S>> orderBy, bool orderAsc = true)
+            {
+                if (pageIndex < 1) pageIndex = 1;
+                if (pageSize < 1) pageSize = 1;
+                string where = ResolveWhereTsql(query);
+                string orders = ResolveOrderByTsql(orderBy, orderAsc);
+                int limitStart = (pageIndex - 1) * pageSize;
+
+                if (!string.IsNullOrWhiteSpace(where)) where = $" where {where}";
+                if (!string.IsNullOrWhiteSpace(orders)) orders = $" order by {orders}";
+
+                StringBuilder dataSqlBuilder = new StringBuilder($"select * from {_metadata.TableName}{where}{orders} limit {limitStart},{limitStart + pageSize}");
+                StringBuilder countSqlBuilder = new StringBuilder($"select count(1) AS Count from {_metadata.TableName}{where}");
+
+                IEnumerable<dynamic> list = _database.Connection.Query(countSqlBuilder.ToString());
+                totalCount = list?.FirstOrDefault()?.Count;
+                return _database.Query<TEntity>(dataSqlBuilder.ToString());
+            }
+
             public IEnumerable<TEntity> Search(string where = null, object param = null, string ordering = null)
             {
-                StringBuilder builder = new StringBuilder("select ");
-                builder.Append(string.Join(", ", _metadata.ColumnPropertyMaps.Select(item => $"{item.Key} AS {item.Value}")));
-                builder.AppendLine($" from {_metadata.TableName}");
+                //StringBuilder builder = new StringBuilder("select ");
+                //builder.Append(string.Join(", ", _metadata.ColumnPropertyMaps.Select(item => $"{item.Key} AS {item.Value}")));
+                //builder.AppendLine($" from {_metadata.TableName}");
+
+                StringBuilder builder = new StringBuilder($"select * from {_metadata.TableName}");
+
                 if (!string.IsNullOrWhiteSpace(where))
                 {
-                    builder.Append("where ").AppendLine(ReplacePropertyNameWithColumnName(where));
+                    builder.Append(" where ").AppendLine(ReplacePropertyNameWithColumnName(where));
                 }
                 if (!string.IsNullOrWhiteSpace(ordering))
                 {
-                    builder.Append("order by ").AppendLine(ReplacePropertyNameWithColumnName(ordering));
+                    builder.Append(" order by ").AppendLine(ReplacePropertyNameWithColumnName(ordering));
                 }
 
                 return _database.Query<TEntity>(builder.ToString(), param);
@@ -413,10 +444,13 @@ namespace Dapper
 
             public IEnumerable<TEntity> Search(Expression<Func<TEntity, bool>> expression)
             {
-                StringBuilder builder = new StringBuilder("select ");
-                builder.Append(string.Join(", ", _metadata.ColumnPropertyMaps.Select(item => $"{item.Key} AS {item.Value}")));
-                builder.Append($" from {_metadata.TableName}");
-                builder.Append(ResolveWehreTsql(expression));
+                //StringBuilder builder = new StringBuilder("select ");
+                //builder.Append(string.Join(", ", _metadata.ColumnPropertyMaps.Select(item => $"{item.Key} AS {item.Value}")));
+                //builder.Append($" from {_metadata.TableName}");
+                //builder.Append(ResolveWehreTsql(expression));
+
+                StringBuilder builder = new StringBuilder($"select * from {_metadata.TableName}");
+                builder.Append(ResolveWhereTsql(expression));
 
                 return _database.Query<TEntity>(sql: builder.ToString());
             }
@@ -426,7 +460,9 @@ namespace Dapper
                 return _database.Query<TEntity>(sql, paramters);
             }
 
-            private string ResolveWehreTsql(Expression<Func<TEntity, bool>> expression)
+            #region pvivate functions
+
+            private string ResolveWhereTsql(Expression<Func<TEntity, bool>> expression)
             {
                 string whereTsql = string.Empty;
                 if (expression != null)
@@ -438,8 +474,28 @@ namespace Dapper
                         whereTsql = $" where {ReplacePropertyNameWithColumnName(where)}";
                     }
                 }
-
                 return whereTsql;
+            }
+
+            /// <summary>
+            /// 解析Order by语句
+            /// </summary>
+            /// <param name="expression"></param>
+            /// <param name="asc">是否为升序，true为升序，false为降序</param>
+            /// <returns></returns>
+            private string ResolveOrderByTsql<S>(Expression<Func<TEntity, S>> expression, bool asc = true)
+            {
+                List<string> orderTsqls = new List<string>();
+                if (expression != null)
+                {
+                    var parameters = expression.Parameters;
+
+                    foreach (var para in parameters)
+                    {
+                        orderTsqls.Add($"{para.Name} {(asc ? "ASC" : "DESC")}");
+                    }
+                }
+                return string.Join(",", orderTsqls);
             }
 
             private string ReplacePropertyNameWithColumnName(string clause)
@@ -502,6 +558,8 @@ namespace Dapper
                 }
                 return paramNames;
             }
+
+            #endregion
         }
 
         #endregion

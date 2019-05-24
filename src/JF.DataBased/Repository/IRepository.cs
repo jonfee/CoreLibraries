@@ -89,7 +89,7 @@ namespace JF.DataBased.Repository
         /// <typeparam name="T"></typeparam>
         /// <param name="conditions"></param>
         /// <returns></returns>
-        List<T> Search<T>(Expression<Func<T, bool>> conditions = null)
+        IEnumerable<T> Search<T>(Expression<Func<T, bool>> conditions = null)
             where T : DataEntity;
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace JF.DataBased.Repository
         /// <param name="pageIndex"></param>
         /// <param name="totalCount"></param>
         /// <returns></returns>
-        List<T> Search<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount)
+        IEnumerable<T> Search<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount)
             where T : DataEntity;
 
         /// <summary>
