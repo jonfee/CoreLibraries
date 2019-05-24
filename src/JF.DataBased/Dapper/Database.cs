@@ -104,12 +104,12 @@ namespace Dapper
             CurrentTransaction = null;
         }
 
-        public virtual int ExecuteSqlCommand(string sql, object param = null)
+        public virtual int ExecuteSqlCommand(string sql, object param = null, IDbTransaction transaction = null)
         {
-            return Connection.Execute(sql, param, CurrentTransaction, CommandTimeout);
+            return Connection.Execute(sql, param, transaction, CommandTimeout);
         }
 
-        public virtual IEnumerable<T> Query<T>(string sql, object param = null, bool buffered = true)
+        public virtual IEnumerable<T> Query<T>(string sql, object param = null, IDbTransaction transaction = null, bool buffered = true)
         {
             typeof(T).InjectToSqlMapper();
 
@@ -117,6 +117,7 @@ namespace Dapper
 
             return Connection.Query<T>(sql,
                                         parameters,
+                                        transaction,
                                         buffered: buffered,
                                         commandTimeout: CommandTimeout);
         }
@@ -205,9 +206,8 @@ namespace Dapper
             /// 插入数据
             /// </summary>
             /// <param name="entity"></param>
-            /// <param name="trans">就否加入事务处理，默认为True，如果想立即执行，请使用False。</param>
             /// <returns></returns>
-            public int? Insert(TEntity entity, bool trans = true)
+            public int Insert(TEntity entity)
             {
                 if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -226,14 +226,7 @@ namespace Dapper
                 string values = string.Join(", ", paramList.Select(paramName => $"@{paramName}"));
                 string sql = $"insert into {_metadata.TableName} ({columns}) values ({values})";
 
-                if (trans)
-                {
-                    return _database.ExecuteSqlCommand(sql, entity);
-                }
-                else
-                {
-                    return _database.Query<int?>(sql, entity).Single();
-                }
+                return _database.ExecuteSqlCommand(sql, entity);
             }
 
             public int Update(TEntity entity)

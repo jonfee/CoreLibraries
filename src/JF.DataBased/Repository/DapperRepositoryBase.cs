@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -29,34 +30,36 @@ namespace JF.DataBased.Repository
             return DbContext.Set<T>().All().AsQueryable();
         }
 
-        public override void Update<T>(T entity)
+        public override int Update<T>(T entity, bool delay = false)
         {
             if (!entity.CanUpdate(out Hashtable errors)) throw new Exception(JsonConvert.SerializeObject(errors));
 
-            DbContext.Set<T>().Update(entity);
+            return DbContext.Set<T>().Update(entity);
         }
 
-        public override void Insert<T>(T entity)
+        public override int Insert<T>(T entity, bool delay = false)
         {
             if (!entity.CanInsert(out Hashtable errors)) throw new Exception(JsonConvert.SerializeObject(errors));
 
-            DbContext.Set<T>().Insert(entity);
+            return DbContext.Set<T>().Insert(entity);
         }
 
-        public override void Delete<T>(T entity)
+        public override int Delete<T>(T entity, bool delay = false)
         {
             if (!entity.CanDelete(out Hashtable errors)) throw new Exception(JsonConvert.SerializeObject(errors));
 
-            DbContext.Set<T>().Delete(entity);
+            return DbContext.Set<T>().Delete(entity);
         }
 
-        public override void Delete<T>(Expression<Func<T, bool>> conditions)
+        public override int Delete<T>(Expression<Func<T, bool>> conditions, bool delay = false)
         {
+            int count = 0;
             var list = Search<T>(conditions);
             foreach (var item in list)
             {
-                Delete<T>(item);
+                count += Delete<T>(item);
             }
+            return count;
         }
 
         public override T FirstOrDefault<T>(Expression<Func<T, bool>> conditions)
@@ -91,7 +94,7 @@ namespace JF.DataBased.Repository
             }
         }
 
-        public override IEnumerable<T> Search<T,S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount)
+        public override IEnumerable<T> Search<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount)
         {
             return DbContext.Set<T>().Search(pageIndex, pageSize, out totalCount, conditions, orderBy, true);
         }
@@ -111,10 +114,11 @@ namespace JF.DataBased.Repository
         /// </summary>
         /// <param name="sql"></param>
         /// <param name="paramters"></param>
+        /// <param name="transaction"></param>
         /// <returns></returns>
-        public override int ExecuteSqlCommand(string sql, object paramters = null)
+        public override int ExecuteSqlCommand(string sql, object paramters = null, IDbTransaction transaction = null)
         {
-            return DbContext.Database.ExecuteSqlCommand(sql, paramters);
+            return DbContext.Database.ExecuteSqlCommand(sql, paramters,transaction);
         }
 
         #endregion
@@ -138,21 +142,6 @@ namespace JF.DataBased.Repository
 
                 disposedValue = true;
             }
-        }
-
-        // TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
-        // ~RepositoryBase() {
-        //   // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
-        //   Dispose(false);
-        // }
-
-        // 添加此代码以正确实现可处置模式。
-        public override void Dispose()
-        {
-            // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
-            Dispose(true);
-            // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
-            // GC.SuppressFinalize(this);
         }
 
         #endregion

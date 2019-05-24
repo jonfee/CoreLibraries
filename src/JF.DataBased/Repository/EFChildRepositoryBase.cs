@@ -32,7 +32,7 @@ namespace JF.DataBased.Repository
             return dbContext.Set<T>().AsNoTracking();
         }
 
-        public virtual void Update(T entity)
+        public virtual int Update(T entity)
         {
             if (!entity.CanUpdate(out Hashtable errors)) throw new Exception(JsonConvert.SerializeObject(errors));
 
@@ -42,16 +42,20 @@ namespace JF.DataBased.Repository
                 dbContext.Set<T>().Attach(entity);
             }
             entry.State = EntityState.Modified;
+
+            return dbContext.SaveChanges();
         }
 
-        public virtual void Insert(T entity)
+        public virtual int Insert(T entity)
         {
             if (!entity.CanInsert(out Hashtable errors)) throw new Exception(JsonConvert.SerializeObject(errors));
 
             dbContext.Set<T>().Add(entity);
+
+            return dbContext.SaveChanges();
         }
 
-        public virtual void Delete(T entity)
+        public virtual int Delete(T entity)
         {
             if (!entity.CanDelete(out Hashtable errors)) throw new Exception(JsonConvert.SerializeObject(errors));
 
@@ -62,15 +66,19 @@ namespace JF.DataBased.Repository
             }
             entry.State = EntityState.Deleted;
             dbContext.Set<T>().Remove(entity);
+
+            return dbContext.SaveChanges();
         }
 
-        public virtual void Delete(Expression<Func<T, bool>> conditions)
+        public virtual int Delete(Expression<Func<T, bool>> conditions)
         {
             var list = Search(conditions);
             foreach (var item in list)
             {
                 Delete(item);
             }
+
+            return dbContext.SaveChanges();
         }
 
         public virtual T FirstOrDefault(Expression<Func<T, bool>> conditions)

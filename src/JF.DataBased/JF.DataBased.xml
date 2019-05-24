@@ -338,12 +338,13 @@
             使用了<see cref="T:JF.DataBased.Context.DapperDbContext"/>数据连接的仓储基类。
             </summary>
         </member>
-        <member name="M:JF.DataBased.Repository.DapperRepositoryBase.ExecuteSqlCommand(System.String,System.Object)">
+        <member name="M:JF.DataBased.Repository.DapperRepositoryBase.ExecuteSqlCommand(System.String,System.Object,System.Data.IDbTransaction)">
             <summary>
             执行SQL命令
             </summary>
             <param name="sql"></param>
             <param name="paramters"></param>
+            <param name="transaction"></param>
             <returns></returns>
         </member>
         <member name="T:JF.DataBased.Repository.EFChildRepositoryBase`1">
@@ -365,12 +366,13 @@
             使用了<see cref="T:JF.DataBased.Context.EFDbContext"/>数据连接的仓储基类。
             </summary>
         </member>
-        <member name="M:JF.DataBased.Repository.EFRepositoryBase.ExecuteSqlCommand(System.String,System.Object)">
+        <member name="M:JF.DataBased.Repository.EFRepositoryBase.ExecuteSqlCommand(System.String,System.Object,System.Data.IDbTransaction)">
             <summary>
             执行SQL命令
             </summary>
             <param name="sql"></param>
             <param name="paramters"></param>
+            <param name="transaction">暂无意义，请忽略。</param>
             <returns></returns>
         </member>
         <member name="T:JF.DataBased.Repository.IChildRepository`1">
@@ -514,34 +516,31 @@
             <param name="conditions"></param>
             <returns></returns>
         </member>
-        <member name="M:JF.DataBased.Repository.IRepository.Insert``1(``0)">
+        <member name="M:JF.DataBased.Repository.IRepository.Insert``1(``0,System.Boolean)">
             <summary>
             插入一条数据
             </summary>
             <typeparam name="T"></typeparam>
             <param name="entity"></param>
+            <param name="delay">是否延迟执行</param>
         </member>
-        <member name="M:JF.DataBased.Repository.IRepository.Update``1(``0)">
+        <member name="M:JF.DataBased.Repository.IRepository.Update``1(``0,System.Boolean)">
             <summary>
             更新一条数据
             </summary>
             <typeparam name="T"></typeparam>
             <param name="entity"></param>
+            <param name="delay"></param>
         </member>
-        <member name="M:JF.DataBased.Repository.IRepository.Delete``1(``0)">
+        <member name="M:JF.DataBased.Repository.IRepository.Delete``1(``0,System.Boolean)">
             <summary>
             删除指定数据
             </summary>
             <typeparam name="T"></typeparam>
             <param name="entity"></param>
+            <param name="delay"></param>
         </member>
-        <member name="M:JF.DataBased.Repository.IRepository.Delete``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
-            <summary>
-            按条件删除
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="conditions"></param>
-        </member>
+        <!-- 对于成员“M:JF.DataBased.Repository.IRepository.Delete``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Boolean)”忽略有格式错误的 XML 注释 -->
         <member name="M:JF.DataBased.Repository.IRepository.Find``1(System.Object[])">
             <summary>
             根据主键获取实体数据。
@@ -596,12 +595,13 @@
             <param name="sql"></param>
             <returns></returns>
         </member>
-        <member name="M:JF.DataBased.Repository.IRepository.ExecuteSqlCommand(System.String,System.Object)">
+        <member name="M:JF.DataBased.Repository.IRepository.ExecuteSqlCommand(System.String,System.Object,System.Data.IDbTransaction)">
             <summary>
             执行SQL命令
             </summary>
             <param name="sql"></param>
             <param name="paramters"></param>
+            <param name="transaction"></param>
             <returns></returns>
         </member>
         <member name="M:JF.DataBased.Repository.IRepository.SaveChanges">
@@ -679,7 +679,7 @@
             </summary>
             <typeparam name="TDbContext"></typeparam>
         </member>
-        <member name="M:JF.DataBased.Repository.RepositoryFacede.ExecuteSqlCommand(System.String,System.Object)">
+        <member name="M:JF.DataBased.Repository.RepositoryFacede.ExecuteSqlCommand(System.String,System.Object,System.Data.IDbTransaction)">
             <summary>
             执行SQL命令
             </summary>
@@ -913,12 +913,11 @@
             事务回滚
             </summary>
         </member>
-        <member name="M:Dapper.Database`1.DbSet`1.Insert(`1,System.Boolean)">
+        <member name="M:Dapper.Database`1.DbSet`1.Insert(`1)">
             <summary>
             插入数据
             </summary>
             <param name="entity"></param>
-            <param name="trans">就否加入事务处理，默认为True，如果想立即执行，请使用False。</param>
             <returns></returns>
         </member>
         <member name="M:Dapper.Database`1.DbSet`1.ResolveOrderByTsql``1(System.Linq.Expressions.Expression{System.Func{`1,``0}},System.Boolean)">

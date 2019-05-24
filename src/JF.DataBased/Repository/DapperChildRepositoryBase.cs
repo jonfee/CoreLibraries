@@ -31,30 +31,38 @@ namespace JF.DataBased.Repository
             return dbContext.Set<T>().Search().AsQueryable();
         }
 
-        public virtual void Update(T entity)
+        public virtual int Update(T entity)
         {
             if (!entity.CanUpdate(out Hashtable errors)) throw new Exception(JsonConvert.SerializeObject(errors));
 
             dbContext.Set<T>().Update(entity);
+
+            return dbContext.SaveChanges();
         }
 
-        public virtual void Insert(T entity)
+        public virtual int Insert(T entity)
         {
             if (!entity.CanInsert(out Hashtable errors)) throw new Exception(JsonConvert.SerializeObject(errors));
 
             dbContext.Set<T>().Insert(entity);
+
+            return dbContext.SaveChanges();
         }
 
-        public virtual void Delete(T entity)
+        public virtual int Delete(T entity)
         {
             if (!entity.CanDelete(out Hashtable errors)) throw new Exception(JsonConvert.SerializeObject(errors));
 
             dbContext.Set<T>().Delete(entity);
+
+            return dbContext.SaveChanges();
         }
 
-        public virtual void Delete(Expression<Func<T, bool>> conditions)
+        public virtual int Delete(Expression<Func<T, bool>> conditions)
         {
             Delete(conditions);
+
+            return dbContext.SaveChanges();
         }
 
         public virtual T FirstOrDefault(Expression<Func<T, bool>> conditions)

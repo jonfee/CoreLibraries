@@ -47,14 +47,14 @@ namespace JF.DataBased.Repository
             return repository.All();
         }
 
-        public void Delete(TEntity entity)
+        public int Delete(TEntity entity)
         {
-            repository.Delete(entity);
+           return repository.Delete(entity);
         }
 
-        public void Delete(Expression<Func<TEntity, bool>> conditions)
+        public int Delete(Expression<Func<TEntity, bool>> conditions)
         {
-            repository.Delete(conditions);
+           return repository.Delete(conditions);
         }
 
         public int ExecuteSqlCommand(string sql)
@@ -88,9 +88,9 @@ namespace JF.DataBased.Repository
             return repository.Find(keyValues);
         }
 
-        public void Insert(TEntity entity)
+        public int Insert(TEntity entity)
         {
-            repository.Insert(entity);
+           return repository.Insert(entity);
         }
 
         public virtual IEnumerable<TEntity> Search(string sql, object paramters)
@@ -108,9 +108,9 @@ namespace JF.DataBased.Repository
             return repository.Search(conditions, orderBy, pageSize, pageIndex, out totalCount);
         }
 
-        public void Update(TEntity entity)
+        public int Update(TEntity entity)
         {
-            repository.Update(entity);
+           return repository.Update(entity);
         }
 
         #endregion

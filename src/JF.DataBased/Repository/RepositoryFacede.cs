@@ -2,6 +2,7 @@
 using JF.DataBased.Context;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -54,14 +55,14 @@ namespace JF.DataBased.Repository
             return repository.All<T>();
         }
 
-        public void Delete<T>(T entity) where T : DataEntity
+        public int Delete<T>(T entity, bool delay = false) where T : DataEntity
         {
-            repository.Delete(entity);
+            return repository.Delete(entity, delay);
         }
 
-        public void Delete<T>(Expression<Func<T, bool>> conditions) where T : DataEntity
+        public int Delete<T>(Expression<Func<T, bool>> conditions, bool delay = false) where T : DataEntity
         {
-            repository.Delete(conditions);
+            return repository.Delete(conditions, delay);
         }
 
         public int ExecuteSqlCommand(string sql)
@@ -75,9 +76,9 @@ namespace JF.DataBased.Repository
         /// <param name="sql"></param>
         /// <param name="paramters"></param>
         /// <returns></returns>
-        public int ExecuteSqlCommand(string sql, object paramters = null)
+        public int ExecuteSqlCommand(string sql, object paramters = null, IDbTransaction transaction = null)
         {
-            return repository.ExecuteSqlCommand(sql, paramters);
+            return repository.ExecuteSqlCommand(sql, paramters, transaction);
         }
 
         public IEnumerable<T> Query<T>(string sql, object paramters = null) where T : class, new()
@@ -115,14 +116,14 @@ namespace JF.DataBased.Repository
             return repository.Exists(conditions);
         }
 
-        public void Insert<T>(T entity) where T : DataEntity
+        public int Insert<T>(T entity, bool delay = false) where T : DataEntity
         {
-            repository.Insert(entity);
+            return repository.Insert(entity, delay);
         }
 
-        public void Update<T>(T entity) where T : DataEntity
+        public int Update<T>(T entity, bool delay = false) where T : DataEntity
         {
-            repository.Update(entity);
+            return repository.Update(entity, delay);
         }
 
         #region 子仓操作

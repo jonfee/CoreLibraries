@@ -3,6 +3,7 @@ using JF.DataBased.Context;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -62,23 +63,25 @@ namespace JF.DataBased.Repository
         #region IRepository Support
 
         public abstract IQueryable<T> All<T>() where T : DataEntity;
-        public abstract void Delete<T>(T entity) where T : DataEntity;
-        public abstract void Delete<T>(Expression<Func<T, bool>> conditions) where T : DataEntity;
-        public abstract void Dispose();
-        public abstract int ExecuteSqlCommand(string sql);
-        public abstract int ExecuteSqlCommand(string sql, object paramters = null);
+        public abstract int Delete<T>(T entity, bool delay = false) where T : DataEntity;
+        public abstract int Delete<T>(Expression<Func<T, bool>> conditions, bool delay = false) where T : DataEntity;
+        public virtual int ExecuteSqlCommand(string sql)
+        {
+            return ExecuteSqlCommand(sql, null, null);
+        }
+        public abstract int ExecuteSqlCommand(string sql, object paramters = null, IDbTransaction transaction = null);
         public abstract IEnumerable<T> Query<T>(string sql, object paramters = null) where T : class, new();
         public abstract T Find<T>(params object[] keyValues) where T : DataEntity;
-        public abstract IEnumerable<T> Search<T>(string sql, object paramters = null) where T : DataEntity,new();
+        public abstract IEnumerable<T> Search<T>(string sql, object paramters = null) where T : DataEntity, new();
         public abstract IEnumerable<T> Search<T>(Expression<Func<T, bool>> conditions = null) where T : DataEntity;
-        public abstract IEnumerable<T> Search<T,S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount) where T : DataEntity;
+        public abstract IEnumerable<T> Search<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount) where T : DataEntity;
         public abstract T FirstOrDefault<T>(Expression<Func<T, bool>> conditions) where T : DataEntity;
 
         public abstract bool Exists<T>(Expression<Func<T, bool>> conditions) where T : DataEntity;
 
-        public abstract void Insert<T>(T entity) where T : DataEntity;
+        public abstract int Insert<T>(T entity, bool delay = false) where T : DataEntity;
 
-        public abstract void Update<T>(T entity) where T : DataEntity;
+        public abstract int Update<T>(T entity, bool delay = false) where T : DataEntity;
 
         public virtual int SaveChanges()
         {
@@ -163,6 +166,44 @@ namespace JF.DataBased.Repository
             return repository != null;
         }
 
+
+
+        #endregion
+
+        #region IDisposable Support
+        private bool disposedValue = false; // 要检测冗余调用
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: 释放托管状态(托管对象)。
+                }
+
+                // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。
+                // TODO: 将大型字段设置为 null。
+                this.childRepositories?.Clear();
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
+        // ~IService() {
+        //   // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
+        //   Dispose(false);
+        // }
+
+        // 添加此代码以正确实现可处置模式。
+        public void Dispose()
+        {
+            // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
+            Dispose(true);
+            // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
+            // GC.SuppressFinalize(this);
+        }
         #endregion
 
         #region private functions

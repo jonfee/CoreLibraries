@@ -164,7 +164,7 @@ namespace JF.DataBased
             this.SqlCommands.Add(sql, repository);
             this.AddRepository(repository);
         }
-        
+
         /// <summary>
         /// 添加仓储服务
         /// </summary>
@@ -226,25 +226,25 @@ namespace JF.DataBased
                 // 处理新增
                 foreach (var kv in this.AddedEntities)
                 {
-                    kv.Value.Insert(kv.Key);
+                    rows += kv.Value.Insert(kv.Key, true);
                 }
 
                 // 处理更新
                 foreach (var kv in this.UpdatedEntities)
                 {
-                    kv.Value.Update(kv.Key);
+                    rows += kv.Value.Update(kv.Key, true);
                 }
 
                 // 处理删除
                 foreach (var kv in this.DeletedEntities)
                 {
-                    kv.Value.Delete(kv.Key);
+                    rows += kv.Value.Delete(kv.Key, true);
                 }
 
                 // 处理命令行
                 foreach (var kv in this.SqlCommands)
                 {
-                    kv.Value.ExecuteSqlCommand(kv.Key);
+                    rows += kv.Value.ExecuteSqlCommand(kv.Key);
                 }
 
                 // 执行SaveChanges()

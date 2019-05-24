@@ -46,28 +46,28 @@ namespace JF.DataBased.Repository
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="entity"></param>
-        void Insert(T entity);
+        int Insert(T entity);
 
         /// <summary>
         /// 更新一条数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="entity"></param>
-        void Update(T entity);
+        int Update(T entity);
 
         /// <summary>
         /// 删除指定数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="entity"></param>
-        void Delete(T entity);
+        int Delete(T entity);
 
         /// <summary>
         /// 按条件删除
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="conditions"></param>
-        void Delete(Expression<Func<T, bool>> conditions);
+        int Delete(Expression<Func<T, bool>> conditions);
 
         /// <summary>
         /// 
@@ -112,6 +112,6 @@ namespace JF.DataBased.Repository
         /// <param name="sql"></param>
         /// <param name="paramters"></param>
         /// <returns></returns>
-        int ExecuteSqlCommand(string sql,params object[] paramters);
+        int ExecuteSqlCommand(string sql, params object[] paramters);
     }
 }

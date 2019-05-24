@@ -2,6 +2,7 @@
 using JF.DataBased.Context;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -48,7 +49,8 @@ namespace JF.DataBased.Repository
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="entity"></param>
-        void Insert<T>(T entity)
+        /// <param name="delay">是否延迟执行</param>
+        int Insert<T>(T entity, bool delay = false)
             where T : DataEntity;
 
         /// <summary>
@@ -56,7 +58,8 @@ namespace JF.DataBased.Repository
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="entity"></param>
-        void Update<T>(T entity)
+        /// <param name="delay"></param>
+        int Update<T>(T entity, bool delay = false)
             where T : DataEntity;
 
         /// <summary>
@@ -64,15 +67,17 @@ namespace JF.DataBased.Repository
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="entity"></param>
-        void Delete<T>(T entity)
+        /// <param name="delay"></param>
+        int Delete<T>(T entity, bool delay = false)
             where T : DataEntity;
 
         /// <summary>
         /// 按条件删除
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="conditions"></param>
-        void Delete<T>(Expression<Func<T, bool>> conditions)
+        /// <param name="conditions"></param
+        /// <param name="delay"></param>
+        int Delete<T>(Expression<Func<T, bool>> conditions, bool delay = false)
             where T : DataEntity;
 
         /// <summary>
@@ -136,8 +141,9 @@ namespace JF.DataBased.Repository
         /// </summary>
         /// <param name="sql"></param>
         /// <param name="paramters"></param>
+        /// <param name="transaction"></param>
         /// <returns></returns>
-        int ExecuteSqlCommand(string sql, object paramters = null);
+        int ExecuteSqlCommand(string sql, object paramters = null, IDbTransaction transaction = null);
 
         /// <summary>
         /// 保存更改
