@@ -14,13 +14,22 @@ namespace JF.Http
         /// </summary>
         /// <param name="url">目标链接</param>
         /// <param name="json">发送的参数字符串，只能用json</param>
+        /// <param name="header"></param>
         /// <returns>返回的字符串</returns>
-        public static async Task<string> PostAsyncJson(string url, string json)
+        public static async Task<string> PostAsyncJson(string url, string json, Dictionary<string, string> header = null)
         {
             using (var client = new HttpClient())
             {
                 HttpContent content = new StringContent(json);
                 content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                if (header != null)
+                {
+                    client.DefaultRequestHeaders.Clear();
+                    foreach (var item in header)
+                    {
+                        client.DefaultRequestHeaders.Add(item.Key, item.Value);
+                    }
+                }
                 HttpResponseMessage response = await client.PostAsync(url, content);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -85,11 +94,12 @@ namespace JF.Http
         /// <typeparam name="T2">请求对象类型</typeparam>
         /// <param name="url">请求链接</param>
         /// <param name="obj">请求对象数据</param>
+        /// <param name="header"></param>
         /// <returns>请求返回的目标对象</returns>
-        public static async Task<T> PostObjectAsync<T, T2>(string url, T2 obj)
+        public static async Task<T> PostObjectAsync<T, T2>(string url, T2 obj, Dictionary<string, string> header = null)
         {
             String json = JsonConvert.SerializeObject(obj);
-            string responseBody = await PostAsyncJson(url, json); //请求当前账户的信息
+            string responseBody = await PostAsyncJson(url, json, header); //请求当前账户的信息
             return JsonConvert.DeserializeObject<T>(responseBody);//把收到的字符串序列化
         }
 
