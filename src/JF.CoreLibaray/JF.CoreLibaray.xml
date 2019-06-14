@@ -1153,6 +1153,38 @@
             基于<see cref="T:System.Guid"/>的扩展类
             </summary>
         </member>
+        <member name="T:JF.Common.NumberExtensions">
+            <summary>
+            数字类型扩展
+            </summary>
+        </member>
+        <member name="M:JF.Common.NumberExtensions.ToFixed(System.Decimal,System.Int32,System.MidpointRounding)">
+            <summary>
+            把 Number 转换为指定小数位数的字符串。
+            </summary>
+            <param name="val"></param>
+            <param name="digits">保留的最大小数位，当小数位均为0时，将忽略小数位。</param>
+            <param name="midpoint">舍入模式。</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Common.NumberExtensions.ToFixed(System.Single,System.Int32,System.MidpointRounding)">
+            <summary>
+            把 Number 转换为指定小数位数的字符串。
+            </summary>
+            <param name="val"></param>
+            <param name="digits">保留的最大小数位，当小数位均为0时，将忽略小数位。</param>
+            <param name="midpoint">舍入模式。</param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Common.NumberExtensions.ToFixed(System.Double,System.Int32,System.MidpointRounding)">
+            <summary>
+            把 Number 转换为指定小数位数的字符串。
+            </summary>
+            <param name="val"></param>
+            <param name="digits">保留的最大小数位，当小数位均为0时，将忽略小数位。</param>
+            <param name="midpoint">舍入模式。</param>
+            <returns></returns>
+        </member>
         <member name="T:JF.Common.ObjectExtensions">
             <summary>
             基于<see cref="T:System.Object"/>的扩展类
