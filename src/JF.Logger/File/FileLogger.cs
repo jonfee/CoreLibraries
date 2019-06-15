@@ -54,6 +54,76 @@ namespace JF.Logger
         #region Interface Implementation
 
         /// <summary>
+        /// 信息日志写入
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
+        public virtual void Info(string title, string content)
+        {
+            Write(LogLevel.INFO, title, content);
+        }
+
+        /// <summary>
+        /// 警告信息写入
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
+        public virtual void Waring(string title, string content)
+        {
+            Write(LogLevel.WARN,title,content);
+        }
+
+        /// <summary>
+        /// 错误信息写入
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
+        public virtual void Error(string title, string content)
+        {
+            Write(LogLevel.ERROR, title, content);
+        }
+
+        /// <summary>
+        /// 调试信息写入
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
+        public virtual void Debug(string title, string content)
+        {
+            Write(LogLevel.DEBUG, title, content);
+        }
+
+        /// <summary>
+        /// 致命错误信息写入
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
+        public virtual void Fatal(string title, string content)
+        {
+            Write(LogLevel.FATAL, title, content);
+        }
+
+        public virtual void Write(LogLevel level,string title,string content)
+        {
+            if (string.IsNullOrEmpty(title) && string.IsNullOrEmpty(content)) return;
+
+            var message = new LogMessage
+            {
+                AppCode = string.Empty,
+                AppName = string.Empty,
+                AppVersion = string.Empty,
+                OSBit = Environment.Is64BitOperatingSystem ? 64 : 32,
+                OSVersion = Environment.OSVersion.VersionString,
+                Level = level,
+                Title = title,
+                Details = content,
+                LogTime = DateTime.Now
+            };
+
+            Write(message);
+        }
+
+        /// <summary>
         /// 写入日志
         /// </summary>
         /// <param name="message"></param>
@@ -139,7 +209,7 @@ namespace JF.Logger
         {
             StringBuilder data = new StringBuilder();
 
-            foreach (var log in logs.OrderBy(p=>p.LogTime))
+            foreach (var log in logs.OrderBy(p => p.LogTime))
             {
                 data.Append($"\r\n【{log.Level} # {log.LogTime.ToString()} # {log.Title}】");
                 data.Append($"\r\nEnvironment：{log.AppName}/{log.AppCode} # 版本:{log.AppVersion} # 操作系统:{log.OSVersion} {log.OSBit}");

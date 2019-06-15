@@ -26,6 +26,41 @@
             </summary>
             <param name="options"></param>
         </member>
+        <member name="M:JF.Logger.FileLogger.Info(System.String,System.String)">
+            <summary>
+            信息日志写入
+            </summary>
+            <param name="title"></param>
+            <param name="content"></param>
+        </member>
+        <member name="M:JF.Logger.FileLogger.Waring(System.String,System.String)">
+            <summary>
+            警告信息写入
+            </summary>
+            <param name="title"></param>
+            <param name="content"></param>
+        </member>
+        <member name="M:JF.Logger.FileLogger.Error(System.String,System.String)">
+            <summary>
+            错误信息写入
+            </summary>
+            <param name="title"></param>
+            <param name="content"></param>
+        </member>
+        <member name="M:JF.Logger.FileLogger.Debug(System.String,System.String)">
+            <summary>
+            调试信息写入
+            </summary>
+            <param name="title"></param>
+            <param name="content"></param>
+        </member>
+        <member name="M:JF.Logger.FileLogger.Fatal(System.String,System.String)">
+            <summary>
+            致命错误信息写入
+            </summary>
+            <param name="title"></param>
+            <param name="content"></param>
+        </member>
         <member name="M:JF.Logger.FileLogger.Write(JF.Logger.LogMessage)">
             <summary>
             写入日志
@@ -108,6 +143,41 @@
             日志写入
             </summary>
             <param name="message"></param>
+        </member>
+        <member name="M:JF.Logger.ILogger.Info(System.String,System.String)">
+            <summary>
+            信息日志写入
+            </summary>
+            <param name="title"></param>
+            <param name="content"></param>
+        </member>
+        <member name="M:JF.Logger.ILogger.Waring(System.String,System.String)">
+            <summary>
+            警告信息写入
+            </summary>
+            <param name="title"></param>
+            <param name="content"></param>
+        </member>
+        <member name="M:JF.Logger.ILogger.Fatal(System.String,System.String)">
+            <summary>
+            致命错误写入
+            </summary>
+            <param name="title"></param>
+            <param name="content"></param>
+        </member>
+        <member name="M:JF.Logger.ILogger.Debug(System.String,System.String)">
+            <summary>
+            调试信息写入
+            </summary>
+            <param name="title"></param>
+            <param name="content"></param>
+        </member>
+        <member name="M:JF.Logger.ILogger.Error(System.String,System.String)">
+            <summary>
+            错误信息写入
+            </summary>
+            <param name="title"></param>
+            <param name="content"></param>
         </member>
         <member name="T:JF.Logger.LoggerFactory">
             <summary>
