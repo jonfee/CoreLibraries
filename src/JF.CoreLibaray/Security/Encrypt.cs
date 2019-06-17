@@ -25,6 +25,27 @@ namespace JF.Security
 
         #endregion
 
+        #region RSA
+
+        /// <summary>
+        /// RSA签名
+        /// </summary>
+        /// <param name="privateKey">私钥</param>
+        /// <param name="sourceString">待签名的内容</param>
+        /// <param name="hashAlgorithm">签名方式</param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public static string RSASign(this string sourceString, string privateKey, string hashAlgorithm = "MD5", string encoding = "UTF-8")
+        {
+            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+            rsa.FromXmlString(privateKey);//加载私钥
+            var dataBytes = Encoding.GetEncoding(encoding).GetBytes(sourceString);
+            var hashbyteSignature = rsa.SignData(dataBytes, hashAlgorithm);
+            return Convert.ToBase64String(hashbyteSignature);
+        }
+
+        #endregion
+
         #region SHA
 
         /// <summary>

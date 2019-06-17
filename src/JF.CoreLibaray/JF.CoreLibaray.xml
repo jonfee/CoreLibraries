@@ -1548,6 +1548,16 @@
             <param name="url">请求链接</param>
             <returns>返回请求的对象</returns>
         </member>
+        <member name="M:JF.Http.HttpRequest.PostByFormAsync``1(System.String,``0,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            模拟表单请求
+            </summary>
+            <typeparam name="TForm">表单对象</typeparam>
+            <param name="url"></param>
+            <param name="value"></param>
+            <param name="headers"></param>
+            <returns></returns>
+        </member>
         <member name="T:JF.Json.JsonSettingsHandler">
             <summary>
             。
@@ -1630,6 +1640,16 @@
             </summary>
             <param name="sourceString">源字符串</param>
             <returns>MD5值</returns>
+        </member>
+        <member name="M:JF.Security.Encrypt.RSASign(System.String,System.String,System.String,System.String)">
+            <summary>
+            RSA签名
+            </summary>
+            <param name="privateKey">私钥</param>
+            <param name="sourceString">待签名的内容</param>
+            <param name="hashAlgorithm">签名方式</param>
+            <param name="encoding"></param>
+            <returns></returns>
         </member>
         <member name="M:JF.Security.Encrypt.GetSHA1(System.String)">
             <summary>
