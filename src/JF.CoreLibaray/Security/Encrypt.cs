@@ -32,15 +32,15 @@ namespace JF.Security
         /// <summary>
         /// RSA签名
         /// </summary>
-        /// <param name="opensslKey">私钥</param>
+        /// <param name="openSSL">私钥</param>
         /// <param name="plainText">待签名的内容</param>
         /// <param name="hashAlgorithm">签名方式</param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static string RSAEncryptForOpenssl(this string plainText, string opensslKey, string hashAlgorithm = "MD5", string encoding = "UTF-8")
+        public static string RSAEncryptForOpenssl(this string plainText, string openSSL, string hashAlgorithm = "MD5", string encoding = "UTF-8")
         {
             Regex regex = new Regex(@"-----(BEGIN|END)[^-]+-----", RegexOptions.Compiled | RegexOptions.Multiline);
-            string privateKey = regex.Replace(opensslKey, "");
+            string privateKey = regex.Replace(openSSL, "");
 
             using(var rsa = DecodeRSAPrivateKey(privateKey))
             {

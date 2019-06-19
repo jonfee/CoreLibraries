@@ -1645,7 +1645,7 @@
             <summary>
             RSA签名
             </summary>
-            <param name="opensslKey">私钥</param>
+            <param name="openSSL">私钥</param>
             <param name="plainText">待签名的内容</param>
             <param name="hashAlgorithm">签名方式</param>
             <param name="encoding"></param>
