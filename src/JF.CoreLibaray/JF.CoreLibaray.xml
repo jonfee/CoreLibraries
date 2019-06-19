@@ -1641,14 +1641,31 @@
             <param name="sourceString">源字符串</param>
             <returns>MD5值</returns>
         </member>
-        <member name="M:JF.Security.Encrypt.RSASign(System.String,System.String,System.String,System.String)">
+        <member name="M:JF.Security.Encrypt.RSAEncryptForOpenssl(System.String,System.String,System.String,System.String)">
             <summary>
             RSA签名
             </summary>
-            <param name="privateKey">私钥</param>
-            <param name="sourceString">待签名的内容</param>
+            <param name="opensslKey">私钥</param>
+            <param name="plainText">待签名的内容</param>
             <param name="hashAlgorithm">签名方式</param>
             <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Security.Encrypt.RSAEncrypt(System.String,System.String@,System.String@)">
+            <summary>
+            RSA加密,随机生成公私钥对并作为出参返回
+            </summary>
+            <param name="plainText"></param>
+            <param name="publicKey"></param>
+            <param name="privateKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Security.Encrypt.RSADecrypt(System.String,System.String)">
+            <summary>
+            RSA解密
+            </summary>
+            <param name="cipherText"></param>
+            <param name="privateKey"></param>
             <returns></returns>
         </member>
         <member name="M:JF.Security.Encrypt.GetSHA1(System.String)">

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace JF.Security
 {
@@ -30,19 +32,164 @@ namespace JF.Security
         /// <summary>
         /// RSA签名
         /// </summary>
-        /// <param name="privateKey">私钥</param>
-        /// <param name="sourceString">待签名的内容</param>
+        /// <param name="opensslKey">私钥</param>
+        /// <param name="plainText">待签名的内容</param>
         /// <param name="hashAlgorithm">签名方式</param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static string RSASign(this string sourceString, string privateKey, string hashAlgorithm = "MD5", string encoding = "UTF-8")
+        public static string RSAEncryptForOpenssl(this string plainText, string opensslKey, string hashAlgorithm = "MD5", string encoding = "UTF-8")
         {
-            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-            rsa.FromXmlString(privateKey);//加载私钥
-            var dataBytes = Encoding.GetEncoding(encoding).GetBytes(sourceString);
-            var hashbyteSignature = rsa.SignData(dataBytes, hashAlgorithm);
-            return Convert.ToBase64String(hashbyteSignature);
+            Regex regex = new Regex(@"-----(BEGIN|END)[^-]+-----", RegexOptions.Compiled | RegexOptions.Multiline);
+            string privateKey = regex.Replace(opensslKey, "");
+
+            using(var rsa = DecodeRSAPrivateKey(privateKey))
+            {
+                var dataBytes = Encoding.GetEncoding(encoding).GetBytes(plainText);
+                HashAlgorithm algorithm = HashAlgorithm.Create(hashAlgorithm);
+                var hashbyteSignature = rsa.SignData(dataBytes, algorithm);
+                return Convert.ToBase64String(hashbyteSignature);
+            }
         }
+
+        /// <summary>
+        /// RSA加密,随机生成公私钥对并作为出参返回
+        /// </summary>
+        /// <param name="plainText"></param>
+        /// <param name="publicKey"></param>
+        /// <param name="privateKey"></param>
+        /// <returns></returns>
+        public static string RSAEncrypt(this string plainText, out string publicKey, out string privateKey)
+        {
+            publicKey = "";
+            privateKey = "";
+            UnicodeEncoding byteConverter = new UnicodeEncoding();
+            byte[] dataToEncrypt = byteConverter.GetBytes(plainText);
+            try
+            {
+                RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+                publicKey = Convert.ToBase64String(rsa.ExportCspBlob(false));
+                privateKey = Convert.ToBase64String(rsa.ExportCspBlob(true));
+
+                //OAEP padding is only available on Microsoft Windows XP or later. 
+                byte[] bytes_Cypher_Text = rsa.Encrypt(dataToEncrypt, false);
+                publicKey = Convert.ToBase64String(rsa.ExportCspBlob(false));
+                privateKey = Convert.ToBase64String(rsa.ExportCspBlob(true));
+                string str_Cypher_Text = Convert.ToBase64String(bytes_Cypher_Text);
+                return str_Cypher_Text;
+            }
+            catch (CryptographicException e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// RSA解密
+        /// </summary>
+        /// <param name="cipherText"></param>
+        /// <param name="privateKey"></param>
+        /// <returns></returns>
+        public static string RSADecrypt(this string cipherText, string privateKey)
+        {
+            byte[] DataToDecrypt = Convert.FromBase64String(cipherText);
+            try
+            {
+                RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+                //RSA.ImportParameters(RSAKeyInfo);
+                byte[] bytes_Public_Key = Convert.FromBase64String(privateKey);
+                rsa.ImportCspBlob(bytes_Public_Key);
+
+                //OAEP padding is only available on Microsoft Windows XP or later. 
+                byte[] bytes_Plain_Text = rsa.Decrypt(DataToDecrypt, false);
+                UnicodeEncoding ByteConverter = new UnicodeEncoding();
+                string str_Plain_Text = ByteConverter.GetString(bytes_Plain_Text);
+                return str_Plain_Text;
+            }
+            catch (CryptographicException e)
+            {
+                Console.WriteLine(e.ToString());
+                return null;
+            }
+        }
+
+        #region rsa private
+
+        private static RSACryptoServiceProvider DecodeRSAPrivateKey(string privateKey)
+        {
+            var privateKeyBits = System.Convert.FromBase64String(privateKey);
+
+            var RSA = new RSACryptoServiceProvider();
+            var RSAparams = new RSAParameters();
+
+            using (BinaryReader binr = new BinaryReader(new MemoryStream(privateKeyBits)))
+            {
+                byte bt = 0;
+                ushort twobytes = 0;
+                twobytes = binr.ReadUInt16();
+                if (twobytes == 0x8130)
+                    binr.ReadByte();
+                else if (twobytes == 0x8230)
+                    binr.ReadInt16();
+                else
+                    throw new Exception("Unexpected value read binr.ReadUInt16()");
+
+                twobytes = binr.ReadUInt16();
+                if (twobytes != 0x0102)
+                    throw new Exception("Unexpected version");
+
+                bt = binr.ReadByte();
+                if (bt != 0x00)
+                    throw new Exception("Unexpected value read binr.ReadByte()");
+
+                RSAparams.Modulus = binr.ReadBytes(GetIntegerSize(binr));
+                RSAparams.Exponent = binr.ReadBytes(GetIntegerSize(binr));
+                RSAparams.D = binr.ReadBytes(GetIntegerSize(binr));
+                RSAparams.P = binr.ReadBytes(GetIntegerSize(binr));
+                RSAparams.Q = binr.ReadBytes(GetIntegerSize(binr));
+                RSAparams.DP = binr.ReadBytes(GetIntegerSize(binr));
+                RSAparams.DQ = binr.ReadBytes(GetIntegerSize(binr));
+                RSAparams.InverseQ = binr.ReadBytes(GetIntegerSize(binr));
+            }
+
+            RSA.ImportParameters(RSAparams);
+            return RSA;
+        }
+
+        private static int GetIntegerSize(BinaryReader binr)
+        {
+            byte bt = 0;
+            byte lowbyte = 0x00;
+            byte highbyte = 0x00;
+            int count = 0;
+            bt = binr.ReadByte();
+            if (bt != 0x02)
+                return 0;
+            bt = binr.ReadByte();
+
+            if (bt == 0x81)
+                count = binr.ReadByte();
+            else
+                if (bt == 0x82)
+            {
+                highbyte = binr.ReadByte();
+                lowbyte = binr.ReadByte();
+                byte[] modint = { lowbyte, highbyte, 0x00, 0x00 };
+                count = BitConverter.ToInt32(modint, 0);
+            }
+            else
+            {
+                count = bt;
+            }
+
+            while (binr.ReadByte() == 0x00)
+            {
+                count -= 1;
+            }
+            binr.BaseStream.Seek(-1, SeekOrigin.Current);
+            return count;
+        }
+        #endregion
 
         #endregion
 

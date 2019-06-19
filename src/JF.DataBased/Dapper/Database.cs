@@ -211,16 +211,7 @@ namespace Dapper
             {
                 if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-                var paramList = GetParamNames(entity);
-                if (_metadata.HasIdentityKey)
-                {
-                    paramList.Remove(_metadata.KeyProperties[0]);
-                }
-
-                foreach (var computedProperty in _metadata.ComputedProperties)
-                {
-                    paramList.Remove(computedProperty);
-                }
+                var paramList = GetInsertParamNames(entity, this._metadata);
 
                 string columns = string.Join(", ", paramList.Select(paramName => _metadata.PropertyColumnMaps[paramName]));
                 string values = string.Join(", ", paramList.Select(paramName => $"@{paramName}"));
@@ -238,7 +229,7 @@ namespace Dapper
                     throw new InvalidOperationException($"No primary key specified for entity '{typeof(TEntity).FullName}'.");
                 }
 
-                var paramList = GetParamNames(entity);
+                var paramList = GetUpdateParamNames(entity, this._metadata);
 
                 if (_metadata.HasKey)
                 {
@@ -526,9 +517,34 @@ namespace Dapper
                 param = parameter;
             }
 
-            static ConcurrentDictionary<Type, List<string>> paramNameCache = new ConcurrentDictionary<Type, List<string>>();
+            //static ConcurrentDictionary<Type, List<string>> paramNameCache = new ConcurrentDictionary<Type, List<string>>();
 
-            internal static List<string> GetParamNames(object o)
+            //internal static List<string> GetParamNames(object o)
+            //{
+            //    var parameters = o as DynamicParameters;
+            //    if (parameters != null)
+            //    {
+            //        return parameters.ParameterNames.ToList();
+            //    }
+
+            //    List<string> paramNames;
+            //    if (!paramNameCache.TryGetValue(o.GetType(), out paramNames))
+            //    {
+            //        paramNames = new List<string>();
+            //        foreach (var prop in o.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => p.GetGetMethod(false) != null))
+            //        {
+            //            if (prop.GetCustomAttribute<NotMappedAttribute>() == null)
+            //            {
+            //                paramNames.Add(prop.Name);
+            //            }
+            //        }
+            //        paramNameCache[o.GetType()] = paramNames;
+            //    }
+            //    return paramNames;
+            //}
+
+            static ConcurrentDictionary<Type, List<string>> updateParamNameCache = new ConcurrentDictionary<Type, List<string>>();
+            internal static List<string> GetUpdateParamNames(object o, TableMetadata metadata)
             {
                 var parameters = o as DynamicParameters;
                 if (parameters != null)
@@ -536,8 +552,8 @@ namespace Dapper
                     return parameters.ParameterNames.ToList();
                 }
 
-                List<string> paramNames;
-                if (!paramNameCache.TryGetValue(o.GetType(), out paramNames))
+                List<string> paramNames = null;
+                if (!updateParamNameCache.TryGetValue(o.GetType(), out paramNames))
                 {
                     paramNames = new List<string>();
                     foreach (var prop in o.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => p.GetGetMethod(false) != null))
@@ -547,7 +563,61 @@ namespace Dapper
                             paramNames.Add(prop.Name);
                         }
                     }
-                    paramNameCache[o.GetType()] = paramNames;
+
+                    if (metadata.HasKey)
+                    {
+                        foreach (string key in metadata.KeyProperties)
+                        {
+                            if (!paramNames.Contains(key)) continue;
+                            paramNames.Remove(key);
+                        }
+                    }
+
+                    foreach (var computedProperty in metadata.ComputedProperties)
+                    {
+                        if (!paramNames.Contains(computedProperty)) continue;
+                        paramNames.Remove(computedProperty);
+                    }
+
+                    updateParamNameCache[o.GetType()] = paramNames;
+                }
+                return paramNames;
+            }
+
+            static ConcurrentDictionary<Type, List<string>> insertParamNameCache = new ConcurrentDictionary<Type, List<string>>();
+            internal static List<string> GetInsertParamNames(object o, TableMetadata metadata)
+            {
+                var parameters = o as DynamicParameters;
+                if (parameters != null)
+                {
+                    return parameters.ParameterNames.ToList();
+                }
+
+                List<string> paramNames = null;
+                if (!insertParamNameCache.TryGetValue(o.GetType(), out paramNames))
+                {
+                    paramNames = new List<string>();
+                    foreach (var prop in o.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => p.GetGetMethod(false) != null))
+                    {
+                        if (prop.GetCustomAttribute<NotMappedAttribute>() == null)
+                        {
+                            paramNames.Add(prop.Name);
+                        }
+                    }
+
+                    if (metadata.HasIdentityKey && 
+                        paramNames.Contains(metadata.KeyProperties[0]))
+                    {
+                        paramNames.Remove(metadata.KeyProperties[0]);
+                    }
+
+                    foreach (var computedProperty in metadata.ComputedProperties)
+                    {
+                        if (!paramNames.Contains(computedProperty)) continue;
+                        paramNames.Remove(computedProperty);
+                    }
+
+                    insertParamNameCache[o.GetType()] = paramNames;
                 }
                 return paramNames;
             }
