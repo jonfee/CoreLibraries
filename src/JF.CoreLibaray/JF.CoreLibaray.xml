@@ -1051,6 +1051,19 @@
             获取或设置是否终止标记。
             </summary>
         </member>
+        <member name="T:JF.Common.DateTimeExtensions">
+            <summary>
+            时间扩展
+            </summary>
+        </member>
+        <member name="M:JF.Common.DateTimeExtensions.ToUnixTimestamp(System.DateTime)">
+            <summary>
+            基于Unix的时间戳,最终返回总秒数。
+            以1970/01/01 00:00:00为时间线。
+            </summary>
+            <param name="datetime"></param>
+            <returns></returns>
+        </member>
         <member name="T:JF.Common.EnumEntry">
             <summary>
             表示枚举项的描述。

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Linq;
 
 namespace JF.Json
 {
@@ -40,7 +41,7 @@ namespace JF.Json
                             current.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
                             // 处理长整性数据（js中精度丢失问题）,转换为字符串
-                            current.SerializerSettings.Converters.Add(new Int64Convert());
+                            //current.AddConverter(new Int64Convert());
                         }
                     }
                 }
@@ -93,9 +94,21 @@ namespace JF.Json
             return SerializerSettings;
         }
 
-        public JsonSerializerSettings AddConvert<TConverter>() where TConverter : Newtonsoft.Json.JsonConverter, new()
+        public JsonSerializerSettings AddConverter<TConverter>() where TConverter : Newtonsoft.Json.JsonConverter, new()
         {
             SerializerSettings.Converters.Add(new TConverter());
+
+            return SerializerSettings;
+        }
+
+        public JsonSerializerSettings RemoveConverter<TConverter>() where TConverter : Newtonsoft.Json.JsonConverter, new()
+        {
+            TConverter converter =(TConverter)SerializerSettings.Converters.FirstOrDefault(p => p.GetType() == typeof(TConverter));
+
+            if (converter != null)
+            {
+                SerializerSettings.Converters.Remove(converter);
+            }
 
             return SerializerSettings;
         }
