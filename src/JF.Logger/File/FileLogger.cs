@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace JF.Logger
@@ -15,7 +16,7 @@ namespace JF.Logger
     public class FileLogger : ILogger
     {
         #region private variables
-
+        static ReaderWriterLockSlim LogWriteLock = new ReaderWriterLockSlim();
         private FileLogOptions options;
 
         /// <summary>
@@ -223,7 +224,7 @@ namespace JF.Logger
                 {
                     Directory.CreateDirectory(dir);
                 }
-                using (var fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write))
+                using (var fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None))
                 using (var sw = new StreamWriter(fs))
                 {
                     await sw.WriteAsync(data.ToString());

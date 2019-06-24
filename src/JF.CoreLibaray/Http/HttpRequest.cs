@@ -46,11 +46,11 @@ namespace JF.Http
         /// <param name="url">目标链接</param>
         /// <param name="data">发送的参数字符串</param>
         /// <returns>返回的字符串</returns>
-        public static async Task<string> PostAsync(string url, string data, Dictionary<string, string> header = null)
+        public static async Task<string> PostAsync(string url, string data = null, Dictionary<string, string> header = null)
         {
             using (var client = new HttpClient(new HttpClientHandler() { UseCookies = false }))
             {
-                HttpContent content = new StringContent(data);
+                HttpContent content = data != null ? new StringContent(data) : null;
                 if (header != null)
                 {
                     client.DefaultRequestHeaders.Clear();
@@ -126,7 +126,7 @@ namespace JF.Http
         /// <param name="value"></param>
         /// <param name="headers"></param>
         /// <returns></returns>
-        public static async Task<HttpResponseMessage> PostByFormAsync<TForm>(string url, TForm value, Dictionary<string, string> headers = null) 
+        public static async Task<HttpResponseMessage> PostByFormAsync<TForm>(string url, TForm value, Dictionary<string, string> headers = null)
             where TForm : class, new()
         {
             var modelType = typeof(TForm);
