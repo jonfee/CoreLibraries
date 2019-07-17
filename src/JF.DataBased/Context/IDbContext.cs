@@ -1,9 +1,7 @@
-﻿using JF.ComponentModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,13 +31,13 @@ namespace JF.DataBased.Context
 
         void UpdateRange(params object[] entities);
 
-        int ExecuteSqlCommand(string sql, object paramters);
+        int ExecuteSqlCommand(string sql, object paramters = null);
 
-        IEnumerable<T> Query<T>(string sql, object paramters) where T : class, new();
+        IEnumerable<T> Query<T>(string sql, object paramters = null) where T : class, new();
 
         IEnumerable<TEntity> Query<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class;
 
-        IEnumerable<T> ProcQuery<T>(string procName, object paramters) where T : class, new();
+        IEnumerable<T> ProcQuery<T>(string procName, object paramters = null) where T : class, new();
 
         /// <summary>
         /// Saves all changes made in this context to the database.

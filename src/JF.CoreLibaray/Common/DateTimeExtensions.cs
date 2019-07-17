@@ -17,7 +17,7 @@ namespace JF.Common
         {
             long baseTimeTicks = new DateTime(1970, 1, 1).Ticks;
 
-            return(datetime.ToUniversalTime().Ticks - baseTimeTicks) / 10000000; //秒
+            return (datetime.ToUniversalTime().Ticks - baseTimeTicks) / 10000000; //秒
         }
     }
 }

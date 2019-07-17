@@ -140,12 +140,12 @@ namespace Dapper
             }
         }
 
-        public int ExecuteSqlCommand(string sql, object paramters)
+        public int ExecuteSqlCommand(string sql, object paramters = null)
         {
             return this.Database.ExecuteSqlCommand(sql, paramters);
         }
 
-        public IEnumerable<T> Query<T>(string sql, object paramters) where T : class, new()
+        public IEnumerable<T> Query<T>(string sql, object paramters = null) where T : class, new()
         {
             return this.Database.Query<T>(sql, paramters).ToList();
         }
@@ -155,7 +155,7 @@ namespace Dapper
             return this.Set<TEntity>().Search(expression);
         }
 
-        public virtual IEnumerable<T> ProcQuery<T>(string procName, object paramters) where T : class, new()
+        public virtual IEnumerable<T> ProcQuery<T>(string procName, object paramters = null) where T : class, new()
         {
             return this.Database.ProcQuery<T>(procName, paramters).ToList();
         }
