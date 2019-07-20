@@ -1064,6 +1064,14 @@
             <param name="datetime"></param>
             <returns></returns>
         </member>
+        <member name="M:JF.Common.DateTimeExtensions.GetWeeks(System.DateTime,System.Boolean)">
+            <summary>
+            获取指定时间所属月份的所有自然周信息。
+            </summary>
+            <param name="datetime"></param>
+            <param name="mondayIsFirstDayOfWeek">星期一是否为每周第一天</param>
+            <returns></returns>
+        </member>
         <member name="T:JF.Common.EnumEntry">
             <summary>
             表示枚举项的描述。
@@ -1750,6 +1758,85 @@
             <param name="key"></param>
             <param name="iv"></param>
             <returns></returns>
+        </member>
+        <member name="T:JF.NaturalMonth">
+            <summary>
+            自然月
+            </summary>
+        </member>
+        <member name="F:JF.NaturalMonth.mondayIsFirstDayOfWeek">
+            <summary>
+            星期一是否为每周第一天。
+            True 表示每周第一天是星期一；
+            False 表示每周第一天是星期日。
+            </summary>
+        </member>
+        <member name="M:JF.NaturalMonth.#ctor(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            初始化<see cref="T:JF.NaturalMonth"/>结构。
+            </summary>
+            <param name="year">自然年份</param>
+            <param name="month">自然月份</param>
+            <param name="mondayIsFirstDayOfWeek">星期一是否为每周第一天</param>
+        </member>
+        <member name="P:JF.NaturalMonth.Year">
+            <summary>
+            年份
+            </summary>
+        </member>
+        <member name="P:JF.NaturalMonth.Month">
+            <summary>
+            月份
+            </summary>
+        </member>
+        <member name="P:JF.NaturalMonth.WeeksInMonth">
+            <summary>
+            当前自然月中的所有周信息。
+            </summary>
+        </member>
+        <member name="P:JF.NaturalMonth.Days">
+            <summary>
+            总共天数。
+            </summary>
+        </member>
+        <member name="P:JF.NaturalMonth.Now">
+            <summary>
+            根据当前时间获取自然月结构对象。
+            </summary>
+        </member>
+        <member name="M:JF.NaturalMonth.From(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            从指定年份和月份获得一个<see cref="T:JF.NaturalMonth"/>对象实例。
+            </summary>
+            <param name="year"></param>
+            <param name="month"></param>
+            <param name="mondayIsFirstDayOfWeek"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JF.MonthWeek">
+            <summary>
+            智能预算-每月的自然周
+            </summary>
+        </member>
+        <member name="P:JF.MonthWeek.NO">
+            <summary>
+            排序号，第NO周
+            </summary>
+        </member>
+        <member name="P:JF.MonthWeek.StartDay">
+            <summary>
+            开始日期，如：1表示1号
+            </summary>
+        </member>
+        <member name="P:JF.MonthWeek.EndDay">
+            <summary>
+            结束日期，如：7表示7号
+            </summary>
+        </member>
+        <member name="P:JF.MonthWeek.Days">
+            <summary>
+            总天数
+            </summary>
         </member>
     </members>
 </doc>

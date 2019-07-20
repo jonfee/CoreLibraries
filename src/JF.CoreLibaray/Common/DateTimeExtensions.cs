@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace JF.Common
 {
@@ -18,6 +20,17 @@ namespace JF.Common
             long baseTimeTicks = new DateTime(1970, 1, 1).Ticks;
 
             return (datetime.ToUniversalTime().Ticks - baseTimeTicks) / 10000000; //秒
+        }
+
+        /// <summary>
+        /// 获取指定时间所属月份的所有自然周信息。
+        /// </summary>
+        /// <param name="datetime"></param>
+        /// <param name="mondayIsFirstDayOfWeek">星期一是否为每周第一天</param>
+        /// <returns></returns>
+        public static IEnumerable<MonthWeek> GetWeeks(this DateTime datetime, bool mondayIsFirstDayOfWeek = false)
+        {
+            return NaturalMonth.From(datetime.Year, datetime.Month, mondayIsFirstDayOfWeek).WeeksInMonth;
         }
     }
 }
