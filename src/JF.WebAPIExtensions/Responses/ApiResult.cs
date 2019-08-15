@@ -13,11 +13,10 @@ namespace JF.WebAPIExtensions.Responses
     /// API结果模型。
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class JFApiResponse<T>
+    public class ApiResult<T>
     {
         /// <summary>
-        /// Code，
-        /// 0-100为组件保护值，具体值对应的描述，请参考<see cref="ApiResultCode"/>枚举。
+        /// Code
         /// 自定义Code值，请不要在此范围内。
         /// </summary>
         public int Code { get; set; }
@@ -31,25 +30,10 @@ namespace JF.WebAPIExtensions.Responses
         /// Data
         /// </summary>
         public T Data { get; set; }
-
-        public static JFApiResponse<T> FromSuccess(T data)
+        
+        public static ApiResult<T> From(int code, string message, T data)
         {
-            return From(ApiResultCode.Success, string.Empty, data);
-        }
-
-        public static JFApiResponse<T> FromFailure(string message, T errorDetails)
-        {
-            return From(ApiResultCode.Failture, message, errorDetails);
-        }
-
-        public static JFApiResponse<T> From(ApiResultCode code, string message, T data)
-        {
-            return From((int)code, message, data);
-        }
-
-        public static JFApiResponse<T> From(int code, string message, T data)
-        {
-            return new JFApiResponse<T>
+            return new ApiResult<T>
             {
                 Code = code,
                 Message = message,
@@ -57,7 +41,7 @@ namespace JF.WebAPIExtensions.Responses
             };
         }
 
-        public static implicit operator OkObjectResult(JFApiResponse<T> response)
+        public static implicit operator OkObjectResult(ApiResult<T> response)
         {
             if (response == null) return null;
 
@@ -66,7 +50,7 @@ namespace JF.WebAPIExtensions.Responses
             return new OkObjectResult(data);
         }
 
-        public static implicit operator String(JFApiResponse<T> response)
+        public static implicit operator String(ApiResult<T> response)
         {
             if (response == null) return null;
 

@@ -140,18 +140,23 @@
             <param name="token"></param>
             <returns></returns>
         </member>
-        <member name="T:JF.WebAPIExtensions.Controllers.ApiController">
+        <member name="T:JF.WebAPIExtensions.Controllers.ApiControllerBase">
             <summary>
             WebApi接口基础类。
             </summary>
         </member>
-        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.Ok(JF.Json.JsonSettingsHandler)">
+        <member name="M:JF.WebAPIExtensions.Controllers.ApiControllerBase.Ok``1(System.Int32,System.String,``0,JF.Json.JsonSettingsHandler)">
             <summary>
             JSON输出操作成功的API结果，HttpStatusCode = 200，无消息。
             </summary>
+            <typeparam name="T"></typeparam>
+            <param name="code"></param>
+            <param name="message"></param>
+            <param name="data"></param>
+            <param name="jsonSettingsHandler"></param>
             <returns></returns>
         </member>
-        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.Ok``1(JF.WebAPIExtensions.Responses.JFApiResponse{``0},JF.Json.JsonSettingsHandler)">
+        <member name="M:JF.WebAPIExtensions.Controllers.ApiControllerBase.Ok``1(JF.WebAPIExtensions.Responses.ApiResult{``0},JF.Json.JsonSettingsHandler)">
             <summary>
             JSON输出，HttpStatusCode = 200。
             </summary>
@@ -160,33 +165,7 @@
             <param name="jsonSettingsHandler"></param>
             <returns></returns>
         </member>
-        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.BoolResult(System.Boolean,JF.Json.JsonSettingsHandler)">
-            <summary>
-            布尔结果返回
-            </summary>
-            <param name="success"></param>
-            <param name="jsonSettingsHandler"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.Success``1(``0,JF.Json.JsonSettingsHandler)">
-            <summary>
-            JSON输出操作成功的API结果，HttpStatusCode = 200，有消息。
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="message">成功消息。</param>
-            <param name="jsonSettingsHandler"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.Failure(System.String,System.String,JF.Json.JsonSettingsHandler)">
-            <summary>
-            JSON输出操作失败的API结果，HttpStatusCode = 200。
-            </summary>
-            <param name="message">错误消息。</param>
-            <param name="errorDetails">错误详细。</param>
-            <param name="jsonSettingsHandler"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.JsonOk``1(JF.WebAPIExtensions.Responses.JFApiResponse{``0},JF.Json.JsonSettingsHandler)">
+        <member name="M:JF.WebAPIExtensions.Controllers.ApiControllerBase.JsonOk``1(JF.WebAPIExtensions.Responses.ApiResult{``0},JF.Json.JsonSettingsHandler)">
             <summary>
             JSON输出，HttpStatusCode = 200。
             </summary>
@@ -195,7 +174,7 @@
             <param name="jsonSettingsHandler"></param>
             <returns></returns>
         </member>
-        <member name="M:JF.WebAPIExtensions.Controllers.ApiController.XmlOk``1(JF.WebAPIExtensions.Responses.JFApiResponse{``0})">
+        <member name="M:JF.WebAPIExtensions.Controllers.ApiControllerBase.XmlOk``1(JF.WebAPIExtensions.Responses.ApiResult{``0})">
             <summary>
             XML输出，HttpStatusCode = 200。
             </summary>
@@ -217,82 +196,29 @@
             <param name="app"></param>
             <returns></returns>
         </member>
-        <member name="T:JF.WebAPIExtensions.Requests.JFApiRequest">
-            <summary>
-            API请求数据模型接口
-            </summary>
-        </member>
-        <member name="M:JF.WebAPIExtensions.Requests.JFApiRequest.ResponseWriteIfValidateFailture(JF.WebAPIExtensions.Responses.ResponseContentType)">
-            <summary>
-            直接输出错误信息，如果验证失败的时候。
-            </summary>
-            <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="T:JF.WebAPIExtensions.Responses.ApiResultCode">
-            <summary>
-            API结果编码枚举。
-            </summary>
-        </member>
-        <member name="F:JF.WebAPIExtensions.Responses.ApiResultCode.Success">
-            <summary>
-            成功。表示业务正常。
-            </summary>
-        </member>
-        <member name="F:JF.WebAPIExtensions.Responses.ApiResultCode.Failture">
-            <summary>
-            失败。表示处理中存在未知的错误。
-            </summary>
-        </member>
-        <member name="F:JF.WebAPIExtensions.Responses.ApiResultCode.ApiParamterError">
-            <summary>
-            API参数错误。表示接口接收到的参数或值存在错误。
-            </summary>
-        </member>
-        <member name="F:JF.WebAPIExtensions.Responses.ApiResultCode.NoAuthorization">
-            <summary>
-            未授权的请求。
-            </summary>
-        </member>
-        <member name="F:JF.WebAPIExtensions.Responses.ApiResultCode.NoAccess">
-            <summary>
-            操作权限不足。
-            </summary>
-        </member>
-        <member name="F:JF.WebAPIExtensions.Responses.ApiResultCode.NotFound">
-            <summary>
-            未找到指定资源。
-            </summary>
-        </member>
-        <member name="F:JF.WebAPIExtensions.Responses.ApiResultCode.BussinessException">
-            <summary>
-            业务处理异常。
-            </summary>
-        </member>
-        <member name="T:JF.WebAPIExtensions.Responses.JFApiResponse`1">
+        <member name="T:JF.WebAPIExtensions.Responses.ApiResult`1">
             <summary>
             API结果模型。
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="P:JF.WebAPIExtensions.Responses.JFApiResponse`1.Code">
+        <member name="P:JF.WebAPIExtensions.Responses.ApiResult`1.Code">
             <summary>
-            Code，
-            0-100为组件保护值，具体值对应的描述，请参考<see cref="T:JF.WebAPIExtensions.Responses.ApiResultCode"/>枚举。
+            Code
             自定义Code值，请不要在此范围内。
             </summary>
         </member>
-        <member name="P:JF.WebAPIExtensions.Responses.JFApiResponse`1.Message">
+        <member name="P:JF.WebAPIExtensions.Responses.ApiResult`1.Message">
             <summary>
             Message
             </summary>
         </member>
-        <member name="P:JF.WebAPIExtensions.Responses.JFApiResponse`1.Data">
+        <member name="P:JF.WebAPIExtensions.Responses.ApiResult`1.Data">
             <summary>
             Data
             </summary>
         </member>
-        <member name="M:JF.WebAPIExtensions.Responses.JFApiResponse`1.ResponseToJson(JF.Json.JsonSettingsHandler)">
+        <member name="M:JF.WebAPIExtensions.Responses.ApiResult`1.ResponseToJson(JF.Json.JsonSettingsHandler)">
             <summary>
             输出为Json
             </summary>
