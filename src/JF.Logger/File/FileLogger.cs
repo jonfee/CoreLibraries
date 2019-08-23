@@ -227,6 +227,7 @@ namespace JF.Logger
                 using (var fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None))
                 using (var sw = new StreamWriter(fs))
                 {
+                    fs.Position = fs.Length;
                     await sw.WriteAsync(data.ToString());
                     await sw.FlushAsync();
                     sw.Close();
