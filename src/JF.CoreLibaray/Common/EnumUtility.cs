@@ -157,7 +157,7 @@ namespace JF.Common
 
                 foreach (FieldInfo field in fields)
                 {
-                    Regex reg = new Regex(@"^[1-9]\d*$");
+                    Regex reg = new Regex(@"^\d+$");
 
                     isCurrent = false;
 
