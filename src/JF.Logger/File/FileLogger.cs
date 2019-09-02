@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -71,7 +72,7 @@ namespace JF.Logger
         /// <param name="content"></param>
         public virtual void Waring(string title, string content)
         {
-            Write(LogLevel.WARN,title,content);
+            Write(LogLevel.WARN, title, content);
         }
 
         /// <summary>
@@ -104,7 +105,7 @@ namespace JF.Logger
             Write(LogLevel.FATAL, title, content);
         }
 
-        public virtual void Write(LogLevel level,string title,string content)
+        public virtual void Write(LogLevel level, string title, string content)
         {
             if (string.IsNullOrEmpty(title) && string.IsNullOrEmpty(content)) return;
 
@@ -164,20 +165,19 @@ namespace JF.Logger
             string hour = DateTime.Now.Hour.ToString().PadLeft(2, '0');
             string minute = DateTime.Now.Minute / 30 == 0 ? "00" : "30";
 
-            string fileRoot = Path.Combine(baseRoot, this.options.FileRoot, level, year, month);
-
+            string fileRoot = Path.Combine(baseRoot, this.options.FileRoot, level);
 
             switch (this.options.StoreMode)
             {
                 case FileStoreMode.LevelAfterHour:
-                    fileRoot = Path.Combine(fileRoot, day, hour);
+                    fileRoot = Path.Combine(fileRoot, $"{year}{month}{day}{hour}");
                     break;
                 case FileStoreMode.LevelAfterHalfAnHour:
-                    fileRoot = Path.Combine(fileRoot, day, hour + minute);
+                    fileRoot = Path.Combine(fileRoot, $"{year}{month}{day}{hour}{minute}");
                     break;
                 case FileStoreMode.LevelAfterDay:
                 default:
-                    fileRoot = Path.Combine(fileRoot, day);
+                    fileRoot = Path.Combine(fileRoot, $"{year}{month}{day}");
                     break;
             }
 
@@ -212,9 +212,23 @@ namespace JF.Logger
 
             foreach (var log in logs.OrderBy(p => p.LogTime))
             {
-                data.Append($"\r\n【{log.Level} # {log.LogTime.ToString()} # {log.Title}】");
-                data.Append($"\r\nEnvironment：{log.AppName}/{log.AppCode} # 版本:{log.AppVersion} # 操作系统:{log.OSVersion} {log.OSBit}");
-                data.Append(log.Details);
+                try
+                {
+                    if (this.options.Format == LogFormat.Default)
+                    {
+                        data.Append($"\r\n【{log.Level} # {log.LogTime.ToString()} # {log.Title}】");
+                        data.Append($"\r\nEnvironment：{log.AppName}/{log.AppCode} # 版本:{log.AppVersion} # 操作系统:{log.OSVersion} {log.OSBit}");
+                        data.Append(log.Details);
+                    }
+                    else
+                    {
+                        data.AppendLine(JsonConvert.SerializeObject(log));
+                    }
+                }
+                catch
+                {
+                    //nothing
+                }
             }
 
             try
