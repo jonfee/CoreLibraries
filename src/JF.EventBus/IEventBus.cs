@@ -1,6 +1,4 @@
-﻿using JF.DomainEventBased.DomainModel;
-
-namespace JF.DomainEventBased
+﻿namespace JF.EventBus
 {
     /// <summary>
     /// 事件总线接口
@@ -11,6 +9,6 @@ namespace JF.DomainEventBased
         /// 发布事件
         /// </summary>
         /// <param name="event"></param>
-        void Publish(IDomainEvent @event);
+        void Publish(IEvent @event);
     }
 }

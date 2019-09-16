@@ -1,12 +1,12 @@
-﻿using JF.DomainEventBased.Mapping;
+﻿using JF.EventBus.Mapping;
 using System.Linq;
 
-namespace JF.DomainEventBased.DomainModel
+namespace JF.EventBus
 {
     /// <summary>
-    /// 领域服务命令接口
+    /// 命令接口
     /// </summary>
-    public interface IDomainCommand
+    public interface ICommand
     {
         /// <summary>
         /// 发送命令，将结果以指定类型返回。
@@ -22,7 +22,7 @@ namespace JF.DomainEventBased.DomainModel
         object Send();
     }
 
-    public abstract class DomainCommandBase : IDomainCommand
+    public abstract class CommandBase : ICommand
     {
         /// <summary>
         /// 发送命令。
@@ -44,7 +44,7 @@ namespace JF.DomainEventBased.DomainModel
         {
             object result = null;
             var commandType = this.GetType();
-            var genericType = typeof(IDomainCommandHandler<>).MakeGenericType(commandType);
+            var genericType = typeof(ICommandHandler<>).MakeGenericType(commandType);
 
             if (CommandSubscriberTypedMapping.Current.TryGet(commandType, out var handler))
             {

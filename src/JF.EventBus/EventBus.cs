@@ -1,13 +1,12 @@
 ﻿using JF.Common;
-using JF.DomainEventBased.DomainModel;
-using JF.DomainEventBased.Mapping;
+using JF.EventBus.Mapping;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace JF.DomainEventBased
+namespace JF.EventBus
 {
     /// <summary>
     /// 事件总线
@@ -17,7 +16,7 @@ namespace JF.DomainEventBased
         #region 成员变量
 
         private static EventBus current = new EventBus();
-        private ConcurrentQueue<IDomainEvent> queue;
+        private ConcurrentQueue<IEvent> queue;
 
         #endregion
 
@@ -25,7 +24,7 @@ namespace JF.DomainEventBased
 
         private EventBus()
         {
-            queue = new ConcurrentQueue<IDomainEvent>();
+            queue = new ConcurrentQueue<IEvent>();
 
             Watching();
         }
@@ -47,7 +46,7 @@ namespace JF.DomainEventBased
         /// 发布事件，写入事件队列
         /// </summary>
         /// <param name="event"></param>
-        public void Publish(IDomainEvent @event)
+        public void Publish(IEvent @event)
         {
             queue.Enqueue(@event);
         }
@@ -56,7 +55,7 @@ namespace JF.DomainEventBased
         /// 处理单个事件
         /// </summary>
         /// <param name="event"></param>
-        public void Process(IDomainEvent @event)
+        public void Process(IEvent @event)
         {
             var subscriberTypes = EventSubscriberTypedMapping.Current.GetSubscribersFor(@event.GetType());
 
@@ -91,7 +90,7 @@ namespace JF.DomainEventBased
         /// <param name="event"></param>
         /// <param name="subscriberType"></param>
         /// <returns></returns>
-        private static IEnumerable<object> HandleEvent(IDomainEvent @event, Type subscriberType)
+        private static IEnumerable<object> HandleEvent(IEvent @event, Type subscriberType)
         {
             IList<object> results = new List<object>();
 
@@ -113,7 +112,7 @@ namespace JF.DomainEventBased
             }
             catch (Exception ex)
             {
-                ServiceLoader.ExceptionHandler?.Invoke(ex);
+                Loader.Current.ExceptionHandler?.Invoke(ex);
             }
 
             return results;
@@ -136,7 +135,7 @@ namespace JF.DomainEventBased
             }
             catch (Exception ex)
             {
-                ServiceLoader.ExceptionHandler?.Invoke(ex);
+                Loader.Current.ExceptionHandler?.Invoke(ex);
             }
 
             return result;
@@ -195,7 +194,7 @@ namespace JF.DomainEventBased
                 {
                     System.Threading.Thread.Sleep(100);
                 }
-                else if (queue.TryDequeue(out IDomainEvent @event))
+                else if (queue.TryDequeue(out IEvent @event))
                 {
                     if (@event == null) continue;
 

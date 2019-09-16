@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace JF.DomainEventBased.DomainModel
+namespace JF.EventBus
 {
     /// <summary>
-    /// 领域事件接口
+    /// 事件接口
     /// </summary>
-    public interface IDomainEvent
+    public interface IEvent
     {
         /// <summary>
         /// 事件处理结果
@@ -50,9 +49,9 @@ namespace JF.DomainEventBased.DomainModel
     /// <summary>
     /// 领域事件抽象基类
     /// </summary>
-    public abstract class DomainEventBase : IDomainEvent
+    public abstract class EventBase : IEvent
     {
-        public DomainEventBase()
+        public EventBase()
         {
             Results = new List<object>();
         }

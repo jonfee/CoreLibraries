@@ -1,11 +1,10 @@
-﻿using JF.DomainEventBased.DomainModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace JF.DomainEventBased.Mapping
+namespace JF.EventBus.Mapping
 {
     public sealed class CommandSubscriberTypedMapping
     {
@@ -55,7 +54,7 @@ namespace JF.DomainEventBased.Mapping
         #endregion
 
         /// <summary>
-        /// 获取<see cref="IDomainCommand"/>对应的处理程序。
+        /// 获取<see cref="ICommand"/>对应的处理程序。
         /// </summary>
         /// <param name="type"></param>
         /// <param name="commandHandler"></param>
@@ -102,7 +101,7 @@ namespace JF.DomainEventBased.Mapping
         /// <returns></returns>
         private void ResolveCommandsSubscriberTypeMappings(Assembly assemblie)
         {
-            string ihandlerName = typeof(IDomainCommandHandler<>).Name;
+            string ihandlerName = typeof(ICommandHandler<>).Name;
 
             var types = assemblie.GetTypes().Where(type => type.IsClass && !type.IsAbstract && type.GetCustomAttributes(typeof(CompilerGeneratedAttribute), true).Count() == 0);
 
@@ -120,7 +119,7 @@ namespace JF.DomainEventBased.Mapping
                     //按照约定，Excute方法的第一个参数便是派生自IDomainCommand接口的命令类型
                     var commandType = executeMethod.GetParameters().FirstOrDefault()?.ParameterType;
 
-                    if (commandType != null && typeof(IDomainCommand).IsAssignableFrom(commandType) && !commandHandlers.ContainsKey(commandType))
+                    if (commandType != null && typeof(ICommand).IsAssignableFrom(commandType) && !commandHandlers.ContainsKey(commandType))
                     {
                         commandHandlers.Add(commandType, Activator.CreateInstance(type));
                     }
@@ -131,7 +130,7 @@ namespace JF.DomainEventBased.Mapping
         #region 私有方法
 
         /// <summary>
-        /// 检测方法是否为一个处理<see cref="IDomainCommand"/>命令的方法
+        /// 检测方法是否为一个处理<see cref="ICommand"/>命令的方法
         /// </summary>
         /// <param name="methodInfo"></param>
         /// <returns></returns>
@@ -139,7 +138,7 @@ namespace JF.DomainEventBased.Mapping
         {
             var parameters = methodInfo.GetParameters();
 
-            return parameters.Count() == 1 && typeof(IDomainCommand).IsAssignableFrom(parameters[0].ParameterType);
+            return parameters.Count() == 1 && typeof(ICommand).IsAssignableFrom(parameters[0].ParameterType);
         }
 
         #endregion

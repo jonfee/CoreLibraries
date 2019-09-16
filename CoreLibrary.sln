@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JF.DataBased", "src\JF.Data
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JF.WebAPIExtensions", "src\JF.WebAPIExtensions\JF.WebAPIExtensions.csproj", "{774F4511-F091-4FF0-A747-02B2F5236434}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JF.EventBus", "src\JF.EventBus\JF.EventBus.csproj", "{E6BDE1D1-C93E-4237-9B44-0F044A15717F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{774F4511-F091-4FF0-A747-02B2F5236434}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{774F4511-F091-4FF0-A747-02B2F5236434}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{774F4511-F091-4FF0-A747-02B2F5236434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6BDE1D1-C93E-4237-9B44-0F044A15717F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6BDE1D1-C93E-4237-9B44-0F044A15717F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6BDE1D1-C93E-4237-9B44-0F044A15717F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6BDE1D1-C93E-4237-9B44-0F044A15717F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +103,7 @@ Global
 		{A6CC5966-5EF2-41A1-BB8E-ABDBD19555FF} = {F2C67084-F85A-4B81-AB51-3DEBB170E187}
 		{2842A154-091A-40A5-B8B7-76749AB0EB36} = {17DC282C-CAA7-4591-B9D1-8030F5980DD7}
 		{774F4511-F091-4FF0-A747-02B2F5236434} = {17DC282C-CAA7-4591-B9D1-8030F5980DD7}
+		{E6BDE1D1-C93E-4237-9B44-0F044A15717F} = {17DC282C-CAA7-4591-B9D1-8030F5980DD7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BADB47B6-88E5-4D36-93EE-4B6600D4FDA1}

@@ -1,11 +1,10 @@
-﻿using JF.DomainEventBased.DomainModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace JF.DomainEventBased.Mapping
+namespace JF.EventBus.Mapping
 {
     /// <summary>
     /// 事件与订阅对象类型映射程序
@@ -133,7 +132,7 @@ namespace JF.DomainEventBased.Mapping
         /// </summary>
         /// <typeparam name="TEvent">领域事件类型</typeparam>
         /// <returns></returns>
-        public List<Type> GetSubscribersFor<TEvent>() where TEvent : IDomainEvent
+        public List<Type> GetSubscribersFor<TEvent>() where TEvent : IEvent
         {
             return GetSubscribersFor(typeof(TEvent));
         }
@@ -180,7 +179,7 @@ namespace JF.DomainEventBased.Mapping
         #region 私有方法
 
         /// <summary>
-        /// 检测方法是否为一个处理<see cref="IDomainEvent"/>领域事件的方法
+        /// 检测方法是否为一个处理<see cref="IEvent"/>领域事件的方法
         /// </summary>
         /// <param name="methodInfo"></param>
         /// <returns></returns>
@@ -188,7 +187,7 @@ namespace JF.DomainEventBased.Mapping
         {
             var parameters = methodInfo.GetParameters();
 
-            return parameters.Count() == 1 && typeof(IDomainEvent).IsAssignableFrom(parameters[0].ParameterType);
+            return parameters.Count() == 1 && typeof(IEvent).IsAssignableFrom(parameters[0].ParameterType);
         }
 
         #endregion

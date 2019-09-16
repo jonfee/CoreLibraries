@@ -4,121 +4,6 @@
         <name>JF.DomainEventBased</name>
     </assembly>
     <members>
-        <member name="T:JF.DomainEventBased.DomainModel.IDomainCommand">
-            <summary>
-            领域服务命令接口
-            </summary>
-        </member>
-        <member name="M:JF.DomainEventBased.DomainModel.IDomainCommand.Send``1">
-            <summary>
-            发送命令，将结果以指定类型返回。
-            </summary>
-            <typeparam name="TResult"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:JF.DomainEventBased.DomainModel.IDomainCommand.Send">
-            <summary>
-            发送命令，将结果以object类型返回。
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:JF.DomainEventBased.DomainModel.DomainCommandBase.Send``1">
-            <summary>
-            发送命令。
-            </summary>
-            <typeparam name="TResult"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:JF.DomainEventBased.DomainModel.DomainCommandBase.Send">
-            <summary>
-            发送命令。
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:JF.DomainEventBased.DomainModel.IDomainEvent">
-            <summary>
-            领域事件接口
-            </summary>
-        </member>
-        <member name="P:JF.DomainEventBased.DomainModel.IDomainEvent.Results">
-            <summary>
-            事件处理结果
-            </summary>
-        </member>
-        <member name="M:JF.DomainEventBased.DomainModel.IDomainEvent.GetTypedResult``1">
-            <summary>
-            获取匹配的指定类型的第一个结果
-            </summary>
-            <typeparam name="T"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:JF.DomainEventBased.DomainModel.IDomainEvent.GetTypedResults``1">
-            <summary>
-            获取指定类型的结果集
-            </summary>
-            <typeparam name="T"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:JF.DomainEventBased.DomainModel.IDomainEvent.AddResult(System.Object)">
-            <summary>
-            添加结果
-            </summary>
-            <param name="result"></param>
-        </member>
-        <member name="M:JF.DomainEventBased.DomainModel.IDomainEvent.AddResults(System.Collections.Generic.IEnumerable{System.Object})">
-            <summary>
-            批量添加结果
-            </summary>
-            <param name="results"></param>
-        </member>
-        <member name="M:JF.DomainEventBased.DomainModel.IDomainEvent.Publish(System.Boolean)">
-            <summary>
-            发布事件
-            </summary>
-            <param name="sync">是否同步执行</param>
-        </member>
-        <member name="T:JF.DomainEventBased.DomainModel.DomainEventBase">
-            <summary>
-            领域事件抽象基类
-            </summary>
-        </member>
-        <member name="P:JF.DomainEventBased.DomainModel.DomainEventBase.Results">
-            <summary>
-            事件结果
-            </summary>
-        </member>
-        <member name="M:JF.DomainEventBased.DomainModel.DomainEventBase.AddResult(System.Object)">
-            <summary>
-            添加事件结果
-            </summary>
-            <param name="result"></param>
-        </member>
-        <member name="M:JF.DomainEventBased.DomainModel.DomainEventBase.AddResults(System.Collections.Generic.IEnumerable{System.Object})">
-            <summary>
-            批量添加事件结果
-            </summary>
-            <param name="results"></param>
-        </member>
-        <member name="M:JF.DomainEventBased.DomainModel.DomainEventBase.GetTypedResult``1">
-            <summary>
-            获取指定类型的默认结果
-            </summary>
-            <typeparam name="T"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:JF.DomainEventBased.DomainModel.DomainEventBase.GetTypedResults``1">
-            <summary>
-            获取指定类型的结果集合
-            </summary>
-            <typeparam name="T"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:JF.DomainEventBased.DomainModel.DomainEventBase.Publish(System.Boolean)">
-            <summary>
-            事件发布
-            </summary>
-            <param name="sync">是否同步执行,True时，将立即执行事件广播</param>
-        </member>
         <member name="T:JF.DomainEventBased.DomainModel.IDomainObject">
             <summary>
             领域对象 接口约束
@@ -181,70 +66,10 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:JF.DomainEventBased.EventBus">
+        <member name="T:JF.DomainEventBased.IDomainCommand">
             <summary>
-            事件总线
+            领域服务命令接口
             </summary>
-        </member>
-        <member name="P:JF.DomainEventBased.EventBus.Current">
-            <summary>
-            当前<see cref="T:JF.DomainEventBased.EventBus"/>实例
-            </summary>
-        </member>
-        <member name="M:JF.DomainEventBased.EventBus.Publish(JF.DomainEventBased.DomainModel.IDomainEvent)">
-            <summary>
-            发布事件，写入事件队列
-            </summary>
-            <param name="event"></param>
-        </member>
-        <member name="M:JF.DomainEventBased.EventBus.Process(JF.DomainEventBased.DomainModel.IDomainEvent)">
-            <summary>
-            处理单个事件
-            </summary>
-            <param name="event"></param>
-        </member>
-        <member name="M:JF.DomainEventBased.EventBus.HandleEvent(JF.DomainEventBased.DomainModel.IDomainEvent,System.Type)">
-            <summary>
-            执行事件处理程序
-            </summary>
-            <param name="event"></param>
-            <param name="subscriberType"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JF.DomainEventBased.EventBus.ExecuteEventHandlder(System.Reflection.MethodInfo,System.Object,System.Object)">
-            <summary>
-            执行事件处理程序
-            </summary>
-            <param name="handler"></param>
-            <param name="eventSource"></param>
-            <param name="event"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JF.DomainEventBased.EventBus.GetDefaultValueFor(System.Type)">
-            <summary>
-            获取指定类型的默认值
-            </summary>
-            <param name="targetType"></param>
-            <returns></returns>
-        </member>
-        <member name="T:JF.DomainEventBased.IDomainCommandHandler`1">
-            <summary>
-            命令处理程序接口
-            </summary>
-        </member>
-        <member name="M:JF.DomainEventBased.IDomainCommandHandler`1.Validate(`0)">
-            <summary>
-            验证命令是否有效
-            </summary>
-            <param name="command">派生自<see cref="T:JF.DomainEventBased.DomainModel.IDomainCommand"/>的命令实例</param>
-            <returns></returns>
-        </member>
-        <member name="M:JF.DomainEventBased.IDomainCommandHandler`1.Execute(`0)">
-            <summary>
-            执行命令
-            </summary>
-            <param name="command">派生自<see cref="T:JF.DomainEventBased.DomainModel.IDomainCommand"/>的命令实例</param>
-            <returns></returns>
         </member>
         <member name="T:JF.DomainEventBased.DomainCommandHandler`1">
             <summary>
@@ -252,44 +77,16 @@
             </summary>
             <typeparam name="TCommand">输入命令类型</typeparam>
         </member>
-        <member name="T:JF.DomainEventBased.IDomainEventHandler`1">
+        <member name="T:JF.DomainEventBased.IDomainEvent">
             <summary>
-            事件处理程序接口
+            领域事件接口
             </summary>
-            <typeparam name="TEvent"></typeparam>
-        </member>
-        <member name="M:JF.DomainEventBased.IDomainEventHandler`1.Handle(`0)">
-            <summary>
-            处理事件
-            </summary>
-            <param name="event"></param>
-        </member>
-        <member name="M:JF.DomainEventBased.IDomainEventHandler`1.Validate(`0)">
-            <summary>
-            验证事件是否有效
-            </summary>
-            <param name="@event">派生自<see cref="T:JF.DomainEventBased.DomainModel.IDomainEvent"/>的事件实例</param>
-            <returns></returns>
         </member>
         <member name="T:JF.DomainEventBased.DomainEventHandler`1">
             <summary>
             领域事件处理程序接口
             </summary>
             <typeparam name="TEvent"></typeparam>
-        </member>
-        <member name="M:JF.DomainEventBased.DomainEventHandler`1.Handle(`0)">
-            <summary>
-            处理执行
-            </summary>
-            <param name="event"></param>
-        </member>
-        <member name="M:JF.DomainEventBased.DomainEventHandler`1.Validate(`0)">
-            <summary>
-            验证事件是否有效。
-            基类中仅检测了事件是否为null,为null时返回false,非null返回true。
-            </summary>
-            <param name="event"></param>
-            <returns></returns>
         </member>
         <member name="T:JF.DomainEventBased.IDomainService">
             <summary>
@@ -300,166 +97,6 @@
             <summary>
             领域服务接口
             </summary>
-        </member>
-        <member name="T:JF.DomainEventBased.IEventBus">
-            <summary>
-            事件总线接口
-            </summary>
-        </member>
-        <member name="M:JF.DomainEventBased.IEventBus.Publish(JF.DomainEventBased.DomainModel.IDomainEvent)">
-            <summary>
-            发布事件
-            </summary>
-            <param name="event"></param>
-        </member>
-        <member name="F:JF.DomainEventBased.Mapping.CommandSubscriberTypedMapping.commandHandlers">
-            <summary>
-            命令类型对应的处理程序实例集合
-            </summary>
-        </member>
-        <member name="P:JF.DomainEventBased.Mapping.CommandSubscriberTypedMapping.Current">
-            <summary>
-            当前实例，单例
-            </summary>
-        </member>
-        <member name="M:JF.DomainEventBased.Mapping.CommandSubscriberTypedMapping.TryGet(System.Type,System.Object@)">
-            <summary>
-            获取<see cref="T:JF.DomainEventBased.DomainModel.IDomainCommand"/>对应的处理程序。
-            </summary>
-            <param name="type"></param>
-            <param name="commandHandler"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JF.DomainEventBased.Mapping.CommandSubscriberTypedMapping.LoadCommands(System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
-            <summary>
-            加载命令，使之生效。
-            </summary>
-            <param name="assemblies"></param>
-        </member>
-        <member name="M:JF.DomainEventBased.Mapping.CommandSubscriberTypedMapping.ResolveCommandsSubscriberTypeMappings(System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
-            <summary>
-            从程序集中解析出领域的所有命令类型及命令处理程序实例集合
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:JF.DomainEventBased.Mapping.CommandSubscriberTypedMapping.ResolveCommandsSubscriberTypeMappings(System.Reflection.Assembly)">
-            <summary>
-            从程序集中解析出领域的所有命令类型及命令处理程序实例集合
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:JF.DomainEventBased.Mapping.CommandSubscriberTypedMapping.IsCommandHandler(System.Reflection.MethodInfo)">
-            <summary>
-            检测方法是否为一个处理<see cref="T:JF.DomainEventBased.DomainModel.IDomainCommand"/>命令的方法
-            </summary>
-            <param name="methodInfo"></param>
-            <returns></returns>
-        </member>
-        <member name="T:JF.DomainEventBased.Mapping.EventSubscriberTypedMapping">
-            <summary>
-            事件与订阅对象类型映射程序
-            </summary>
-        </member>
-        <member name="F:JF.DomainEventBased.Mapping.EventSubscriberTypedMapping.eventSubscriberMappings">
-            <summary>
-            事件与事件订阅者类型的映射关系
-            </summary>
-        </member>
-        <member name="F:JF.DomainEventBased.Mapping.EventSubscriberTypedMapping.subscriberHandlersMappings">
-            <summary>
-            订阅者与事件处理程序方法的映射关系
-            </summary>
-        </member>
-        <member name="P:JF.DomainEventBased.Mapping.EventSubscriberTypedMapping.Current">
-            <summary>
-            当前实例，此处使用单例
-            </summary>
-        </member>
-        <member name="M:JF.DomainEventBased.Mapping.EventSubscriberTypedMapping.LoadEvents(System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
-            <summary>
-            加载领域事件，使之生效。
-            </summary>
-            <param name="assemblies"></param>
-        </member>
-        <member name="M:JF.DomainEventBased.Mapping.EventSubscriberTypedMapping.ResolveEventSubscriberTypeMappings(System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
-            <summary>
-            从多个程序集中解析出领域事件的订阅者，及订阅者的事件处理程序
-            </summary>
-            <param name="assemblies"></param>
-        </member>
-        <member name="M:JF.DomainEventBased.Mapping.EventSubscriberTypedMapping.ResolveEventSubscriberTypeMappings(System.Reflection.Assembly)">
-            <summary>
-            从程序集中解析出领域事件的订阅者，及订阅者的事件处理程序
-            </summary>
-            <param name="assembly"></param>
-        </member>
-        <member name="M:JF.DomainEventBased.Mapping.EventSubscriberTypedMapping.GetSubscribersFor``1">
-            <summary>
-            获取指定领域事件的订阅者
-            </summary>
-            <typeparam name="TEvent">领域事件类型</typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:JF.DomainEventBased.Mapping.EventSubscriberTypedMapping.GetSubscribersFor(System.Type)">
-            <summary>
-            获取指定领域事件的订阅者
-            </summary>
-            <param name="eventType">领域事件类型</param>
-            <returns></returns>
-        </member>
-        <member name="M:JF.DomainEventBased.Mapping.EventSubscriberTypedMapping.GetEventHandlers(System.Type)">
-            <summary>
-            获取订阅者的事件处理程序集合
-            </summary>
-            <param name="subscriberType">订阅者类型</param>
-            <returns></returns>
-        </member>
-        <member name="M:JF.DomainEventBased.Mapping.EventSubscriberTypedMapping.IsEventHandler(System.Reflection.MethodInfo)">
-            <summary>
-            检测方法是否为一个处理<see cref="T:JF.DomainEventBased.DomainModel.IDomainEvent"/>领域事件的方法
-            </summary>
-            <param name="methodInfo"></param>
-            <returns></returns>
-        </member>
-        <member name="T:JF.DomainEventBased.ServiceLoader">
-            <summary>
-            领域事件、命令服务加载器
-            </summary>
-        </member>
-        <member name="P:JF.DomainEventBased.ServiceLoader.ExceptionHandler">
-            <summary>
-            异常处理委托。
-            </summary>
-        </member>
-        <member name="M:JF.DomainEventBased.ServiceLoader.InjectExceptionHandler(JF.ExceptionHandler.ExceptionHandler)">
-            <summary>
-            注入异常处理委托程序。
-            </summary>
-            <param name="handler"></param>
-        </member>
-        <member name="M:JF.DomainEventBased.ServiceLoader.LoadAllHandlers(System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
-            <summary>
-            加载所有服务处理程序。包含：Event处理程序、Command处理程序。
-            </summary>
-            <param name="assemblies"></param>
-        </member>
-        <member name="M:JF.DomainEventBased.ServiceLoader.LoadEventHandlers(System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
-            <summary>
-            加载程序集中的事件及订阅者映射关系。
-            </summary>
-            <param name="assemblies"></param>
-        </member>
-        <member name="M:JF.DomainEventBased.ServiceLoader.LoadCommandHandlers(System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
-            <summary>
-            加载程序集中的命令与处理程序映射关系。
-            </summary>
-            <param name="assemblies"></param>
-        </member>
-        <member name="M:JF.DomainEventBased.ServiceLoader.GetAppDomainAssemblies">
-            <summary>
-            获取当前应用程序域下的所有程序集。
-            </summary>
-            <returns></returns>
         </member>
     </members>
 </doc>
