@@ -94,11 +94,11 @@ namespace JF.EventBus
         {
             IList<object> results = new List<object>();
 
-            try
-            {
-                var eventHandlders = EventSubscriberTypedMapping.Current.GetEventHandlers(subscriberType);
+            var eventHandlders = EventSubscriberTypedMapping.Current.GetEventHandlers(subscriberType);
 
-                foreach (var handler in eventHandlders)
+            foreach (var handler in eventHandlders)
+            {
+                try
                 {
                     var subscriberObject = CreateSubscriber(subscriberType);
 
@@ -109,10 +109,10 @@ namespace JF.EventBus
                         if (result != null) results.Add(result);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Loader.Current.ExceptionHandler?.Invoke(ex);
+                catch (Exception ex)
+                {
+                    Loader.Current.ExceptionHandler?.Invoke(ex);
+                }
             }
 
             return results;
@@ -131,7 +131,7 @@ namespace JF.EventBus
 
             try
             {
-                result = handler.Invoke(eventSource, new[] { @event });
+                result = handler?.Invoke(eventSource, new[] { @event });
             }
             catch (Exception ex)
             {
