@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.1.15</Version>
+    <Version>1.1.16</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -10,9 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JF.CoreLibaray" Version="1.1.44" />
+    <PackageReference Include="JF.CoreLibaray" Version="1.1.45" />
     <PackageReference Include="JF.DataBased" Version="1.1.15" />
-    <PackageReference Include="JF.EventBus" Version="1.0.1" />
+    <PackageReference Include="JF.EventBus" Version="1.0.4" />
   </ItemGroup>
 
 </Project>

@@ -73,7 +73,7 @@ namespace JF.EventBus
         /// 加载所有服务处理程序。包含：Event处理程序、Command处理程序。
         /// </summary>
         /// <param name="expression"></param>
-        public Loader LoadHandlers(Expression<Func<Assembly, bool>> expression = null)
+        public Loader LoadHandlers(Expression<Func<Assembly, bool>> expression)
         {
             var tempAssemblies = getAppDomainAssemblies().Where(expression.Compile());
             return LoadHandlers(tempAssemblies);
