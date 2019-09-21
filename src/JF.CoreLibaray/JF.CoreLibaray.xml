@@ -1526,16 +1526,18 @@
             数据验证异常类
             </summary>
         </member>
-        <member name="M:JF.Http.HttpRequest.PostAsyncJson(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:JF.Http.HttpRequest.PostAsync``2(System.String,``1,System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>
-            使用post方法异步请求
+            使用post返回异步请求直接返回对象
             </summary>
-            <param name="url">目标链接</param>
-            <param name="json">发送的参数字符串，只能用json</param>
+            <typeparam name="TResult">返回对象类型</typeparam>
+            <typeparam name="TData">请求对象类型</typeparam>
+            <param name="url">请求链接</param>
+            <param name="obj">请求对象数据</param>
             <param name="header"></param>
-            <returns>返回的字符串</returns>
+            <returns>请求返回的目标对象</returns>
         </member>
-        <member name="M:JF.Http.HttpRequest.PostAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:JF.Http.HttpRequest.PostStringAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>
             使用post方法异步请求
             </summary>
@@ -1543,23 +1545,21 @@
             <param name="data">发送的参数字符串</param>
             <returns>返回的字符串</returns>
         </member>
+        <member name="M:JF.Http.HttpRequest.PostJsonAsync``1(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            使用post方法异步请求
+            </summary>
+            <param name="url">目标链接</param>
+            <param name="json">发送的参数字符串，只能用json</param>
+            <param name="header"></param>
+            <returns>返回指定的数据类型</returns>
+        </member>
         <member name="M:JF.Http.HttpRequest.GetAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>
             使用get方法异步请求
             </summary>
             <param name="url">目标链接</param>
             <returns>返回的字符串</returns>
-        </member>
-        <member name="M:JF.Http.HttpRequest.PostObjectAsync``2(System.String,``1,System.Collections.Generic.Dictionary{System.String,System.String})">
-            <summary>
-            使用post返回异步请求直接返回对象
-            </summary>
-            <typeparam name="T">返回对象类型</typeparam>
-            <typeparam name="T2">请求对象类型</typeparam>
-            <param name="url">请求链接</param>
-            <param name="obj">请求对象数据</param>
-            <param name="header"></param>
-            <returns>请求返回的目标对象</returns>
         </member>
         <member name="M:JF.Http.HttpRequest.GetObjectAsync``1(System.String)">
             <summary>
@@ -1569,14 +1569,43 @@
             <param name="url">请求链接</param>
             <returns>返回请求的对象</returns>
         </member>
+        <member name="M:JF.Http.HttpRequest.PostByFormAsync``2(System.String,``0,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            模拟表单请求
+            </summary>
+            <typeparam name="TForm"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="url"></param>
+            <param name="formData"></param>
+            <param name="headers"></param>
+            <returns></returns>
+        </member>
         <member name="M:JF.Http.HttpRequest.PostByFormAsync``1(System.String,``0,System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>
             模拟表单请求
             </summary>
             <typeparam name="TForm">表单对象</typeparam>
             <param name="url"></param>
-            <param name="value"></param>
+            <param name="formData"></param>
             <param name="headers"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Http.HttpRequest.tryBuildMultipartFormDataContent``1(``0,System.Net.Http.MultipartFormDataContent@,System.String)">
+            <summary>
+            构建MultipartFormDataContent
+            </summary>
+            <typeparam name="TData"></typeparam>
+            <param name="formData"></param>
+            <param name="formDataContent"></param>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JF.Http.HttpRequest.resolveResponseResultAsync``1(System.Net.Http.HttpResponseMessage)">
+            <summary>
+            将<see cref="T:System.Net.Http.HttpResponseMessage"/>信息解析为指定的类型。
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="responseMessage"></param>
             <returns></returns>
         </member>
         <member name="T:JF.Json.JsonSettingsHandler">
